@@ -215,12 +215,12 @@ class Data(QWidget, Ui_Form):
         in_ds = ogr.Open( infile, update = 1 )
         in_layer = in_ds.GetLayer(1)
         attr = in_layer.GetLayerDefn().GetFieldCount()
-        print attr
+        #xprint attr
         attributi = []
         for i in range(attr):
             attname = in_layer.GetLayerDefn().GetFieldDefn(i).GetName()
             attributi.append(attname)
-        print attributi
+        #xprint attributi
     
 
     def GetTile(self,index):
@@ -228,7 +228,7 @@ class Data(QWidget, Ui_Form):
         global inputfile
         inputfile = self.InputRaster.itemText(index)
         tiling = getTile(inputfile)
-        print tiling
+        #xprint tiling
     
 
     def setSaveRaster(self):
