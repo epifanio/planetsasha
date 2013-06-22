@@ -4,13 +4,13 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from epsg_ui import Ui_Form
+from gen.ui_epsgwindow import Ui_EpsgWindow
 import os
 from episg import *
 apppath = os.path.abspath(os.path.dirname(sys.argv[0]))
 epsgfile = str(apppath)+'/epsg'
 
-class SearchEpsg(QWidget, Ui_Form):
+class EpsgWindow(QWidget, Ui_EpsgWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)

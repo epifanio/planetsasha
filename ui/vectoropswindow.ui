@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>VectorOpsWindow</class>
+ <widget class="QWidget" name="VectorOpsWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Vector Operations</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../gui/resources.qrc">
+    <normaloff>:/icons/icons/SquadraCompasso.png</normaloff>:/icons/icons/SquadraCompasso.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -24,8 +28,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>678</width>
-        <height>476</height>
+        <width>684</width>
+        <height>482</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1058,8 +1062,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>606</width>
-                <height>129</height>
+                <width>642</width>
+                <height>206</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -1412,6 +1416,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../gui/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

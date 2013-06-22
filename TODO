@@ -1,0 +1,6 @@
+changing ui file names : removed _ui
+moved .ui files to ui/
+moved gui code to gui/
+pyuic4 generated code is in gui/gen/
+fixed icons
+updated layout

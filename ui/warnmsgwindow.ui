@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>WarnMsgWindow</class>
+ <widget class="QWidget" name="WarnMsgWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>71</height>
+    <height>77</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Worning</string>
+   <string>Warning</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../gui/resources.qrc">
     <normaloff>:/icons/icons/epi.gif</normaloff>:/icons/icons/epi.gif</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -49,7 +49,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../gui/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

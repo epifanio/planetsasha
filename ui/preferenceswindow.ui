@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Preferences</class>
+ <widget class="QWidget" name="Preferences">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Preference</string>
+   <string>Preferences</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources.qrc">
-    <normaloff>:/icons/tools.png</normaloff>:/icons/tools.png</iconset>
+   <iconset resource="../gui/resources.qrc">
+    <normaloff>:/icons/icons/tools.png</normaloff>:/icons/icons/tools.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -28,12 +28,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>360</width>
-        <height>293</height>
+        <width>381</width>
+        <height>291</height>
        </rect>
       </property>
       <attribute name="icon">
-       <iconset resource="../resources.qrc">
+       <iconset>
         <normaloff>:/icons/epi.gif</normaloff>:/icons/epi.gif</iconset>
       </attribute>
       <attribute name="label">
@@ -115,7 +115,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../resources.qrc">
+               <iconset>
                 <normaloff>:/icons/page22_1.jpg</normaloff>:/icons/page22_1.jpg</iconset>
               </property>
              </widget>
@@ -172,7 +172,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../resources.qrc">
+               <iconset>
                 <normaloff>:/icons/db.png</normaloff>:/icons/db.png</iconset>
               </property>
              </widget>
@@ -244,7 +244,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../resources.qrc">
+               <iconset>
                 <normaloff>:/icons/satellite.png</normaloff>:/icons/satellite.png</iconset>
               </property>
              </widget>
@@ -316,7 +316,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../resources.qrc">
+               <iconset>
                 <normaloff>:/icons/gdal-logo-1.png</normaloff>:/icons/gdal-logo-1.png</iconset>
               </property>
              </widget>
@@ -381,7 +381,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../resources.qrc">
+               <iconset>
                 <normaloff>:/icons/saveinfo.png</normaloff>:/icons/saveinfo.png</iconset>
               </property>
              </widget>
@@ -502,8 +502,16 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>381</width>
+        <height>291</height>
+       </rect>
+      </property>
       <attribute name="icon">
-       <iconset resource="../resources.qrc">
+       <iconset>
         <normaloff>:/icons/grass_icon.png</normaloff>:/icons/grass_icon.png</iconset>
       </attribute>
       <attribute name="label">
@@ -618,12 +626,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>375</width>
-        <height>260</height>
+        <width>381</width>
+        <height>291</height>
        </rect>
       </property>
       <attribute name="icon">
-       <iconset resource="../resources.qrc">
+       <iconset>
         <normaloff>:/icons/keyser-tux-wifi-logo-2300.png</normaloff>:/icons/keyser-tux-wifi-logo-2300.png</iconset>
       </attribute>
       <attribute name="label">
@@ -729,12 +737,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>360</width>
-        <height>280</height>
+        <width>381</width>
+        <height>291</height>
        </rect>
       </property>
       <attribute name="icon">
-       <iconset resource="../resources.qrc">
+       <iconset>
         <normaloff>:/icons/spit.png</normaloff>:/icons/spit.png</iconset>
       </attribute>
       <attribute name="label">
@@ -1009,7 +1017,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../gui/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

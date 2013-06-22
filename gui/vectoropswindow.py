@@ -15,12 +15,12 @@ import numpy as np
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from transvector_ui import Ui_Form
+from gen.ui_vectoropswindow import Ui_VectorOpsWindow
 
 from epsg_list import codelist
 
 
-class VectorOperation(QWidget, Ui_Form):
+class VectorOpsWindow(QWidget, Ui_VectorOpsWindow):
     def __init__(self):
         QWidget.__init__(self)
         #self.app = app

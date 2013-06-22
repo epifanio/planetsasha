@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/Shared/ossim/trunk/gsoc/PlanetSasha/gui/kmlsave_ui.ui'
+# Form implementation generated from reading ui file 'ui/kmlwindow.ui'
 #
-# Created: Mon Feb 14 21:57:48 2011
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Sat Jun 22 16:56:37 2013
+#      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,20 +14,20 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(355, 516)
+class Ui_KmlWindow(object):
+    def setupUi(self, KmlWindow):
+        KmlWindow.setObjectName(_fromUtf8("KmlWindow"))
+        KmlWindow.resize(355, 516)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/element-vector.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Form.setWindowIcon(icon)
-        self.verticalLayout_3 = QtGui.QVBoxLayout(Form)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/element-vector.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        KmlWindow.setWindowIcon(icon)
+        self.verticalLayout_3 = QtGui.QVBoxLayout(KmlWindow)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
-        self.scrollArea = QtGui.QScrollArea(Form)
+        self.scrollArea = QtGui.QScrollArea(KmlWindow)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 314, 705))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 420, 642))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
@@ -282,7 +282,7 @@ class Ui_Form(object):
         self.LabelAlpha = QtGui.QSpinBox(self.KmlColorgroupBox)
         self.LabelAlpha.setStyleSheet(_fromUtf8("background-color: rgb(231, 231, 231);"))
         self.LabelAlpha.setMaximum(255)
-        self.LabelAlpha.setProperty(_fromUtf8("value"), 255)
+        self.LabelAlpha.setProperty("value", 255)
         self.LabelAlpha.setObjectName(_fromUtf8("LabelAlpha"))
         self.LabelColorhorizontalLayout.addWidget(self.LabelAlpha)
         self.gridLayout_3.addLayout(self.LabelColorhorizontalLayout, 0, 1, 1, 1)
@@ -302,7 +302,7 @@ class Ui_Form(object):
         self.LineAlpha = QtGui.QSpinBox(self.KmlColorgroupBox)
         self.LineAlpha.setStyleSheet(_fromUtf8("background-color: rgb(231, 231, 231);"))
         self.LineAlpha.setMaximum(255)
-        self.LineAlpha.setProperty(_fromUtf8("value"), 255)
+        self.LineAlpha.setProperty("value", 255)
         self.LineAlpha.setObjectName(_fromUtf8("LineAlpha"))
         self.LineColorhorizontalLayout.addWidget(self.LineAlpha)
         self.gridLayout_3.addLayout(self.LineColorhorizontalLayout, 1, 1, 1, 1)
@@ -322,7 +322,7 @@ class Ui_Form(object):
         self.PolygonAlpha = QtGui.QSpinBox(self.KmlColorgroupBox)
         self.PolygonAlpha.setStyleSheet(_fromUtf8("background-color: rgb(231, 231, 231);"))
         self.PolygonAlpha.setMaximum(255)
-        self.PolygonAlpha.setProperty(_fromUtf8("value"), 255)
+        self.PolygonAlpha.setProperty("value", 255)
         self.PolygonAlpha.setObjectName(_fromUtf8("PolygonAlpha"))
         self.PolyColorhorizontalLayout.addWidget(self.PolygonAlpha)
         self.gridLayout_3.addLayout(self.PolyColorhorizontalLayout, 2, 1, 1, 1)
@@ -564,14 +564,14 @@ class Ui_Form(object):
         self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
         spacerItem4 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem4)
-        self.update = QtGui.QPushButton(Form)
+        self.update = QtGui.QPushButton(KmlWindow)
         self.update.setText(_fromUtf8(""))
         self.update.setIcon(icon7)
         self.update.setObjectName(_fromUtf8("update"))
         self.horizontalLayout_8.addWidget(self.update)
         spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem5)
-        self.save = QtGui.QPushButton(Form)
+        self.save = QtGui.QPushButton(KmlWindow)
         self.save.setText(_fromUtf8(""))
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/db.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -580,36 +580,36 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.save)
         spacerItem6 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem6)
-        self.opendir = QtGui.QPushButton(Form)
+        self.opendir = QtGui.QPushButton(KmlWindow)
         self.opendir.setObjectName(_fromUtf8("opendir"))
         self.horizontalLayout_8.addWidget(self.opendir)
         spacerItem7 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem7)
         self.verticalLayout_3.addLayout(self.horizontalLayout_8)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(KmlWindow)
         self.SelectIcon.setCurrentIndex(1)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QMetaObject.connectSlotsByName(KmlWindow)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Kml view-save", None, QtGui.QApplication.UnicodeUTF8))
-        self.KmlGeneralgroupBox.setTitle(QtGui.QApplication.translate("Form", "General", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Form", "Name", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Form", "Label", None, QtGui.QApplication.UnicodeUTF8))
-        self.Iconlabel.setText(QtGui.QApplication.translate("Form", "Icon", None, QtGui.QApplication.UnicodeUTF8))
-        self.SelectIcon.setItemText(1, QtGui.QApplication.translate("Form", "blue_circle", None, QtGui.QApplication.UnicodeUTF8))
-        self.SelectIcon.setItemText(2, QtGui.QApplication.translate("Form", "green_circle", None, QtGui.QApplication.UnicodeUTF8))
-        self.SelectIcon.setItemText(3, QtGui.QApplication.translate("Form", "red_circle", None, QtGui.QApplication.UnicodeUTF8))
-        self.SelectIcon.setItemText(4, QtGui.QApplication.translate("Form", "yellow_circle", None, QtGui.QApplication.UnicodeUTF8))
-        self.LineWidthlabel.setText(QtGui.QApplication.translate("Form", "Line Width", None, QtGui.QApplication.UnicodeUTF8))
-        self.Extrudelabel.setText(QtGui.QApplication.translate("Form", "Extrude", None, QtGui.QApplication.UnicodeUTF8))
-        self.Tessellatelabel.setText(QtGui.QApplication.translate("Form", "Tessellate", None, QtGui.QApplication.UnicodeUTF8))
-        self.KmlColorgroupBox.setTitle(QtGui.QApplication.translate("Form", "Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelcolor.setText(QtGui.QApplication.translate("Form", "Label", None, QtGui.QApplication.UnicodeUTF8))
-        self.linecolor.setText(QtGui.QApplication.translate("Form", "Line", None, QtGui.QApplication.UnicodeUTF8))
-        self.polygoncolor.setText(QtGui.QApplication.translate("Form", "Polygon", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Position", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_2.setTitle(QtGui.QApplication.translate("Form", "Description", None, QtGui.QApplication.UnicodeUTF8))
-        self.opendir.setText(QtGui.QApplication.translate("Form", "Open Dir", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, KmlWindow):
+        KmlWindow.setWindowTitle(QtGui.QApplication.translate("KmlWindow", "Kml view-save", None, QtGui.QApplication.UnicodeUTF8))
+        self.KmlGeneralgroupBox.setTitle(QtGui.QApplication.translate("KmlWindow", "General", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("KmlWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("KmlWindow", "Label", None, QtGui.QApplication.UnicodeUTF8))
+        self.Iconlabel.setText(QtGui.QApplication.translate("KmlWindow", "Icon", None, QtGui.QApplication.UnicodeUTF8))
+        self.SelectIcon.setItemText(1, QtGui.QApplication.translate("KmlWindow", "blue_circle", None, QtGui.QApplication.UnicodeUTF8))
+        self.SelectIcon.setItemText(2, QtGui.QApplication.translate("KmlWindow", "green_circle", None, QtGui.QApplication.UnicodeUTF8))
+        self.SelectIcon.setItemText(3, QtGui.QApplication.translate("KmlWindow", "red_circle", None, QtGui.QApplication.UnicodeUTF8))
+        self.SelectIcon.setItemText(4, QtGui.QApplication.translate("KmlWindow", "yellow_circle", None, QtGui.QApplication.UnicodeUTF8))
+        self.LineWidthlabel.setText(QtGui.QApplication.translate("KmlWindow", "Line Width", None, QtGui.QApplication.UnicodeUTF8))
+        self.Extrudelabel.setText(QtGui.QApplication.translate("KmlWindow", "Extrude", None, QtGui.QApplication.UnicodeUTF8))
+        self.Tessellatelabel.setText(QtGui.QApplication.translate("KmlWindow", "Tessellate", None, QtGui.QApplication.UnicodeUTF8))
+        self.KmlColorgroupBox.setTitle(QtGui.QApplication.translate("KmlWindow", "Color", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelcolor.setText(QtGui.QApplication.translate("KmlWindow", "Label", None, QtGui.QApplication.UnicodeUTF8))
+        self.linecolor.setText(QtGui.QApplication.translate("KmlWindow", "Line", None, QtGui.QApplication.UnicodeUTF8))
+        self.polygoncolor.setText(QtGui.QApplication.translate("KmlWindow", "Polygon", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("KmlWindow", "Position", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("KmlWindow", "Description", None, QtGui.QApplication.UnicodeUTF8))
+        self.opendir.setText(QtGui.QApplication.translate("KmlWindow", "Open Dir", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

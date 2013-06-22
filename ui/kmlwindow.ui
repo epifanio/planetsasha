@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>KmlWindow</class>
+ <widget class="QWidget" name="KmlWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,8 +14,8 @@
    <string>Kml view-save</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources.qrc">
-    <normaloff>:/icons/element-vector.gif</normaloff>:/icons/element-vector.gif</iconset>
+   <iconset resource="../gui/resources.qrc">
+    <normaloff>:/icons/icons/element-vector.gif</normaloff>:/icons/icons/element-vector.gif</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -28,8 +28,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>314</width>
-        <height>705</height>
+        <width>420</width>
+        <height>642</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -103,7 +103,7 @@
                 <string>blue_circle</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/blue_circle.png</normaloff>:/icons/blue_circle.png</iconset>
                </property>
               </item>
@@ -112,7 +112,7 @@
                 <string>green_circle</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/green_circle.png</normaloff>:/icons/green_circle.png</iconset>
                </property>
               </item>
@@ -121,7 +121,7 @@
                 <string>red_circle</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/red_circle.png</normaloff>:/icons/red_circle.png</iconset>
                </property>
               </item>
@@ -130,7 +130,7 @@
                 <string>yellow_circle</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/yellow_circle.png</normaloff>:/icons/yellow_circle.png</iconset>
                </property>
               </item>
@@ -689,7 +689,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/firefox_logo.png</normaloff>:/icons/firefox_logo.png</iconset>
                </property>
               </widget>
@@ -739,7 +739,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/gimp.png</normaloff>:/icons/gimp.png</iconset>
                </property>
               </widget>
@@ -802,7 +802,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="../resources.qrc">
+                <iconset>
                  <normaloff>:/icons/mActionDraw.png</normaloff>:/icons/mActionDraw.png</iconset>
                </property>
               </widget>
@@ -841,7 +841,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../resources.qrc">
+        <iconset>
          <normaloff>:/icons/mActionDraw.png</normaloff>:/icons/mActionDraw.png</iconset>
        </property>
       </widget>
@@ -865,7 +865,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../resources.qrc">
+        <iconset>
          <normaloff>:/icons/db.png</normaloff>:/icons/db.png</iconset>
        </property>
       </widget>
@@ -908,7 +908,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../gui/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
