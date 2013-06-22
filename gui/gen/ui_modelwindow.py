@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/Shared/ossim/trunk/gsoc/PlanetSasha/gui/model_ui.ui'
+# Form implementation generated from reading ui file 'ui/modelwindow.ui'
 #
-# Created: Mon Feb 14 21:57:24 2011
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Sat Jun 22 16:57:17 2013
+#      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,20 +14,20 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(384, 254)
+class Ui_ModelWindow(object):
+    def setupUi(self, ModelWindow):
+        ModelWindow.setObjectName(_fromUtf8("ModelWindow"))
+        ModelWindow.resize(384, 254)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/cubo.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Form.setWindowIcon(icon)
-        self.verticalLayout_9 = QtGui.QVBoxLayout(Form)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/cubo.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        ModelWindow.setWindowIcon(icon)
+        self.verticalLayout_9 = QtGui.QVBoxLayout(ModelWindow)
         self.verticalLayout_9.setObjectName(_fromUtf8("verticalLayout_9"))
-        self.scrollArea = QtGui.QScrollArea(Form)
+        self.scrollArea = QtGui.QScrollArea(ModelWindow)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 343, 728))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 348, 659))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
@@ -114,7 +114,9 @@ class Ui_Form(object):
 "     top: 1px; left: 1px; /* shift it a bit */\n"
 " }"))
         self.selectmodel.setText(_fromUtf8(""))
-        self.selectmodel.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/cubo.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.selectmodel.setIcon(icon1)
         self.selectmodel.setObjectName(_fromUtf8("selectmodel"))
         self.horizontalLayout.addWidget(self.selectmodel)
         self.modelpath = QtGui.QLineEdit(self.KmlGeneralgroupBox)
@@ -521,7 +523,7 @@ class Ui_Form(object):
         self.verticalLayout_9.addWidget(self.scrollArea)
         self.horizontalLayout_8 = QtGui.QHBoxLayout()
         self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
-        self.reset = QtGui.QPushButton(Form)
+        self.reset = QtGui.QPushButton(ModelWindow)
         self.reset.setStyleSheet(_fromUtf8("QPushButton {\n"
 "     border: 2px solid #8f8f91;\n"
 "     border-radius: 6px;\n"
@@ -543,14 +545,14 @@ class Ui_Form(object):
 "     border-color: navy; /* make the default button prominent */\n"
 " }"))
         self.reset.setText(_fromUtf8(""))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/mActionDraw.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.reset.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/mActionDraw.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.reset.setIcon(icon2)
         self.reset.setObjectName(_fromUtf8("reset"))
         self.horizontalLayout_8.addWidget(self.reset)
         spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem5)
-        self.save = QtGui.QPushButton(Form)
+        self.save = QtGui.QPushButton(ModelWindow)
         self.save.setStyleSheet(_fromUtf8("QPushButton {\n"
 "     border: 2px solid #8f8f91;\n"
 "     border-radius: 6px;\n"
@@ -575,7 +577,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.save)
         spacerItem6 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem6)
-        self.opendir = QtGui.QPushButton(Form)
+        self.opendir = QtGui.QPushButton(ModelWindow)
         self.opendir.setStyleSheet(_fromUtf8("QPushButton {\n"
 "     border: 2px solid #8f8f91;\n"
 "     border-radius: 6px;\n"
@@ -600,56 +602,56 @@ class Ui_Form(object):
         self.horizontalLayout_8.addWidget(self.opendir)
         self.verticalLayout_9.addLayout(self.horizontalLayout_8)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(ModelWindow)
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QMetaObject.connectSlotsByName(ModelWindow)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Model", None, QtGui.QApplication.UnicodeUTF8))
-        self.KmlGeneralgroupBox.setTitle(QtGui.QApplication.translate("Form", "General", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Form", "Kml - Name", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Form", "Model - Name", None, QtGui.QApplication.UnicodeUTF8))
-        self.Iconlabel.setText(QtGui.QApplication.translate("Form", "Model - Path", None, QtGui.QApplication.UnicodeUTF8))
-        self.LineWidthlabel.setText(QtGui.QApplication.translate("Form", "Altitude - Mode", None, QtGui.QApplication.UnicodeUTF8))
-        self.altitudemode.setItemText(0, QtGui.QApplication.translate("Form", "absolute", None, QtGui.QApplication.UnicodeUTF8))
-        self.altitudemode.setItemText(1, QtGui.QApplication.translate("Form", "clampToGround", None, QtGui.QApplication.UnicodeUTF8))
-        self.altitudemode.setItemText(2, QtGui.QApplication.translate("Form", "relativeToGround", None, QtGui.QApplication.UnicodeUTF8))
-        self.KmlColorgroupBox.setTitle(QtGui.QApplication.translate("Form", "Look-At", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Form", "Heading", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("Form", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("Form", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("Form", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_7.setText(QtGui.QApplication.translate("Form", "Range", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_8.setText(QtGui.QApplication.translate("Form", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.setcamera.setText(QtGui.QApplication.translate("Form", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("Form", "Camera", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_9.setText(QtGui.QApplication.translate("Form", "Heading", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_10.setText(QtGui.QApplication.translate("Form", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_11.setText(QtGui.QApplication.translate("Form", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_12.setText(QtGui.QApplication.translate("Form", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_13.setText(QtGui.QApplication.translate("Form", "Range", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_14.setText(QtGui.QApplication.translate("Form", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.setmodel.setText(QtGui.QApplication.translate("Form", "set", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("Form", "Model", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Model-Position", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_15.setText(QtGui.QApplication.translate("Form", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_16.setText(QtGui.QApplication.translate("Form", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_18.setText(QtGui.QApplication.translate("Form", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
-        self.setlonlat.setText(QtGui.QApplication.translate("Form", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_3), QtGui.QApplication.translate("Form", "Location", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_28.setText(QtGui.QApplication.translate("Form", "Heading", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_29.setText(QtGui.QApplication.translate("Form", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_30.setText(QtGui.QApplication.translate("Form", "Roll", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QtGui.QApplication.translate("Form", "Orientation", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_36.setText(QtGui.QApplication.translate("Form", "X", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_37.setText(QtGui.QApplication.translate("Form", "Y", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_38.setText(QtGui.QApplication.translate("Form", "Z", None, QtGui.QApplication.UnicodeUTF8))
-        self.Xscale.setText(QtGui.QApplication.translate("Form", "1.0", None, QtGui.QApplication.UnicodeUTF8))
-        self.Yscale.setText(QtGui.QApplication.translate("Form", "1.0", None, QtGui.QApplication.UnicodeUTF8))
-        self.Zscale.setText(QtGui.QApplication.translate("Form", "1.0", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5), QtGui.QApplication.translate("Form", "Scale", None, QtGui.QApplication.UnicodeUTF8))
-        self.save.setText(QtGui.QApplication.translate("Form", "Save", None, QtGui.QApplication.UnicodeUTF8))
-        self.opendir.setText(QtGui.QApplication.translate("Form", "Open Dir", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, ModelWindow):
+        ModelWindow.setWindowTitle(QtGui.QApplication.translate("ModelWindow", "Model", None, QtGui.QApplication.UnicodeUTF8))
+        self.KmlGeneralgroupBox.setTitle(QtGui.QApplication.translate("ModelWindow", "General", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("ModelWindow", "Kml - Name", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("ModelWindow", "Model - Name", None, QtGui.QApplication.UnicodeUTF8))
+        self.Iconlabel.setText(QtGui.QApplication.translate("ModelWindow", "Model - Path", None, QtGui.QApplication.UnicodeUTF8))
+        self.LineWidthlabel.setText(QtGui.QApplication.translate("ModelWindow", "Altitude - Mode", None, QtGui.QApplication.UnicodeUTF8))
+        self.altitudemode.setItemText(0, QtGui.QApplication.translate("ModelWindow", "absolute", None, QtGui.QApplication.UnicodeUTF8))
+        self.altitudemode.setItemText(1, QtGui.QApplication.translate("ModelWindow", "clampToGround", None, QtGui.QApplication.UnicodeUTF8))
+        self.altitudemode.setItemText(2, QtGui.QApplication.translate("ModelWindow", "relativeToGround", None, QtGui.QApplication.UnicodeUTF8))
+        self.KmlColorgroupBox.setTitle(QtGui.QApplication.translate("ModelWindow", "Look-At", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("ModelWindow", "Heading", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("ModelWindow", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("ModelWindow", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("ModelWindow", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("ModelWindow", "Range", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setText(QtGui.QApplication.translate("ModelWindow", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.setcamera.setText(QtGui.QApplication.translate("ModelWindow", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("ModelWindow", "Camera", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setText(QtGui.QApplication.translate("ModelWindow", "Heading", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setText(QtGui.QApplication.translate("ModelWindow", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("ModelWindow", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_12.setText(QtGui.QApplication.translate("ModelWindow", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_13.setText(QtGui.QApplication.translate("ModelWindow", "Range", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_14.setText(QtGui.QApplication.translate("ModelWindow", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.setmodel.setText(QtGui.QApplication.translate("ModelWindow", "set", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("ModelWindow", "Model", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("ModelWindow", "Model-Position", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_15.setText(QtGui.QApplication.translate("ModelWindow", "Longitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_16.setText(QtGui.QApplication.translate("ModelWindow", "Latitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_18.setText(QtGui.QApplication.translate("ModelWindow", "Altitude", None, QtGui.QApplication.UnicodeUTF8))
+        self.setlonlat.setText(QtGui.QApplication.translate("ModelWindow", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_3), QtGui.QApplication.translate("ModelWindow", "Location", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_28.setText(QtGui.QApplication.translate("ModelWindow", "Heading", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_29.setText(QtGui.QApplication.translate("ModelWindow", "Tilt", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_30.setText(QtGui.QApplication.translate("ModelWindow", "Roll", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QtGui.QApplication.translate("ModelWindow", "Orientation", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_36.setText(QtGui.QApplication.translate("ModelWindow", "X", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_37.setText(QtGui.QApplication.translate("ModelWindow", "Y", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_38.setText(QtGui.QApplication.translate("ModelWindow", "Z", None, QtGui.QApplication.UnicodeUTF8))
+        self.Xscale.setText(QtGui.QApplication.translate("ModelWindow", "1.0", None, QtGui.QApplication.UnicodeUTF8))
+        self.Yscale.setText(QtGui.QApplication.translate("ModelWindow", "1.0", None, QtGui.QApplication.UnicodeUTF8))
+        self.Zscale.setText(QtGui.QApplication.translate("ModelWindow", "1.0", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5), QtGui.QApplication.translate("ModelWindow", "Scale", None, QtGui.QApplication.UnicodeUTF8))
+        self.save.setText(QtGui.QApplication.translate("ModelWindow", "Save", None, QtGui.QApplication.UnicodeUTF8))
+        self.opendir.setText(QtGui.QApplication.translate("ModelWindow", "Open Dir", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

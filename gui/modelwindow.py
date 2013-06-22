@@ -4,7 +4,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from model_ui import Ui_Form
+from gen.ui_modelwindow import Ui_ModelWindow
 import os
 import zipfile
 from xml.dom import minidom 
@@ -20,7 +20,7 @@ kmlpath = '%s/kml/' % (apppath)
 configfile = '%s/conf/conf.xml' % (apppath)
 
 
-class PlaceModel(QWidget, Ui_Form):
+class PlaceModel(QWidget, Ui_ModelWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)

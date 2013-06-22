@@ -4,7 +4,8 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from preference_ui import Ui_Form
+#from preference_ui import Ui_Form
+from gen.ui_preferenceswindow import Ui_Preferences
 import os
 import os.path
 from xml.dom import minidom 
@@ -12,7 +13,7 @@ from xml.dom import minidom
 apppath = os.path.abspath(os.path.dirname(sys.argv[0]))
 configfile = '%s/conf/conf.xml' % (apppath)
 
-class PreferenceSetting(QWidget, Ui_Form):
+class PreferencesWindow(QWidget, Ui_Preferences):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)

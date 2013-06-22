@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>EpsgWindow</class>
+ <widget class="QWidget" name="EpsgWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
+    <width>320</width>
     <height>296</height>
    </rect>
   </property>
@@ -14,8 +14,8 @@
    <string>Epsg</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources.qrc">
-    <normaloff>:/icons/600px-Brosen_windrose.svg.png</normaloff>:/icons/600px-Brosen_windrose.svg.png</iconset>
+   <iconset resource="../gui/resources.qrc">
+    <normaloff>:/icons/icons/600px-Brosen_windrose.svg.png</normaloff>:/icons/icons/600px-Brosen_windrose.svg.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -186,7 +186,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../gui/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

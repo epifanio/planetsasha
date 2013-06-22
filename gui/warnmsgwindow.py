@@ -4,12 +4,9 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from worning_ui import Ui_Form
-import os
+from gen.ui_warnmsgwindow import Ui_WarnMsgWindow
 
-
-
-class worn(QWidget, Ui_Form):
+class WarnMsgWindow(QWidget, Ui_WarnMsgWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)

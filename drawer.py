@@ -5,10 +5,10 @@ import sys
 apppath = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 
-compass = '%s/images/compass3.png' % (apppath)
-arrow = '%s/images/arrow3.png' % (apppath)
-ghiera = '%s/images/ghiera.png' % (apppath)
-sfondo = '%s/images/sfondo.png' % (apppath)
+compass = '%s/gui/images/compass3.png' % (apppath)
+arrow = '%s/gui/images/arrow3.png' % (apppath)
+ghiera = '%s/gui/images/ghiera.png' % (apppath)
+sfondo = '%s/gui/images/sfondo.png' % (apppath)
 
 class DrawRoll(QWidget):
     def __init__(self, parent=None):

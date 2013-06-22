@@ -4,7 +4,8 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from kmlsave_ui import Ui_Form
+#from kmlsave_ui import Ui_Form
+from gen.ui_kmlwindow import Ui_KmlWindow
 import os
 from __builtin__ import hex
 import zipfile
@@ -27,7 +28,9 @@ filem = '%s/conf/filem.conf' % (apppath)
 configfile = '%s/conf/conf.xml' % (apppath)
 
 
-class KmlView(QWidget, Ui_Form):
+
+
+class KmlWindow(QWidget, Ui_KmlWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -60,7 +63,7 @@ class KmlView(QWidget, Ui_Form):
         self.connect(self.clean, SIGNAL("clicked()"),self.cleantext)
         #icon = self.SelectIcon.itemText(index)
         self.iconpath = imagepath+str(self.SelectIcon.itemText(1))+str('.png')
-        print self.iconpath
+        #print self.iconpath
         
         
         
