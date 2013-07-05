@@ -12,12 +12,26 @@ from configure import parseOutputconf
 
 class Preferences(object):
     def __init__(self):
-        x = 1
+        self.aLonLat = False
+        
+        
     def pgsetting(self):
         #self.pgconn = PgConn()
         #self.pgconn.show()
         x=1
-        
+
+    def setSettings(self, setting, sub):
+        if setting == 'actionLonLat':
+            if sub == 'check':
+                self.aLonLat = True
+                
+    def getSettings(self, setting, sub):
+        if setting == 'actionLonLat':
+            if sub == 'check':
+                return self.aLonLat
+                
+        #print 'None' 
+        return None                        
     def paramConnection(self, t):
         
         try :

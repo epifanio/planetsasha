@@ -15,11 +15,14 @@ from preferences import Preferences
 class Utils(object):
 
     try :
-        from Gdata import Data
-        from GrassShell import GrShell
-        from grass.script.core import core
-        #from psinit import 
+        #=from Gdata import Data #FIXME
+        #from GrassShell import GrShell #FIXME
+        #from grass.script.core import core #FIXME
+        #from grass.lib import grass #FIXME
+        from grass.pygrass.modules import grass
+        #from psinit import  #FIXME
         haveGRASS_ = 1
+        print "GRASS found!! - show grass info??"
     except:
         haveGRASS_ = 0
         print "GRASS environment not found - set to disabled"
