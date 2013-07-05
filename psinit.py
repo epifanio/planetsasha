@@ -5,7 +5,8 @@ import os
 from ogrTovrt import ogrvrt
 import tempfile
 import time
-
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 def GetVersion():
 	while 1:
 		try :
@@ -49,6 +50,51 @@ def RasterList():
 	raster.sort()
 	return raster
 
+def getLayerList(ltype, asStdItem = 'False', pattern='*'):
+    if asStdItem is True:
+        return getLayerListAsQStdItem(ltype, pattern)
+    else:
+        return getLayerListAsText(ltype, pattern)
+
+
+def getLayerListAsText(ltype, pattern):
+    while 1:
+        try:
+            r = list_strings(ltype)
+            break
+        except IOError:
+            time.sleep(0.1)
+    lst = list()
+    for i in r:
+        rname , mname = i.split('@', 2)
+        if mname == getEnv()['MAPSET']:
+            if pattern == '*':
+                lst.append(rname)
+            else:
+                if rname.startswith(pattern):
+                    lst.append(rname)    
+    lst.sort()
+    return lst
+
+
+def getLayerListAsQStdItem(ltype, pattern):
+    #while 1:
+    try:
+        r = list_strings(ltype)
+        #break
+    except IOError:
+        time.sleep(0.1)
+    lst = list()
+    for i in r:
+        rname , mname = i.split('@', 2)
+        if mname == getEnv()['MAPSET']:
+            if pattern == '*':
+                lst.append(QStandardItem(rname))
+            else:
+                if rname.startswith(pattern):
+                    lst.append(QStandardItem(rname))    
+    lst.sort()
+    return lst
 
 def VectorList():
 	while 1:

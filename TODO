@@ -2,5 +2,19 @@ changing ui file names : removed _ui
 moved .ui files to ui/
 moved gui code to gui/
 pyuic4 generated code is in gui/gen/
-fixed icons
+fixed iconse
 updated layout
+ 
+ 
+ removed addraster ,addvector func
+ updated ui for querywindow. 
+    moved controls
+    added addlayer button
+removed selectraster, selectvector func
+
+
+TODO
+need to add no data message if no layer exists    
+
+
+
