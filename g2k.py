@@ -11,6 +11,7 @@ from OssimPython import OssimHeight
 import os.path
 import zipfile
 
+from pyossimapp import PyOssimApp
 
 def WalkAndTransform( geom,tr ):
     if geom.GetGeometryCount() > 0:
@@ -35,7 +36,8 @@ def WalkAndTransform( geom,tr ):
 def SetOssimHeight( xyz ):
     x = xyz[0]
     y = xyz[1]
-    z = OssimHeight(y,x)
+    #z = OssimHeight(y,x)
+    RunApp('ossim-height')
     z = float(z) + off
     return (float(x),float(y),float(z))
 

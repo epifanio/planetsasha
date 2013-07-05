@@ -19,7 +19,13 @@ from PyQt4.QtGui import *
 
 #from msgworntcp import worntcp
 
-
+try:
+    ossimlib=os.environ['PYOSSIM_DIR']
+except KeyError:
+    print 'PyOSSIM python bindings not found. contact PlanetSasha developers'
+    print 'https://github.com/epifanio/planetsasha'
+    print 'Good Bye :('
+    sys.exit(1)
 
 
 
@@ -86,14 +92,14 @@ class PlanetSasha(SashaMainWindow):
         SashaMainWindow.__init__(self, arg)
 
    
-        self.initWidgets()
+        #self.initWidgets()
 
   
         self.Value=0
         self.ValueJ=0
-        self.setcmd = ''
+
         self.queryvalue = 0
-        self.head = 'Manual'
+        
         
         self.vectoroperation = VectorOpsWindow()
         self.kmlview = KmlWindow()
@@ -102,7 +108,7 @@ class PlanetSasha(SashaMainWindow):
         #self.fxvallon = self.SetPosition()[0]
         #self.fxvallat = self.SetPosition()[1]
         self.slstep = 1
-        self.connectSignals()
+        #self.connectSignals()
             
     
 
