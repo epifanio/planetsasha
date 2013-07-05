@@ -1,17 +1,23 @@
 #!/usr/bin/env python
+
+import os
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from grass.script.core import *
-from GrassShell_ui import Ui_Form
-import os
-from OssimPython import *
 
-grassenv = gisenv()
+#grass
+from grass.script import core as gcore
+
+from gen.ui_grasswindow import Ui_GrassWindow
+
+
+#from OssimPython import *
+
+grassenv = gcore.gisenv()
 history = []
 
 
-class GrShell(QWidget, Ui_Form):
+class GrassWindow(QWidget, Ui_GrassWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
