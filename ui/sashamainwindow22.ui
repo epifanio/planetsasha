@@ -2,42 +2,84 @@
 <ui version="4.0">
  <class>SashaMainWindow</class>
  <widget class="QMainWindow" name="SashaMainWindow">
-  <property name="windowModality">
-   <enum>Qt::NonModal</enum>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>794</width>
-    <height>652</height>
+    <width>708</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PlanetSasha</string>
+   <string>OssimPlanetSasha</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../gui/resources.qrc">
     <normaloff>:/icons/icons/epi.gif</normaloff>:/icons/icons/epi.gif</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QMdiArea" name="mdiArea">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>40</y>
-      <width>459</width>
-      <height>439</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="mainTabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>2</number>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Navigation</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout"/>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Query</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>GPS</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_16"/>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Data</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QTextEdit" name="textHW"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_16"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>794</width>
+     <width>708</width>
      <height>25</height>
     </rect>
    </property>
@@ -45,26 +87,43 @@
     <property name="title">
      <string>Sasha</string>
     </property>
-    <addaction name="actionNavigation"/>
-    <addaction name="actionQuery"/>
-    <addaction name="actionGPS"/>
-    <addaction name="actionData"/>
-    <addaction name="actionImport"/>
-    <addaction name="separator"/>
-    <addaction name="actionPreferences"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit_2"/>
+    <widget class="QMenu" name="menuView_2">
+     <property name="title">
+      <string>view</string>
+     </property>
+     <addaction name="actionHideSlider"/>
+     <addaction name="actionCompass"/>
+     <addaction name="actionPan_Tool"/>
+    </widget>
+    <addaction name="menuView_2"/>
+    <addaction name="actionPref"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <widget class="QMenu" name="menuGPS">
+     <property name="title">
+      <string>GPS</string>
+     </property>
+     <addaction name="actionNMEA"/>
+    </widget>
+    <widget class="QMenu" name="menuData">
+     <property name="title">
+      <string>Data</string>
+     </property>
+     <addaction name="actionDataexp"/>
+     <addaction name="actionVrt"/>
+    </widget>
+    <addaction name="menuData"/>
+    <addaction name="menuGPS"/>
+    <addaction name="actionEpsg"/>
    </widget>
    <addaction name="menuSasha"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -72,16 +131,16 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="actionGrass"/>
-   <addaction name="actionLonLat"/>
+   <addaction name="actionGPS"/>
    <addaction name="actionBroadcast"/>
    <addaction name="actionJoystick"/>
    <addaction name="actionHW"/>
    <addaction name="separator"/>
    <addaction name="actionGrassshell"/>
-   <addaction name="actionData_2"/>
+   <addaction name="actionData"/>
    <addaction name="actionSavekml"/>
    <addaction name="actionVectorOp"/>
    <addaction name="actionModel"/>
@@ -90,33 +149,31 @@
    <addaction name="actionGVrt"/>
    <addaction name="actionExit"/>
   </widget>
-  <action name="actionNavigation">
-   <property name="text">
-    <string>Navigation</string>
-   </property>
-  </action>
-  <action name="actionQuery">
-   <property name="text">
-    <string>Query</string>
-   </property>
-  </action>
   <action name="actionGPS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/satellite.png</normaloff>:/icons/icons/satellite.png</iconset>
+   </property>
    <property name="text">
     <string>GPS</string>
    </property>
   </action>
-  <action name="actionData">
-   <property name="text">
-    <string>Data</string>
+  <action name="actionGrass">
+   <property name="checkable">
+    <bool>true</bool>
    </property>
-  </action>
-  <action name="actionModel">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
-     <normaloff>:/icons/icons/cubo.png</normaloff>:/icons/icons/cubo.png</iconset>
+     <normaloff>:/icons/icons/grass_icon.png</normaloff>:/icons/icons/grass_icon.png</iconset>
    </property>
    <property name="text">
-    <string>model</string>
+    <string>Grass</string>
+   </property>
+   <property name="toolTip">
+    <string>Grass</string>
    </property>
   </action>
   <action name="actionJoystick">
@@ -175,7 +232,7 @@
     <string>NMEA</string>
    </property>
   </action>
-  <action name="actionData_2">
+  <action name="actionData">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -204,6 +261,14 @@
     <string>Epsg</string>
    </property>
   </action>
+  <action name="actionHidesliders">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>hideslider</string>
+   </property>
+  </action>
   <action name="actionHideSpinbox">
    <property name="checkable">
     <bool>true</bool>
@@ -212,39 +277,28 @@
     <string>Spinbox</string>
    </property>
   </action>
+  <action name="actionHide_place_position">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Place-Position</string>
+   </property>
+  </action>
+  <action name="actionHideStepTool">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>StepTool</string>
+   </property>
+  </action>
   <action name="actionHideSlider">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>tabPosition</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="icon">
-    <iconset resource="../gui/resources.qrc">
-     <normaloff>:/icons/icons/quit.png</normaloff>:/icons/icons/quit.png</iconset>
-   </property>
-   <property name="text">
-    <string>Quit</string>
-   </property>
-  </action>
-  <action name="actionVrt">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons/ingranaggio_icona.gif</normaloff>:/icons/ingranaggio_icona.gif</iconset>
-   </property>
-   <property name="text">
-    <string>DataTools</string>
-   </property>
-  </action>
-  <action name="actionDataexp">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons/ingranaggi.gif</normaloff>:/icons/ingranaggi.gif</iconset>
-   </property>
-   <property name="text">
-    <string>Export</string>
    </property>
   </action>
   <action name="actionJoystick_2">
@@ -256,28 +310,31 @@
     <string>Joystick</string>
    </property>
   </action>
-  <action name="actionHideStepTool">
-   <property name="checkable">
-    <bool>true</bool>
+  <action name="actionDataexp">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/ingranaggi.gif</normaloff>:/icons/ingranaggi.gif</iconset>
    </property>
    <property name="text">
-    <string>StepTool</string>
+    <string>Export</string>
    </property>
   </action>
-  <action name="actionHide_place_position">
-   <property name="checkable">
-    <bool>true</bool>
+  <action name="actionVrt">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/ingranaggio_icona.gif</normaloff>:/icons/ingranaggio_icona.gif</iconset>
    </property>
    <property name="text">
-    <string>Place-Position</string>
+    <string>DataTools</string>
    </property>
   </action>
-  <action name="actionHidesliders">
-   <property name="checkable">
-    <bool>true</bool>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/quit.png</normaloff>:/icons/icons/quit.png</iconset>
    </property>
    <property name="text">
-    <string>hideslider</string>
+    <string>Quit</string>
    </property>
   </action>
   <action name="actionGrassshell">
@@ -287,6 +344,15 @@
    </property>
    <property name="text">
     <string>grassshell</string>
+   </property>
+  </action>
+  <action name="actionModel">
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/cubo.png</normaloff>:/icons/icons/cubo.png</iconset>
+   </property>
+   <property name="text">
+    <string>model</string>
    </property>
   </action>
   <action name="actionPref">
@@ -307,6 +373,15 @@
     <enum>Qt::WidgetShortcut</enum>
    </property>
   </action>
+  <action name="actionVectorOp">
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/SquadraCompasso.png</normaloff>:/icons/icons/SquadraCompasso.png</iconset>
+   </property>
+   <property name="text">
+    <string>VectorOp</string>
+   </property>
+  </action>
   <action name="actionHW">
    <property name="checkable">
     <bool>true</bool>
@@ -320,15 +395,6 @@
    </property>
    <property name="toolTip">
     <string>Serial</string>
-   </property>
-  </action>
-  <action name="actionVectorOp">
-   <property name="icon">
-    <iconset resource="../gui/resources.qrc">
-     <normaloff>:/icons/icons/SquadraCompasso.png</normaloff>:/icons/icons/SquadraCompasso.png</iconset>
-   </property>
-   <property name="text">
-    <string>VectorOp</string>
    </property>
   </action>
   <action name="actionBroadcast">
@@ -363,36 +429,6 @@
    </property>
    <property name="text">
     <string>vrt</string>
-   </property>
-  </action>
-  <action name="actionGrass">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../gui/resources.qrc">
-     <normaloff>:/icons/icons/grass_icon.png</normaloff>:/icons/icons/grass_icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>Grass</string>
-   </property>
-   <property name="toolTip">
-    <string>Grass</string>
-   </property>
-  </action>
-  <action name="actionPreferences">
-   <property name="text">
-    <string>Preferences</string>
-   </property>
-  </action>
-  <action name="actionExit_2">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionImport">
-   <property name="text">
-    <string>Import</string>
    </property>
   </action>
  </widget>

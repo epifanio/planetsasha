@@ -21,15 +21,17 @@ from gen.ui_sashamainwindow import Ui_SashaMainWindow
 from gui.navigationwindow import NavigationWindow
 from gui.querywindow import QueryWindow
 from gui.gpswindow import GpsWindow
+##from gui.datawindow import DataWindow
 
 from gui.preferenceswindow import PreferencesWindow
-from gui.layerlistwindow import LayerListWindow
+##from gui.layerlistwindow import LayerListWindow
+from gui.importwindow import ImportWindow
 
 if Utils.haveGRASS_:
     from gui.datawindow import DataWindow
     from gui.grasswindow import GrassWindow
     
-from psinit import * #FIXME
+##from psinit import * #FIXME
 
 class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     def __init__(self, arg):
@@ -39,16 +41,20 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.setupUi(self)
         
         self.setCentralWidget(self.mdiArea)
-        self.navwin =  NavigationWindow()
-        self.mdiArea.addSubWindow(self.navwin)
-        self.navwin.show()
+        #self.setLayout(self.verticalLayout)
 
-        self.prefsWindow_ = PreferencesWindow()
+#        self.navwin =  NavigationWindow()
+#        self.mdiArea.addSubWindow(self.navwin)
+#        self.navwin.show()
+
+        #self.prefsWindow_ = PreferencesWindow()
 
         self.actionNavigation.triggered.connect(self.showNavWindow)
         self.actionQuery.triggered.connect(self.showQueryWindow)
         self.actionGPS.triggered.connect(self.showGpsWindow)
         self.actionData.triggered.connect(self.showDataWindow)
+        self.actionImport.triggered.connect(self.showImportWindow)
+        self.actionPreferences.triggered.connect(self.showPrefsWindow)
          
 
         #self.connect(self.actionLonLat, SIGNAL("triggered()"),           self.LonLatunceckbuttons)                 
@@ -90,8 +96,20 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.datawin =  DataWindow()
         self.mdiArea.addSubWindow(self.datawin)
         self.datawin.show()
+
+    def showImportWindow(self):
+        self.impwin =  ImportWindow()
+        self.mdiArea.addSubWindow(self.impwin)
+        #self.mdiArea.resize(752,497)
         
+        self.impwin.show()
         
+                
+    def showPrefsWindow(self):
+        self.prefwin =  PreferencesWindow()
+        self.mdiArea.addSubWindow(self.prefwin)
+        self.prefwin.show()
+                        
     def initWidgets(self):           
                      
         if Utils.haveGRASS_ == 0:

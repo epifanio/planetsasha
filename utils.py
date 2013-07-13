@@ -13,24 +13,28 @@ from preferences import Preferences
 
 
 class Utils(object):
-
-    try :
-        #=from Gdata import Data #FIXME
-        #from GrassShell import GrShell #FIXME
-        #from grass.script.core import core #FIXME
-        #from grass.lib import grass #FIXME
-        from grass.pygrass.modules import grass
-        #from psinit import  #FIXME
-        haveGRASS_ = 1
-        print "GRASS found!! - show grass info??"
-    except:
-        haveGRASS_ = 0
-        print "GRASS environment not found - set to disabled"
+    haveGRASS_ = 1
+    def checkGrass(self):
+    
+        try :
+            #=from Gdata import Data #FIXME
+            #from GrassShell import GrShell #FIXME
+            #from grass.script.core import core #FIXME
+            #from grass.lib import grass #FIXME
+            from grass.pygrass.modules import grass
+            #from psinit import  #FIXME
+            haveGRASS_ = 1
+            print "GRASS found!! - show grass info??"
+        except:
+            haveGRASS_ = 0
+            print "GRASS environment not found - set to disabled2"
     
     prefs_ = None
     #Utils.setPreferences(prefs)
     
     def __init__(self, prefs):
+
+	self.checkGrass()
         Utils.prefs_ =  Preferences()
 
 #    @staticmethod    
