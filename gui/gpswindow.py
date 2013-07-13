@@ -11,5 +11,5 @@ class GpsWindow(QWidget, Ui_GpsWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        self.setLayout(self.verticalLayout_2)
+        self.setLayout(self.verticalLayout)
 
