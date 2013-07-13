@@ -29,9 +29,9 @@ except KeyError:
 
 
 
-from episg import *
+#from episg import *
 
-import gps
+#import gps
 
 
 try:
@@ -67,14 +67,16 @@ from utils import Utils
 #gui
 from gui.sashamainwindow import SashaMainWindow
 
-from gui.warnmsgwindow import WarnMsgWindow
-from gui.kmlwindow import KmlWindow
-from gui.modelwindow import PlaceModel
-from gui.vectoropswindow import VectorOpsWindow
+#from gui.warnmsgwindow import WarnMsgWindow
+#from gui.kmlwindow import KmlWindow
+#from gui.modelwindow import PlaceModel
+#from gui.vectoropswindow import VectorOpsWindow
 
-from gui.epsgwindow import EpsgWindow
-from LatLongUTMconversion import LLtoUTM
+#from gui.epsgwindow import EpsgWindow
+#from LatLongUTMconversion import LLtoUTM
 
+
+from owslib.csw import CatalogueServiceWeb
 
 class PlanetSasha(SashaMainWindow):
 ##    _instance = None
@@ -90,6 +92,7 @@ class PlanetSasha(SashaMainWindow):
         Utils(prefs)    
     
         SashaMainWindow.__init__(self, arg)
+        
 
    
         #self.initWidgets()
@@ -100,33 +103,15 @@ class PlanetSasha(SashaMainWindow):
 
         self.queryvalue = 0
         
-        
-        self.vectoroperation = VectorOpsWindow()
-        self.kmlview = KmlWindow()
-        self.placemodel = PlaceModel()
-        self.epsgWindow = EpsgWindow()  
-        #self.fxvallon = self.SetPosition()[0]
-        #self.fxvallat = self.SetPosition()[1]
-        self.slstep = 1
+        endpoint = 'http://www.smast.umassd.edu:8080/'
+        bbox = [-71.5, 39.5, -63.0, 46]
+        keywords = ['temperature']
+        maxrecords = 20
+        service_type = 'opendap'
+        #res = self.getResource(endpoint=endpoint, bbox=bbox, keywords=keywords, maxrecords=maxrecords)
+        #print res.keys()[0]
         #self.connectSignals()
-            
-    
-
-class PlanetSasha2(QObject):
-    def init(self,arg1):
-
-        #self.w = GuiWidget()
-        x=1
-
-
-
-
-
-
-    
-    
-
-
+           
 
 
 
@@ -371,8 +356,7 @@ if __name__ == "__main__":
     time.sleep(1)
     app.processEvents()
     p = PlanetSasha(arg1)
-    p.show()
-    #p.init(arg1)
+    p.showMaximized()
     splash.close()
     sys.exit(app.exec_())
 

@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ui/preferenceswindow.ui'
 #
-# Created: Sat Jun 22 17:01:11 2013
-#      by: PyQt4 UI code generator 4.9.1
+# Created: Sat Jul  6 19:54:04 2013
+#      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Preferences(object):
     def setupUi(self, Preferences):
@@ -631,47 +640,47 @@ class Ui_Preferences(object):
         QtCore.QMetaObject.connectSlotsByName(Preferences)
 
     def retranslateUi(self, Preferences):
-        Preferences.setWindowTitle(QtGui.QApplication.translate("Preferences", "Preferences", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("Preferences", "Ossim preference", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("Preferences", "Geonames - db", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("Preferences", "GPS Device", None, QtGui.QApplication.UnicodeUTF8))
-        self.gpsdevice.setText(QtGui.QApplication.translate("Preferences", "/dev/tty.GarminGPS10-Gps10 ", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_8.setText(QtGui.QApplication.translate("Preferences", "VRT - Directory", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_9.setText(QtGui.QApplication.translate("Preferences", "KML - Directory", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_7.setText(QtGui.QApplication.translate("Preferences", "File manager", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_11.setText(QtGui.QApplication.translate("Preferences", "NP", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_10.setText(QtGui.QApplication.translate("Preferences", "Enable MPI", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page_5), QtGui.QApplication.translate("Preferences", "General", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_12.setText(QtGui.QApplication.translate("Preferences", "Point Size", None, QtGui.QApplication.UnicodeUTF8))
-        self.PointSize.setText(QtGui.QApplication.translate("Preferences", "1,1", None, QtGui.QApplication.UnicodeUTF8))
-        self.LineWidth.setText(QtGui.QApplication.translate("Preferences", "1,1", None, QtGui.QApplication.UnicodeUTF8))
-        self.PenColor.setText(QtGui.QApplication.translate("Preferences", "111,111,111", None, QtGui.QApplication.UnicodeUTF8))
-        self.BrushColor.setText(QtGui.QApplication.translate("Preferences", "111,111,111", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_13.setText(QtGui.QApplication.translate("Preferences", "Line Width", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_14.setText(QtGui.QApplication.translate("Preferences", "Pen Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_15.setText(QtGui.QApplication.translate("Preferences", "Brush Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_16.setText(QtGui.QApplication.translate("Preferences", "Thickness", None, QtGui.QApplication.UnicodeUTF8))
-        self.Thickness.setText(QtGui.QApplication.translate("Preferences", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.Fill.setText(QtGui.QApplication.translate("Preferences", "0", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_17.setText(QtGui.QApplication.translate("Preferences", "Fill", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page_3), QtGui.QApplication.translate("Preferences", "Grass", None, QtGui.QApplication.UnicodeUTF8))
-        self.dataport.setText(QtGui.QApplication.translate("Preferences", "8000", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Preferences", "Data-Port", None, QtGui.QApplication.UnicodeUTF8))
-        self.navport.setText(QtGui.QApplication.translate("Preferences", "7000", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Preferences", "Nav-Port", None, QtGui.QApplication.UnicodeUTF8))
-        self.hostname.setText(QtGui.QApplication.translate("Preferences", "localhost", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Preferences", "Host", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QtGui.QApplication.translate("Preferences", "TCP", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_name.setText(QtGui.QApplication.translate("Preferences", "Name", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_host.setText(QtGui.QApplication.translate("Preferences", "Host", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_dbname.setText(QtGui.QApplication.translate("Preferences", "Database", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_port.setText(QtGui.QApplication.translate("Preferences", "Port", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_username.setText(QtGui.QApplication.translate("Preferences", "Username", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_password.setText(QtGui.QApplication.translate("Preferences", "Password", None, QtGui.QApplication.UnicodeUTF8))
-        self.DbHost.setText(QtGui.QApplication.translate("Preferences", "localhost", None, QtGui.QApplication.UnicodeUTF8))
-        self.DbPort.setText(QtGui.QApplication.translate("Preferences", "5432", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("Preferences", "Test", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page), QtGui.QApplication.translate("Preferences", "Postgis", None, QtGui.QApplication.UnicodeUTF8))
-        self.SaveSettings.setText(QtGui.QApplication.translate("Preferences", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        Preferences.setWindowTitle(_translate("Preferences", "Preferences", None))
+        self.label_6.setText(_translate("Preferences", "Ossim preference", None))
+        self.label_4.setText(_translate("Preferences", "Geonames - db", None))
+        self.label_5.setText(_translate("Preferences", "GPS Device", None))
+        self.gpsdevice.setText(_translate("Preferences", "/dev/tty.GarminGPS10-Gps10 ", None))
+        self.label_8.setText(_translate("Preferences", "VRT - Directory", None))
+        self.label_9.setText(_translate("Preferences", "KML - Directory", None))
+        self.label_7.setText(_translate("Preferences", "File manager", None))
+        self.label_11.setText(_translate("Preferences", "NP", None))
+        self.label_10.setText(_translate("Preferences", "Enable MPI", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_5), _translate("Preferences", "General", None))
+        self.label_12.setText(_translate("Preferences", "Point Size", None))
+        self.PointSize.setText(_translate("Preferences", "1,1", None))
+        self.LineWidth.setText(_translate("Preferences", "1,1", None))
+        self.PenColor.setText(_translate("Preferences", "111,111,111", None))
+        self.BrushColor.setText(_translate("Preferences", "111,111,111", None))
+        self.label_13.setText(_translate("Preferences", "Line Width", None))
+        self.label_14.setText(_translate("Preferences", "Pen Color", None))
+        self.label_15.setText(_translate("Preferences", "Brush Color", None))
+        self.label_16.setText(_translate("Preferences", "Thickness", None))
+        self.Thickness.setText(_translate("Preferences", "1", None))
+        self.Fill.setText(_translate("Preferences", "0", None))
+        self.label_17.setText(_translate("Preferences", "Fill", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_3), _translate("Preferences", "Grass", None))
+        self.dataport.setText(_translate("Preferences", "8000", None))
+        self.label_3.setText(_translate("Preferences", "Data-Port", None))
+        self.navport.setText(_translate("Preferences", "7000", None))
+        self.label_2.setText(_translate("Preferences", "Nav-Port", None))
+        self.hostname.setText(_translate("Preferences", "localhost", None))
+        self.label.setText(_translate("Preferences", "Host", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), _translate("Preferences", "TCP", None))
+        self.label_name.setText(_translate("Preferences", "Name", None))
+        self.label_host.setText(_translate("Preferences", "Host", None))
+        self.label_dbname.setText(_translate("Preferences", "Database", None))
+        self.label_port.setText(_translate("Preferences", "Port", None))
+        self.label_username.setText(_translate("Preferences", "Username", None))
+        self.label_password.setText(_translate("Preferences", "Password", None))
+        self.DbHost.setText(_translate("Preferences", "localhost", None))
+        self.DbPort.setText(_translate("Preferences", "5432", None))
+        self.pushButton.setText(_translate("Preferences", "Test", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page), _translate("Preferences", "Postgis", None))
+        self.SaveSettings.setText(_translate("Preferences", "OK", None))
 
 import resources_rc

@@ -6,115 +6,116 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>953</width>
-    <height>591</height>
+    <width>877</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>GPS</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>270</x>
      <y>20</y>
-     <width>811</width>
-     <height>612</height>
+     <width>809</width>
+     <height>610</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="margin">
+     <number>30</number>
+    </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="margin">
-       <number>30</number>
-      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_9">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QTabWidget" name="tabWidget_2">
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="styleSheet">
+         <string notr="true">background: rgb(231, 231, 231);</string>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::North</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="elideMode">
+         <enum>Qt::ElideNone</enum>
+        </property>
+        <property name="documentMode">
+         <bool>true</bool>
+        </property>
+        <property name="tabsClosable">
+         <bool>false</bool>
+        </property>
+        <property name="movable">
+         <bool>false</bool>
+        </property>
+        <widget class="QWidget" name="tab_7">
+         <attribute name="title">
+          <string>Map</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QWebView" name="WebMap" native="true">
+            <property name="url" stdset="0">
+             <url>
+              <string>about:blank</string>
+             </url>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_8">
+         <attribute name="title">
+          <string>Graph</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_11"/>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="17" column="0">
+         <widget class="QCheckBox" name="GPSSend">
           <property name="styleSheet">
-           <string notr="true">background: rgb(231, 231, 231);</string>
+           <string notr="true"/>
           </property>
-          <property name="tabPosition">
-           <enum>QTabWidget::West</enum>
+          <property name="text">
+           <string>SendPosition</string>
           </property>
-          <property name="tabShape">
-           <enum>QTabWidget::Rounded</enum>
-          </property>
-          <property name="currentIndex">
-           <number>1</number>
-          </property>
-          <property name="documentMode">
-           <bool>true</bool>
-          </property>
-          <property name="tabsClosable">
-           <bool>false</bool>
-          </property>
-          <property name="movable">
-           <bool>false</bool>
-          </property>
-          <widget class="QWidget" name="tab_7">
-           <attribute name="title">
-            <string>Map</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_10">
-            <item>
-             <widget class="QWebView" name="WebMap">
-              <property name="url">
-               <url>
-                <string>about:blank</string>
-               </url>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_8">
-           <attribute name="title">
-            <string>Graph</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_11"/>
-          </widget>
          </widget>
         </item>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_8">
-          <item row="17" column="0">
-           <widget class="QCheckBox" name="GPSSend">
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>SendPosition</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="Datelabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+        <item row="0" column="0">
+         <widget class="QLabel" name="Datelabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Date</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="GPSTime">
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Date</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="GPSTime">
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -124,38 +125,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="Utclabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="Utclabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>UTC</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="GPSUtctime">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>UTC</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="GPSUtctime">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -165,38 +166,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="Altitudelabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="Altitudelabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Altitude</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="GPSAltitude">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Altitude</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="GPSAltitude">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -206,38 +207,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="Speedlabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="Speedlabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Speed</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="GPSSpeed">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Speed</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="GPSSpeed">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -247,38 +248,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="Climblabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="Climblabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Climb</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLineEdit" name="GPSClimb">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Climb</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="GPSClimb">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -288,38 +289,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="Pdoplabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="Pdoplabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Pdop</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLineEdit" name="GPSPdop">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Pdop</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="GPSPdop">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -329,38 +330,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="Hdoplabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="Hdoplabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Hdop</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QLineEdit" name="GPSHdop">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Hdop</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="GPSHdop">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -370,38 +371,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QLabel" name="Vdoplabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="Vdoplabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Vdop</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1">
-           <widget class="QLineEdit" name="GPSVdop">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Vdop</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="GPSVdop">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -411,38 +412,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="Tdoplabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="Tdoplabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Tdop</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QLineEdit" name="GPSTdop">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Tdop</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="GPSTdop">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -452,38 +453,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="Gdoplabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="Gdoplabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Gdop</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="1">
-           <widget class="QLineEdit" name="GPSGdop">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Gdop</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLineEdit" name="GPSGdop">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -493,38 +494,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="Ephlabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0">
+         <widget class="QLabel" name="Ephlabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Eph</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="1">
-           <widget class="QLineEdit" name="GPSEph">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Eph</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1">
+         <widget class="QLineEdit" name="GPSEph">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -534,38 +535,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="0">
-           <widget class="QLabel" name="Eptlabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="Eptlabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Ept</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="1">
-           <widget class="QLineEdit" name="GPSEpt">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Ept</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QLineEdit" name="GPSEpt">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -575,38 +576,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="0">
-           <widget class="QLabel" name="Epslabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="Epslabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Eps</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="1">
-           <widget class="QLineEdit" name="GPSEps">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Eps</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="1">
+         <widget class="QLineEdit" name="GPSEps">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -616,38 +617,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="14" column="0">
-           <widget class="QLabel" name="Epvlabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0">
+         <widget class="QLabel" name="Epvlabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Epv</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="14" column="1">
-           <widget class="QLineEdit" name="GPSEpv">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Epv</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="1">
+         <widget class="QLineEdit" name="GPSEpv">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -657,38 +658,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="15" column="0">
-           <widget class="QLabel" name="Epdlabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="15" column="0">
+         <widget class="QLabel" name="Epdlabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Epd</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="15" column="1">
-           <widget class="QLineEdit" name="GPSEpd">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Epd</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="15" column="1">
+         <widget class="QLineEdit" name="GPSEpd">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -698,38 +699,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="0">
-           <widget class="QLabel" name="Epclabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="16" column="0">
+         <widget class="QLabel" name="Epclabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Epc</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="1">
-           <widget class="QLineEdit" name="GPSEpc">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="text">
+           <string>Epc</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="16" column="1">
+         <widget class="QLineEdit" name="GPSEpc">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -739,19 +740,19 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="GPSTrack">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="GPSTrack">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
@@ -761,38 +762,38 @@
 
 
 </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="Tracklabel">
-            <property name="styleSheet">
-             <string notr="true"> QFrame, QLabel, QToolTip {
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="Tracklabel">
+          <property name="styleSheet">
+           <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-            </property>
-            <property name="text">
-             <string>Track</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="17" column="1">
-           <widget class="QPushButton" name="StartGps">
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
+          </property>
+          <property name="text">
+           <string>Track</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="17" column="1">
+         <widget class="QPushButton" name="StartGps">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
      border: 2px solid #8f8f91;
      border-radius: 6px;
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -812,101 +813,99 @@
  QPushButton:default {
      border-color: navy; /* make the default button prominent */
  }</string>
-            </property>
-            <property name="text">
-             <string>Start/Stop </string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          </property>
+          <property name="text">
+           <string>Start/Stop </string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="Latlabel_2">
-          <property name="styleSheet">
-           <string notr="true"> QFrame, QLabel, QToolTip {
+       <widget class="QLabel" name="Latlabel_2">
+        <property name="styleSheet">
+         <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-          </property>
-          <property name="text">
-           <string>Lat</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="GPSlat">
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
+        </property>
+        <property name="text">
+         <string>Lat</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="GPSlat">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
      background: rgb(231, 231, 231);
  }
 </string>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Normal</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="Lonlabel_2">
-          <property name="styleSheet">
-           <string notr="true"> QFrame, QLabel, QToolTip {
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Normal</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="Lonlabel_2">
+        <property name="styleSheet">
+         <string notr="true"> QFrame, QLabel, QToolTip {
      border: 1px solid gray;
      border-radius: 4px;
      padding: 2px;
      background-image: url(images/welcome.png);
      background: rgb(231, 231, 231);
  }</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="text">
-           <string>Lon</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="GPSlon">
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text">
+         <string>Lon</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="GPSlon">
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
      border: 1px solid gray;
      border-radius: 5px;
      padding: 0 8px;
      background: rgb(231, 231, 231);
  }
 </string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
