@@ -34,7 +34,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         #self.datac= [][]
    	#imgQ = ImageQt.ImageQt(img)
         pixMap = QPixmap.fromImage(QImage("gui/images/qgis_world.png"))
-        self.dslist
+        self.dslist = []
         scene = QGraphicsScene()
         self.graphicsView.setScene(scene)
         pixMap = pixMap.scaled(QSize(400,200))
@@ -45,8 +45,8 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.bboxWidget.setLayout(self.bboxLayout)
         self.treeView.setSelectionMode(QAbstractItemView.MultiSelection)
         
-        #self.button(QWizard.NextButton).clicked.connect(self.OnNextPage)
-        self.button(QWizard.FinishButton).clicked.connect(self.OnNextPage)
+        self.button(QWizard.NextButton).clicked.connect(self.OnNextPage)
+        #self.button(QWizard.FinishButton).clicked.connect(self.OnNextPage)
         self.cmbService.currentIndexChanged.connect(self.toggleBBox)
         self.connect(self,  QtCore.SIGNAL("selectionChanged(QItemSelection&, QItemSelection&)"), self.selectds)
 
@@ -74,7 +74,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
             print 'select url, type, service.'
             #return None
             
-        self.url_s = self.cmbUrl.currentText()
+        self.url_s = str(self.cmbUrl.currentText())
         self.type_s = self.cmbType.currentText()
         self.service_s = self.cmbService.currentText()
         self.bbox = None
@@ -99,6 +99,40 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
 
 
+    def fetchTHData(self):
+
+        xml= urllib2.urlopen(self.url_s)
+        tree = et.parse(xml)
+        root = tree.getroot()
+
+           
+        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
+            href = elem.get('{http://www.w3.org/1999/xlink}href')
+            title = elem.get('{http://www.w3.org/1999/xlink}title')
+            
+                
+            url2 = ''
+            if href is not None:
+                
+                if href.startswith('/thredds'):
+                    #print base + '/' + href
+                    url2 = 'http://www.smast.umassd.edu:8080' + href
+                else:
+                    url2 = base + '/' + href
+
+                    item = None
+                
+                
+                print url2 + ':::xx'
+                #self.datac.append(url2)
+                self.model.appendRow(QStandardItem(url2))
+                self.fetchTHData2(url2, count + 1, item)
+
+        return
+
+        
+        
+            
 
 
     def fetchTHData2(self, url, count = 0, item = None):
@@ -192,15 +226,6 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
 
 
-    def fetchTHData(self):
-        url = 'http://www.smast.umassd.edu:8080/thredds/catalog.xml'
-        print url.rsplit(',/',1)[0]
-        self.fetchTHData2('http://www.smast.umassd.edu:8080/thredds/catalog.xml')
-    
-
-        
-        
-            
             
         
     def fetchGNData(self):
