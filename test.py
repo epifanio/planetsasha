@@ -54,9 +54,11 @@ def fetchTHData2(url, count = 0, item = None):
 
     return
     
-    
-url = 'http://www.smast.umassd.edu:8080/thredds/catalog.xml'
-fetchTHData2('http://www.smast.umassd.edu:8080/thredds/catalog.xml')
+import urlparse
+url = 'http://www.smast.umassd.edu:8080///'
+url = urlparse.urljoin(url, '///thredds')
+print url
+#fetchTHData2('http://www.smast.umassd.edu:8080/thredds/catalog.xml')
 
 def getResource(endpoint = 'http://www.nodc.noaa.gov/geoportal/csw', bbox=None, keywords=None, maxrecords=1, service_type='opendap', verbose=None):
     if service_type == 'opendap':

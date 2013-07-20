@@ -1,19 +1,21 @@
 #!/usr/bin/env python
+import os
 import sys
+import time
 
+#Qt
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+#gui
 from gen.ui_importwindow import Ui_ImportWindow
-import os
-import time
 
+#extra
 from owslib.csw import CatalogueServiceWeb
-
 import xml.etree.ElementTree as et
 import urllib2
+import urlparse
 
-import xml.etree.ElementTree as ET
 
 class Catalog(object):
     def __init__(self,h,t):
@@ -30,6 +32,8 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.setupUi(self)
 
         self.resize(752,497)
+
+        self.xmlMap = dict()
         
         #self.datac= [][]
    	#imgQ = ImageQt.ImageQt(img)
@@ -41,25 +45,87 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         scene.addPixmap(pixMap)               
         self.graphicsView.repaint()
         self.graphicsView.show()
+
+        self.treeView.setEditTriggers(QTreeView.NoEditTriggers)
         
         self.bboxWidget.setLayout(self.bboxLayout)
-        self.treeView.setSelectionMode(QAbstractItemView.MultiSelection)
+        #self.treeView.setSelectionMode(QAbstractItemView.MultiSelection)
         
         self.button(QWizard.NextButton).clicked.connect(self.OnNextPage)
         #self.button(QWizard.FinishButton).clicked.connect(self.OnNextPage)
         self.cmbService.currentIndexChanged.connect(self.toggleBBox)
-        self.connect(self,  QtCore.SIGNAL("selectionChanged(QItemSelection&, QItemSelection&)"), self.selectds)
+        self.treeView.doubleClicked.connect(self.onSelect)
 
-    def selectds(self, news, olds):
-        print news
-        self.dslist.append(news)
+    def onSelect(self, index):
+        item = self.model.itemFromIndex(index)
         
+        if item.text() == '--Fetch--': #PSasha.FETCH_TEXT
+            item.setText('Fetching data..')
+            pindex = self.model.parent(index)
+            pitem = self.model.itemFromIndex(pindex)
+            ptext  = str(pitem.text())
+
+            urlN = str(self.xmlMap[ptext])
+            self.fetchTHData(urlN, pitem)
+
+            #remove fetching data text...
+
+
+    def fetchTHData(self, urlnext ='catalog.xml', rootItem = None):
+
+        url = urlparse.urljoin(self.url_base, '/thredds/' + urlnext)
+
+        xml = ''
+        try:
+            xml= urllib2.urlopen(url)
+        except:
+            if rootItem is not None:
+                rootItem.child(0).setText('?? error ??')
+                #TODO show the error on a error window in ui
+                return
+
+        tree = et.parse(xml)
+        root = tree.getroot()
+        
+        print 'Fetching data from ' + url
+ 
+        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
+            href = elem.get('{http://www.w3.org/1999/xlink}href')
+            title = elem.get('{http://www.w3.org/1999/xlink}title')
+            
+            if href is None:
+                return
+
+            self.xmlMap[title] = href 
+
+            item = QStandardItem(title)
+            item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
+            item.appendRow(QStandardItem('--Fetch--'))
+            loadIcon = QIcon()
+            loadIcon.addPixmap(QPixmap(":/icons/icons/loading.gif"), QIcon.Normal, QIcon.Off)
+            item.setIcon(loadIcon)
+
+            if rootItem is None:
+                self.model.appendRow(item)
+            else:
+                rootItem.appendRow(item)
+                self.model.appendRow(rootItem)    
+
+        
+        if rootItem is not None:
+            rootItem.removeRow(0)
+
+
+        return
+
+       
     def toggleBBox(self):
     
         if self.cmbService.currentIndex() == 1:
             self.bboxWidget.hide()
         else:
             self.bboxWidget.show()
+
     def validate(self):
 
         return 0
@@ -84,12 +150,13 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.col = 0
         
         self.model = QStandardItemModel(self)
-
         self.treeView.setModel(self.model)
         
+        self.type_s = ImportWindow.TH #D code
+        self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
         
-        self.type_s = ImportWindow.TH
         
+        self.url_base = self.url_s.rsplit('/',1)[0]
         if self.type_s == ImportWindow.GN:
             self.fetchGNData()
         elif self.type_s == ImportWindow.GP:
@@ -98,46 +165,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
             self.fetchTHData()
 
 
-
-    def fetchTHData(self):
-
-        xml= urllib2.urlopen(self.url_s)
-        tree = et.parse(xml)
-        root = tree.getroot()
-
-           
-        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
-            href = elem.get('{http://www.w3.org/1999/xlink}href')
-            title = elem.get('{http://www.w3.org/1999/xlink}title')
-            
-                
-            url2 = ''
-            if href is not None:
-                
-                if href.startswith('/thredds'):
-                    #print base + '/' + href
-                    url2 = 'http://www.smast.umassd.edu:8080' + href
-                else:
-                    url2 = base + '/' + href
-
-                    item = None
-                
-                
-                print url2 + ':::xx'
-                #self.datac.append(url2)
-                self.model.appendRow(QStandardItem(url2))
-                self.fetchTHData2(url2, count + 1, item)
-
-        return
-
-        
-        
-            
-
-
-    def fetchTHData2(self, url, count = 0, item = None):
-
-        
+    def fetchTHData2(self, url, count = 0, item = None):        
         base = url.rsplit('/',1)[0]
         #print base
         xml= urllib2.urlopen(url)
@@ -145,8 +173,6 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         root = tree.getroot()
     #    for e in root:
     #        print e
-
-
 
         for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
             href = elem.get('{http://www.w3.org/1999/xlink}href')
@@ -164,6 +190,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
             href = elem.get('{http://www.w3.org/1999/xlink}href')
             title = elem.get('{http://www.w3.org/1999/xlink}title')
+            self.xmlMap[title] = href
             
                 
             url2 = ''

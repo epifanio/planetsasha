@@ -25,7 +25,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>40</y>
+      <y>20</y>
       <width>459</width>
       <height>439</height>
      </rect>
@@ -48,13 +48,13 @@
     <addaction name="actionNavigation"/>
     <addaction name="actionQuery"/>
     <addaction name="actionGPS"/>
+    <addaction name="actionData_3"/>
     <addaction name="actionNC_View"/>
     <addaction name="actionImport"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionExit_2"/>
-    <addaction name="actionData_3"/>
    </widget>
    <addaction name="menuSasha"/>
   </widget>
