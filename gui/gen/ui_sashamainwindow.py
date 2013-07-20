@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/sashamainwindow.ui'
 #
-# Created: Sat Jul 13 11:54:41 2013
+# Created: Sat Jul 20 14:48:38 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,8 +60,6 @@ class Ui_SashaMainWindow(object):
         self.actionQuery.setObjectName(_fromUtf8("actionQuery"))
         self.actionGPS = QtGui.QAction(SashaMainWindow)
         self.actionGPS.setObjectName(_fromUtf8("actionGPS"))
-        self.actionData = QtGui.QAction(SashaMainWindow)
-        self.actionData.setObjectName(_fromUtf8("actionData"))
         self.actionModel = QtGui.QAction(SashaMainWindow)
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/cubo.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -191,15 +189,24 @@ class Ui_SashaMainWindow(object):
         self.actionExit_2.setObjectName(_fromUtf8("actionExit_2"))
         self.actionImport = QtGui.QAction(SashaMainWindow)
         self.actionImport.setObjectName(_fromUtf8("actionImport"))
+        self.actionView = QtGui.QAction(SashaMainWindow)
+        self.actionView.setObjectName(_fromUtf8("actionView"))
+        self.actionView_2 = QtGui.QAction(SashaMainWindow)
+        self.actionView_2.setObjectName(_fromUtf8("actionView_2"))
+        self.actionData_3 = QtGui.QAction(SashaMainWindow)
+        self.actionData_3.setObjectName(_fromUtf8("actionData_3"))
+        self.actionNC_View = QtGui.QAction(SashaMainWindow)
+        self.actionNC_View.setObjectName(_fromUtf8("actionNC_View"))
         self.menuSasha.addAction(self.actionNavigation)
         self.menuSasha.addAction(self.actionQuery)
         self.menuSasha.addAction(self.actionGPS)
-        self.menuSasha.addAction(self.actionData)
+        self.menuSasha.addAction(self.actionNC_View)
         self.menuSasha.addAction(self.actionImport)
         self.menuSasha.addSeparator()
         self.menuSasha.addAction(self.actionPreferences)
         self.menuSasha.addSeparator()
         self.menuSasha.addAction(self.actionExit_2)
+        self.menuSasha.addAction(self.actionData_3)
         self.menubar.addAction(self.menuSasha.menuAction())
         self.toolBar.addAction(self.actionGrass)
         self.toolBar.addAction(self.actionLonLat)
@@ -227,7 +234,6 @@ class Ui_SashaMainWindow(object):
         self.actionNavigation.setText(_translate("SashaMainWindow", "Navigation", None))
         self.actionQuery.setText(_translate("SashaMainWindow", "Query", None))
         self.actionGPS.setText(_translate("SashaMainWindow", "GPS", None))
-        self.actionData.setText(_translate("SashaMainWindow", "Data", None))
         self.actionModel.setText(_translate("SashaMainWindow", "model", None))
         self.actionJoystick.setText(_translate("SashaMainWindow", "Joystick", None))
         self.actionJoystick.setToolTip(_translate("SashaMainWindow", "Joystick", None))
@@ -264,5 +270,9 @@ class Ui_SashaMainWindow(object):
         self.actionPreferences.setText(_translate("SashaMainWindow", "Preferences", None))
         self.actionExit_2.setText(_translate("SashaMainWindow", "Exit", None))
         self.actionImport.setText(_translate("SashaMainWindow", "Import", None))
+        self.actionView.setText(_translate("SashaMainWindow", "View", None))
+        self.actionView_2.setText(_translate("SashaMainWindow", "View", None))
+        self.actionData_3.setText(_translate("SashaMainWindow", "Data", None))
+        self.actionNC_View.setText(_translate("SashaMainWindow", "NC View", None))
 
 import resources_rc

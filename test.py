@@ -5,12 +5,6 @@ from owslib.csw import CatalogueServiceWeb
 import xml.etree.ElementTree as et
 import urllib2
 
-import xml.etree.ElementTree as ET
-
-
-
-
-
 def fetchTHData2(url, count = 0, item = None):
 
 

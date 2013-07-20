@@ -29,12 +29,12 @@
    <string>Import NetCDF</string>
   </property>
   <widget class="QWizardPage" name="inputPage">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>521</width>
+      <width>672</width>
       <height>27</height>
      </rect>
     </property>
@@ -315,7 +315,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
