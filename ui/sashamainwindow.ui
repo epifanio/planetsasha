@@ -48,12 +48,13 @@
     <addaction name="actionNavigation"/>
     <addaction name="actionQuery"/>
     <addaction name="actionGPS"/>
-    <addaction name="actionData"/>
+    <addaction name="actionNC_View"/>
     <addaction name="actionImport"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionExit_2"/>
+    <addaction name="actionData_3"/>
    </widget>
    <addaction name="menuSasha"/>
   </widget>
@@ -103,11 +104,6 @@
   <action name="actionGPS">
    <property name="text">
     <string>GPS</string>
-   </property>
-  </action>
-  <action name="actionData">
-   <property name="text">
-    <string>Data</string>
    </property>
   </action>
   <action name="actionModel">
@@ -393,6 +389,26 @@
   <action name="actionImport">
    <property name="text">
     <string>Import</string>
+   </property>
+  </action>
+  <action name="actionView">
+   <property name="text">
+    <string>View</string>
+   </property>
+  </action>
+  <action name="actionView_2">
+   <property name="text">
+    <string>View</string>
+   </property>
+  </action>
+  <action name="actionData_3">
+   <property name="text">
+    <string>Data</string>
+   </property>
+  </action>
+  <action name="actionNC_View">
+   <property name="text">
+    <string>NC View</string>
    </property>
   </action>
  </widget>
