@@ -18,7 +18,7 @@ class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        
+        self.setLayout(self.verticalLayout)
         self.cmbDataset.currentIndexChanged.connect(self.viewnc)
 
     def viewnc(self):

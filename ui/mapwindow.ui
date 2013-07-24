@@ -6,33 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>546</width>
-    <height>467</height>
+    <width>562</width>
+    <height>386</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>NC Viewer</string>
   </property>
-  <widget class="QComboBox" name="cmbDataset">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>471</width>
+     <x>10</x>
+     <y>10</y>
+     <width>541</width>
      <height>31</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>--select--</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc</string>
-    </property>
-   </item>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QComboBox" name="cmbDataset">
+      <item>
+       <property name="text">
+        <string>--select--</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
+  <zorder>verticalLayoutWidget</zorder>
+  <zorder>cmbDataset</zorder>
  </widget>
  <resources/>
  <connections/>

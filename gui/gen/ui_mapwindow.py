@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Sat Jul 20 14:44:53 2013
+# Created: Wed Jul 24 21:04:07 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,12 +26,23 @@ except AttributeError:
 class Ui_MapWindow(object):
     def setupUi(self, MapWindow):
         MapWindow.setObjectName(_fromUtf8("MapWindow"))
-        MapWindow.resize(546, 467)
-        self.cmbDataset = QtGui.QComboBox(MapWindow)
-        self.cmbDataset.setGeometry(QtCore.QRect(30, 20, 471, 31))
+        MapWindow.resize(562, 386)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MapWindow.sizePolicy().hasHeightForWidth())
+        MapWindow.setSizePolicy(sizePolicy)
+        self.verticalLayoutWidget = QtGui.QWidget(MapWindow)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 541, 31))
+        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.cmbDataset = QtGui.QComboBox(self.verticalLayoutWidget)
         self.cmbDataset.setObjectName(_fromUtf8("cmbDataset"))
         self.cmbDataset.addItem(_fromUtf8(""))
         self.cmbDataset.addItem(_fromUtf8(""))
+        self.verticalLayout.addWidget(self.cmbDataset)
 
         self.retranslateUi(MapWindow)
         QtCore.QMetaObject.connectSlotsByName(MapWindow)
