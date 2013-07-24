@@ -34,6 +34,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.resize(752,497)
 
         self.xmlMap = dict()
+
+        self.debug = 1
+        self.url_prefix = '/thredds/'
         
         #self.datac= [][]
    	#imgQ = ImageQt.ImageQt(img)
@@ -63,22 +66,52 @@ class ImportWindow(QWizard, Ui_ImportWindow):
             item.setText('Fetching data..')
             pindex = self.model.parent(index)
             pitem = self.model.itemFromIndex(pindex)
+            
             ptext  = str(pitem.text())
-
             urlN = str(self.xmlMap[ptext])
+            
+            #if not urlN.startswith('/thredds'):
+            #    urlN =  self.url_prefix + urlN
+            #print urlN
+            #print ptext
+            
             self.fetchTHData(urlN, pitem)
 
+            #pparent = self.model.itemFromIndex(pindex.parent())
+            #if pparent:
+            #    print pparent.text() + 'xxxxxxy'
+            #    print ptext + 'yyzzz'
+
+
+
+
+            #prefix = urlN.rsplit('/',1)[0]
+            ##print prefix
+            #if not prefix.endswith('.xml'):
+            #    self.url_prefix = prefix + '/'
+            #
+            #print self.url_prefix
+ 
             #remove fetching data text...
 
 
-    def fetchTHData(self, urlnext ='catalog.xml', rootItem = None):
+    def fetchTHData(self, urlnext ='thredds/catalog.xml', rootItem = None):
 
-        url = urlparse.urljoin(self.url_base, '/thredds/' + urlnext)
+        #if urlnext.startswith('/thredds'):
+        #    url = urlparse.urljoin(self.url_base, urlnext)
+        #else:    
+        #    url = urlparse.urljoin(self.url_base, '/thredds/' + urlnext)
+        if urlnext == 'thredds/catalog.xml':
+            url = urlparse.urljoin(self.url_base, urlnext)
+        else:    
+            url = urlnext
+        #print url
 
         xml = ''
         try:
             xml= urllib2.urlopen(url)
         except:
+            print 'error:' + url
             if rootItem is not None:
                 rootItem.child(0).setText('?? error ??')
                 #TODO show the error on a error window in ui
@@ -87,17 +120,65 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         tree = et.parse(xml)
         root = tree.getroot()
         
-        print 'Fetching data from ' + url
- 
-        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
+        #print 'Fetching data from ' + url
+        if url != '':
+            for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
+                dsname = elem.get('name')
+                #elem.get('ID')
+                urlPath = elem.get('urlPath')
+                if urlPath is None:
+                    for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
+                        
+                        urlPath = elem.get('urlPath')
+
+                        if urlPath is not None:
+                            dsname = elem.get('name') 
+                            #print dsname + 'qqqq'
+                            item = QStandardItem(dsname)
+                            item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
+                            if rootItem is None:
+                                self.model.appendRow(item)
+                            else:
+                                rootItem.appendRow(item)
+                                #self.model.appendRow(rootItem)
+                        
+
+
+        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef') or root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
             href = elem.get('{http://www.w3.org/1999/xlink}href')
             title = elem.get('{http://www.w3.org/1999/xlink}title')
             
             if href is None:
                 return
+            url_next = ''
+            url_key = ''
 
-            self.xmlMap[title] = href 
+            #print href
+            if rootItem:
+                prev = self.xmlMap[str(rootItem.text())]
+                
+                prev = prev.rsplit('/',1)[0]
+                if href.startswith('/thredds'):
+                    url_key = prev + '/' + href[8:]
+                else:
+                    url_key = prev + '/' + href   
+                print url_key
+            else:
+                 
+                if not href.startswith('/thredds'):
+                    url_key = self.url_base + '/thredds/' + href
+                    #url_next = self.url_prefix + href.rsplit('/',1)[0]
+                else:
+                    url_key = self.url_base + href
 
+
+
+            #print url_key
+
+            self.xmlMap[title] = url_key
+            #if self.debug == 2:
+            #print title + "::" + self.xmlMap[title]
+               
             item = QStandardItem(title)
             item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
             item.appendRow(QStandardItem('--Fetch--'))
@@ -109,7 +190,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
                 self.model.appendRow(item)
             else:
                 rootItem.appendRow(item)
-                self.model.appendRow(rootItem)    
+                #self.model.appendRow(rootItem)    
 
         
         if rootItem is not None:
