@@ -50,14 +50,25 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.graphicsView.show()
 
         self.treeView.setEditTriggers(QTreeView.NoEditTriggers)
+
+        self.treeView.setSelectionMode(  QAbstractItemView.ExtendedSelection  )
         
         self.bboxWidget.setLayout(self.bboxLayout)
         #self.treeView.setSelectionMode(QAbstractItemView.MultiSelection)
+
+        self.btAddTo.clicked.connect(self.onAddToList)
         
         self.button(QWizard.NextButton).clicked.connect(self.OnNextPage)
-        #self.button(QWizard.FinishButton).clicked.connect(self.OnNextPage)
+        self.button(QWizard.FinishButton).clicked.connect(self.onClose)
         self.cmbService.currentIndexChanged.connect(self.toggleBBox)
         self.treeView.doubleClicked.connect(self.onSelect)
+
+
+    def onAddToList(self):
+        for index in self.treeView.selectedIndexes():
+            item = self.model.itemFromIndex(index)
+            if not item.hasChildren() and item.text() != '--Fetch--':
+                self.lmodel.appendRow(QStandardItem(item.text()))
 
     def onSelect(self, index):
         item = self.model.itemFromIndex(index)
@@ -121,7 +132,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         root = tree.getroot()
         
         #print 'Fetching data from ' + url
-        if url != '':
+        if url != '': #FIXME unwanted check
             for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
                 dsname = elem.get('name')
                 #elem.get('ID')
@@ -232,6 +243,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         
         self.model = QStandardItemModel(self)
         self.treeView.setModel(self.model)
+ 
+        self.lmodel = QStandardItemModel(self)
+        self.listView.setModel(self.lmodel)
         
         self.type_s = ImportWindow.TH #D code
         self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
@@ -344,5 +358,8 @@ class ImportWindow(QWizard, Ui_ImportWindow):
     
         xml = self.url_s + "/thredds.xml"     
         
-    
+    def onClose(self):
+        print 'wizard finished'
+        self.close()
+         
 
