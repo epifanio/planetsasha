@@ -58,9 +58,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
         self.btAddTo.clicked.connect(self.onAddToList)
         
-        self.button(QWizard.NextButton).clicked.connect(self.OnNextPage)
+        self.button(QWizard.NextButton).clicked.connect(self.onNextPage)
         self.button(QWizard.FinishButton).clicked.connect(self.onClose)
-        self.cmbService.currentIndexChanged.connect(self.toggleBBox)
+        self.cmbService.currentIndexChanged.connect(self.onToggleBBox)
         self.treeView.doubleClicked.connect(self.onSelect)
 
 
@@ -132,39 +132,28 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         root = tree.getroot()
         
         #print 'Fetching data from ' + url
-        if url != '': #FIXME unwanted check
-            for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
-                dsname = elem.get('name')
-                #elem.get('ID')
-                urlPath = elem.get('urlPath')
-                if urlPath is None:
-                    for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
+        for dataset in root.iter('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
+            
+            dsname = dataset.get('name')
+            #dataset.get('ID')
+            urlPath = dataset.get('urlPath')
+            if urlPath is not None:
+                item = QStandardItem(dsname)
+                item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
+                if rootItem is None:
+                   self.model.appendRow(item)
+                else:
+                    rootItem.appendRow(item)
+         
                         
-                        urlPath = elem.get('urlPath')
-
-                        if urlPath is not None:
-                            dsname = elem.get('name') 
-                            #print dsname + 'qqqq'
-                            item = QStandardItem(dsname)
-                            item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
-                            if rootItem is None:
-                                self.model.appendRow(item)
-                            else:
-                                rootItem.appendRow(item)
-                                #self.model.appendRow(rootItem)
-                        
-
-
-        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef') or root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
-            href = elem.get('{http://www.w3.org/1999/xlink}href')
-            title = elem.get('{http://www.w3.org/1999/xlink}title')
+        for catalogref in root.iter('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
+            href = catalogref.get('{http://www.w3.org/1999/xlink}href')
+            title = catalogref.get('{http://www.w3.org/1999/xlink}title')
             
             if href is None:
-                return
-            url_next = ''
+                return  #FIXME needs testing and may need to change to continue or break
+            
             url_key = ''
-
-            #print href
             if rootItem:
                 prev = self.xmlMap[str(rootItem.text())]
                 
@@ -173,19 +162,13 @@ class ImportWindow(QWizard, Ui_ImportWindow):
                     url_key = prev + '/' + href[8:]
                 else:
                     url_key = prev + '/' + href   
-                print url_key
             else:
-                 
                 if not href.startswith('/thredds'):
                     url_key = self.url_base + '/thredds/' + href
-                    #url_next = self.url_prefix + href.rsplit('/',1)[0]
                 else:
                     url_key = self.url_base + href
 
-
-
             #print url_key
-
             self.xmlMap[title] = url_key
             #if self.debug == 2:
             #print title + "::" + self.xmlMap[title]
@@ -201,17 +184,13 @@ class ImportWindow(QWizard, Ui_ImportWindow):
                 self.model.appendRow(item)
             else:
                 rootItem.appendRow(item)
-                #self.model.appendRow(rootItem)    
-
         
         if rootItem is not None:
             rootItem.removeRow(0)
 
-
         return
-
        
-    def toggleBBox(self):
+    def onToggleBBox(self):
     
         if self.cmbService.currentIndex() == 1:
             self.bboxWidget.hide()
@@ -223,7 +202,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         return 0
         
         
-    def OnNextPage(self):
+    def onNextPage(self):
         
         url_i = self.cmbUrl.currentIndex()
         type_i = self.cmbType.currentIndex()
@@ -257,58 +236,16 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         elif self.type_s == ImportWindow.GP:
             self.fetchGCData()
         if self.type_s == ImportWindow.TH:
-            self.fetchTHData()
+            xmlfile = 'offline.xml'
+            try:
+                with open(xmlfile) as xfile:
+                    self.readTHData(xfile)
+            except IOError:
+                print 'No cache exists. Fetching from:' + self.url_s
+                self.fetchTHData()
 
-
-    def fetchTHData2(self, url, count = 0, item = None):        
-        base = url.rsplit('/',1)[0]
-        #print base
-        xml= urllib2.urlopen(url)
-        tree = et.parse(xml)
-        root = tree.getroot()
-    #    for e in root:
-    #        print e
-
-        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset/{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
-            href = elem.get('{http://www.w3.org/1999/xlink}href')
-            title = elem.get('{http://www.w3.org/1999/xlink}title')
-            print href
-            
-            url2 = ''
-            if href is not None:
-
-                    url2 = base + '/' + href
-                    print url2 + '::yy'
-                    #item = None
-                    self.fetchTHData2(url2, count + 1, item)    
-            
-        for elem in root.findall('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
-            href = elem.get('{http://www.w3.org/1999/xlink}href')
-            title = elem.get('{http://www.w3.org/1999/xlink}title')
-            self.xmlMap[title] = href
-            
-                
-            url2 = ''
-            if href is not None:
-                
-                if href.startswith('/thredds'):
-                    #print base + '/' + href
-                    url2 = 'http://www.smast.umassd.edu:8080' + href
-                else:
-                    url2 = base + '/' + href
-
-                    item = None
-                
-                
-                print url2 + ':::xx'
-                #self.datac.append(url2)
-                self.model.appendRow(QStandardItem(url2))
-                self.fetchTHData2(url2, count + 1, item)
-
-        return
-        
-        
-
+    def readTHData(self, xfile):
+        x = 1
 
     def getResource(self, endpoint = 'http://www.nodc.noaa.gov/geoportal/csw', bbox=None, keywords=None, maxrecords=1, service_type='opendap', verbose=None):
         if service_type == 'opendap':
@@ -360,6 +297,43 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         
     def onClose(self):
         print 'wizard finished'
+        f = open('offline1.xml','w')
+        f.write('<root>\n\t')
+        f.write('<catalog>\n\t<name>')
+        node1 = self.model.item(0,0)
+        f.write(str(node1.text()))
+        f.write('</name>\n\t')
+
+        cn = self.getChildNodes(node1)
+        for c in cn:
+            #if c.hasChilren():
+
+            f.write('<catalog>\n\t<name>')
+            f.write( str( c.text() ) )
+            f.write('</name>\n')
+            f.write('</catalog>\n')
+
+        f.write('\t</catalog>\n')
+        f.write('</root>')
+
+    def writenode(self, cn):
+
+        #for r in xrange(self.model.rowCount()):
+        #    item = self.model.item(r,0)
+        #    self.getChildNodes(item)
+#            while item.hasChildren():
+#                txt =str(item.text())
+#                print txt
+#                f.write('<cref>' + txt  + '</cref>')
+#                item = item.child(0)
+#
+        f.close()
         self.close()
          
-
+    def getChildNodes(self, pnode):
+        cnodes = []
+        print pnode.rowCount()
+        for r in xrange(pnode.rowCount()):
+            
+            cnodes.append( pnode.child(r) )
+        return cnodes     
