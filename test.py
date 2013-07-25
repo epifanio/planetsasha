@@ -5,6 +5,76 @@ from owslib.csw import CatalogueServiceWeb
 import xml.etree.ElementTree as et
 import urllib2
 
+from pylab import *
+from matplotlib.collections import PolyCollection
+from matplotlib.collections import TriMesh
+
+import matplotlib.tri as Tri
+from mpl_toolkits.basemap import Basemap
+import datetime as dt
+import netCDF4
+import matplotlib
+
+from matplotlib import pyplot, mpl
+
+def plot1():
+
+
+
+    # Make a figure and axes with dimensions as desired.
+    fig = pyplot.figure(figsize=(8,3))
+    ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
+
+
+    # Set the colormap and norm to correspond to the data for which
+    # the colorbar will be used.
+    cmap = mpl.cm.cool
+    norm = mpl.colors.Normalize(vmin=5, vmax=10)
+
+    # ColorbarBase derives from ScalarMappable and puts a colorbar
+    # in a specified axes, so it has everything needed for a
+    # standalone colorbar.  There are many more kwargs, but the
+    # following gives a basic continuous colorbar with ticks
+    # and labels.
+    cb1 = mpl.colorbar.ColorbarBase(ax1, cmap=cmap,
+                                       norm=norm,
+                                       orientation='horizontal')
+    cb1.set_label('Some Units')
+
+
+    
+    pyplot.show()
+
+def plot():
+    url = "http://www.smast.umassd.edu:8080/thredds/dodsC/fvcom/hindcasts/30yr_gom3"
+    #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
+    #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
+    nc = netCDF4.Dataset(url)
+    # read node locations
+    lat = nc.variables['lat'][:]
+    lon = nc.variables['lon'][:]
+    # read element centroid locations
+    latc = nc.variables['latc'][:]
+    lonc = nc.variables['lonc'][:]
+    # read connectivity array
+    nv = nc.variables['nv'][:].T - 1
+    time_var = nc.variables['time']
+    
+    nv
+    # create a triangulation object, specifying the triangle connectivity array
+    tri = Tri.Triangulation(lon,lat, triangles=nv)
+
+    # plot depth using tricontourf
+    h = nc.variables['h'][:]
+    fig=figure(figsize=(12,12))
+    ax=fig.add_subplot(111,aspect=1.0/cos(latc.mean() * pi / 180.0))
+    tricontourf(tri,-h,levels=range(-300,10,10))
+    colorbar()
+
+    pyplot.show()
+
+plot()
+
 def fetchTHData2(url, count = 0, item = None):
 
 
@@ -95,8 +165,4 @@ service_type = 'opendap'
 
 #csw = CatalogueServiceWeb(endpoint)
 
-
-
-
-
-
+ 
