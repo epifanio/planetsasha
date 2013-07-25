@@ -99,7 +99,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.datawin.show()
 
     def showImportWindow(self):
-        self.impwin =  ImportWindow()
+        self.impwin =  ImportWindow(self.mdiArea)
+        #self.impwin.setAttribute(Qt.WA_DeleteOnClose, True)
         self.mdiArea.addSubWindow(self.impwin)
         #self.mdiArea.resize(752,497)
         self.impwin.show()

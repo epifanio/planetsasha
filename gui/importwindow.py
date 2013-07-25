@@ -7,9 +7,11 @@ import time
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-#gui
+#ui
 from gen.ui_importwindow import Ui_ImportWindow
 
+#gui
+from gui.mapwindow import MapWindow
 #extra
 from owslib.csw import CatalogueServiceWeb
 import xml.etree.ElementTree as et
@@ -27,11 +29,13 @@ class ImportWindow(QWizard, Ui_ImportWindow):
     GN = 'GeoNetwork'
     GP = 'GeoPortal'
     TH = 'Thredds'
-    def __init__(self):
+    def __init__(self, mdi):
         QWidget.__init__(self)
         self.setupUi(self)
 
         self.resize(752,497)
+
+        self.mdi = mdi
 
         self.xmlMap = dict()
 
@@ -316,6 +320,18 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         f.write('\t</catalog>\n')
         f.write('</root>')
 
+        self.mapwin =  MapWindow(self.lmodel)
+        #FIXME
+        self.mdi.addSubWindow(self.mapwin)
+        self.mapwin.show()       
+        
+        self.accept()
+        self.done(QDialog.Accepted)
+        self.close()
+
+       
+
+
     def writenode(self, cn):
 
         #for r in xrange(self.model.rowCount()):
@@ -332,8 +348,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
          
     def getChildNodes(self, pnode):
         cnodes = []
-        print pnode.rowCount()
-        for r in xrange(pnode.rowCount()):
-            
+        #print pnode.rowCount()
+        for r in xrange(pnode.rowCount()):    
             cnodes.append( pnode.child(r) )
         return cnodes     
