@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>664</width>
+    <width>870</width>
     <height>510</height>
    </rect>
   </property>
@@ -28,7 +28,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>601</width>
+     <width>847</width>
      <height>331</height>
     </rect>
    </property>
@@ -51,6 +51,50 @@
         <item>
          <property name="text">
           <string>fvcom/hindcasts/30yr_gom3</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>From</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="dtFrom"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>To</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="dtTo"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>--select-interpolation-method--</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>bilinear</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>cubic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>CHECK??-CURRENT LIST IS INCORRECT</string>
          </property>
         </item>
        </widget>
@@ -84,6 +128,13 @@
         </property>
         <property name="text">
          <string>FVCOM Current</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btClear">
+        <property name="text">
+         <string>Clear</string>
         </property>
        </widget>
       </item>

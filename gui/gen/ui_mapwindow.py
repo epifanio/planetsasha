@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Thu Jul 25 21:30:42 2013
+# Created: Thu Jul 25 22:01:53 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MapWindow(object):
     def setupUi(self, MapWindow):
         MapWindow.setObjectName(_fromUtf8("MapWindow"))
-        MapWindow.resize(664, 510)
+        MapWindow.resize(870, 510)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -36,7 +36,7 @@ class Ui_MapWindow(object):
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/loading.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MapWindow.setWindowIcon(icon)
         self.verticalLayoutWidget = QtGui.QWidget(MapWindow)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 601, 331))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 847, 331))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setMargin(0)
@@ -53,6 +53,25 @@ class Ui_MapWindow(object):
         self.cmbDataset.addItem(_fromUtf8(""))
         self.cmbDataset.addItem(_fromUtf8(""))
         self.horizontalLayout.addWidget(self.cmbDataset)
+        self.label = QtGui.QLabel(self.verticalLayoutWidget)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.horizontalLayout.addWidget(self.label)
+        self.dtFrom = QtGui.QDateEdit(self.verticalLayoutWidget)
+        self.dtFrom.setObjectName(_fromUtf8("dtFrom"))
+        self.horizontalLayout.addWidget(self.dtFrom)
+        self.label_2 = QtGui.QLabel(self.verticalLayoutWidget)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.horizontalLayout.addWidget(self.label_2)
+        self.dtTo = QtGui.QDateEdit(self.verticalLayoutWidget)
+        self.dtTo.setObjectName(_fromUtf8("dtTo"))
+        self.horizontalLayout.addWidget(self.dtTo)
+        self.comboBox = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.comboBox.setObjectName(_fromUtf8("comboBox"))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.horizontalLayout.addWidget(self.comboBox)
         self.btDepth = QtGui.QPushButton(self.verticalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -70,6 +89,9 @@ class Ui_MapWindow(object):
         self.btCurrent.setSizePolicy(sizePolicy)
         self.btCurrent.setObjectName(_fromUtf8("btCurrent"))
         self.horizontalLayout.addWidget(self.btCurrent)
+        self.btClear = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.btClear.setObjectName(_fromUtf8("btClear"))
+        self.horizontalLayout.addWidget(self.btClear)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
@@ -100,7 +122,14 @@ class Ui_MapWindow(object):
         MapWindow.setWindowTitle(_translate("MapWindow", "NC Viewer", None))
         self.cmbDataset.setItemText(0, _translate("MapWindow", "--select--", None))
         self.cmbDataset.setItemText(1, _translate("MapWindow", "fvcom/hindcasts/30yr_gom3", None))
+        self.label.setText(_translate("MapWindow", "From", None))
+        self.label_2.setText(_translate("MapWindow", "To", None))
+        self.comboBox.setItemText(0, _translate("MapWindow", "--select-interpolation-method--", None))
+        self.comboBox.setItemText(1, _translate("MapWindow", "bilinear", None))
+        self.comboBox.setItemText(2, _translate("MapWindow", "cubic", None))
+        self.comboBox.setItemText(3, _translate("MapWindow", "CHECK??-CURRENT LIST IS INCORRECT", None))
         self.btDepth.setText(_translate("MapWindow", "Depth", None))
         self.btCurrent.setText(_translate("MapWindow", "FVCOM Current", None))
+        self.btClear.setText(_translate("MapWindow", "Clear", None))
 
 import resources_rc
