@@ -21,16 +21,16 @@ from gen.ui_sashamainwindow import Ui_SashaMainWindow
 from gui.navigationwindow import NavigationWindow
 from gui.querywindow import QueryWindow
 from gui.gpswindow import GpsWindow
-##from gui.datawindow import DataWindow
 from gui.mapwindow import MapWindow
 from gui.preferenceswindow import PreferencesWindow
-##from gui.layerlistwindow import LayerListWindow
+
 from gui.importwindow import ImportWindow
+from gui.ossimwindow import OssimWindow
 
 if Utils.haveGRASS_:
     from gui.datawindow import DataWindow
     from gui.grasswindow import GrassWindow
-    
+    from gui.layerlistwindow import LayerListWindow    
 ##from psinit import * #FIXME
 
 class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
@@ -49,13 +49,14 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 
         #self.prefsWindow_ = PreferencesWindow()
 
-        self.actionNavigation.triggered.connect(self.showNavWindow)
-        self.actionQuery.triggered.connect(self.showQueryWindow)
-        self.actionGPS.triggered.connect(self.showGpsWindow)
-        self.actionData_2.triggered.connect(self.showDataWindow)
-        self.actionImport.triggered.connect(self.showImportWindow)
-        self.actionPreferences.triggered.connect(self.showPrefsWindow)
-        self.actionNC_View.triggered.connect(self.showMapWindow)
+        self.actionM_Navigation.triggered.connect(self.showNavWindow)
+        self.actionM_Query.triggered.connect(self.showQueryWindow)
+        self.actionM_GPS.triggered.connect(self.showGpsWindow)
+        self.actionM_Data.triggered.connect(self.showDataWindow)
+        self.actionM_Import.triggered.connect(self.showImportWindow)
+        self.actionM_Preferences.triggered.connect(self.showPrefsWindow)
+        self.actionM_Map.triggered.connect(self.showMapWindow)
+        self.actionM_Ossim.triggered.connect(self.showOssimWindow)
 
         #self.connect(self.actionLonLat, SIGNAL("triggered()"),           self.LonLatunceckbuttons)                 
 
@@ -98,7 +99,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.datawin.show()
 
     def showImportWindow(self):
-        self.impwin =  ImportWindow()
+        self.impwin =  ImportWindow(self.mdiArea)
+        #self.impwin.setAttribute(Qt.WA_DeleteOnClose, True)
         self.mdiArea.addSubWindow(self.impwin)
         #self.mdiArea.resize(752,497)
         self.impwin.show()
@@ -113,6 +115,12 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.mdiArea.addSubWindow(self.mapwin)
         self.mapwin.show()
         
+    def showOssimWindow(self):
+        self.osmwin =  OssimWindow()
+        self.mdiArea.addSubWindow(self.osmwin)
+        self.osmwin.show()
+                 
+                 
                  
     def initWidgets(self):           
                      
