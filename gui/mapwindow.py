@@ -50,7 +50,10 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
 
+        #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
+        
+        
         
         self.movie = QMovie(":/icons/icons/loading.gif");
         self.lbLoading.setMovie(self.movie)
