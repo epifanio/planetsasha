@@ -14,8 +14,13 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        self.setLayout(self.verticalLayout_2)
+        
 
+        #self.scrollArea.setWidget(self.widget)
+        
+        self.scrollAreaWidgetContents_5.setLayout(self.verticalLayout_2)
+ #       self.L1.addWidget(self.scrollArea)
+#        self.setLayout(self.L1)
         self.Place.setEditable(1)
         self.Place.setAutoCompletion(1)
         self.placezone.setEditable(1)

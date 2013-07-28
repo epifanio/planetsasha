@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/loading.gif</file>
     <file>icons/512 Terminal.png</file>
     <file>icons/600px-Brosen_windrose.svg.png</file>
     <file>icons/arrow3.png</file>

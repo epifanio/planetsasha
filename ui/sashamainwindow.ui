@@ -25,7 +25,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>40</y>
+      <y>20</y>
       <width>459</width>
       <height>439</height>
      </rect>
@@ -45,18 +45,31 @@
     <property name="title">
      <string>Sasha</string>
     </property>
-    <addaction name="actionNavigation"/>
-    <addaction name="actionQuery"/>
-    <addaction name="actionGPS"/>
-    <addaction name="actionNC_View"/>
-    <addaction name="actionImport"/>
+    <addaction name="actionM_Navigation"/>
+    <addaction name="actionM_Query"/>
+    <addaction name="actionM_GPS"/>
+    <addaction name="actionM_Data"/>
     <addaction name="separator"/>
-    <addaction name="actionPreferences"/>
+    <addaction name="actionM_Preferences"/>
     <addaction name="separator"/>
-    <addaction name="actionExit_2"/>
-    <addaction name="actionData_3"/>
+    <addaction name="actionM_Exit"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionM_Ossim"/>
+   </widget>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>Data</string>
+    </property>
+    <addaction name="actionM_Import"/>
+    <addaction name="actionM_Map"/>
    </widget>
    <addaction name="menuSasha"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuData"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -75,38 +88,38 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionGrass"/>
-   <addaction name="actionLonLat"/>
-   <addaction name="actionBroadcast"/>
-   <addaction name="actionJoystick"/>
-   <addaction name="actionHW"/>
+   <addaction name="actionT_Grass"/>
+   <addaction name="actionT_LonLat"/>
+   <addaction name="actionT_Broadcast"/>
+   <addaction name="actionT_Joystick"/>
+   <addaction name="actionT_HW"/>
    <addaction name="separator"/>
-   <addaction name="actionGrassshell"/>
-   <addaction name="actionData_2"/>
-   <addaction name="actionSavekml"/>
-   <addaction name="actionVectorOp"/>
-   <addaction name="actionModel"/>
+   <addaction name="actionT_Grassshell"/>
+   <addaction name="actionT_Data"/>
+   <addaction name="actionT_Savekml"/>
+   <addaction name="actionT_VectorOp"/>
+   <addaction name="actionT_Model"/>
    <addaction name="separator"/>
-   <addaction name="actionGt"/>
-   <addaction name="actionGVrt"/>
-   <addaction name="actionExit"/>
+   <addaction name="actionT_Gt"/>
+   <addaction name="actionT_GVrt"/>
+   <addaction name="actionT_Exit"/>
   </widget>
-  <action name="actionNavigation">
+  <action name="actionM_Navigation">
    <property name="text">
     <string>Navigation</string>
    </property>
   </action>
-  <action name="actionQuery">
+  <action name="actionM_Query">
    <property name="text">
     <string>Query</string>
    </property>
   </action>
-  <action name="actionGPS">
+  <action name="actionM_GPS">
    <property name="text">
     <string>GPS</string>
    </property>
   </action>
-  <action name="actionModel">
+  <action name="actionT_Model">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/cubo.png</normaloff>:/icons/icons/cubo.png</iconset>
@@ -115,7 +128,7 @@
     <string>model</string>
    </property>
   </action>
-  <action name="actionJoystick">
+  <action name="actionT_Joystick">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -130,7 +143,7 @@
     <string>Joystick</string>
    </property>
   </action>
-  <action name="actionLonLat">
+  <action name="actionT_LonLat">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -148,7 +161,7 @@
     <string>LonLat</string>
    </property>
   </action>
-  <action name="actionGt">
+  <action name="actionT_Gt">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/gui-help.gif</normaloff>:/icons/icons/gui-help.gif</iconset>
@@ -171,7 +184,7 @@
     <string>NMEA</string>
    </property>
   </action>
-  <action name="actionData_2">
+  <action name="actionT_Data">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -186,7 +199,7 @@
     <string>Data processing</string>
    </property>
   </action>
-  <action name="actionSavekml">
+  <action name="actionT_Savekml">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/saveinfo.png</normaloff>:/icons/icons/saveinfo.png</iconset>
@@ -216,7 +229,7 @@
     <string>tabPosition</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="actionT_Exit">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/quit.png</normaloff>:/icons/icons/quit.png</iconset>
@@ -276,7 +289,7 @@
     <string>hideslider</string>
    </property>
   </action>
-  <action name="actionGrassshell">
+  <action name="actionT_Grassshell">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/512 Terminal.png</normaloff>:/icons/icons/512 Terminal.png</iconset>
@@ -303,7 +316,7 @@
     <enum>Qt::WidgetShortcut</enum>
    </property>
   </action>
-  <action name="actionHW">
+  <action name="actionT_HW">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -318,7 +331,7 @@
     <string>Serial</string>
    </property>
   </action>
-  <action name="actionVectorOp">
+  <action name="actionT_VectorOp">
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/SquadraCompasso.png</normaloff>:/icons/icons/SquadraCompasso.png</iconset>
@@ -327,7 +340,7 @@
     <string>VectorOp</string>
    </property>
   </action>
-  <action name="actionBroadcast">
+  <action name="actionT_Broadcast">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -349,7 +362,7 @@
     <string>Pan-Tool</string>
    </property>
   </action>
-  <action name="actionGVrt">
+  <action name="actionT_GVrt">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -361,7 +374,7 @@
     <string>vrt</string>
    </property>
   </action>
-  <action name="actionGrass">
+  <action name="actionT_Grass">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -376,19 +389,14 @@
     <string>Grass</string>
    </property>
   </action>
-  <action name="actionPreferences">
+  <action name="actionM_Preferences">
    <property name="text">
     <string>Preferences</string>
    </property>
   </action>
-  <action name="actionExit_2">
+  <action name="actionM_Exit">
    <property name="text">
     <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionImport">
-   <property name="text">
-    <string>Import</string>
    </property>
   </action>
   <action name="actionView">
@@ -401,14 +409,24 @@
     <string>View</string>
    </property>
   </action>
-  <action name="actionData_3">
+  <action name="actionM_Data">
    <property name="text">
     <string>Data</string>
    </property>
   </action>
-  <action name="actionNC_View">
+  <action name="actionM_Ossim">
    <property name="text">
-    <string>NC View</string>
+    <string>OSSIM App</string>
+   </property>
+  </action>
+  <action name="actionM_Import">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionM_Map">
+   <property name="text">
+    <string>View</string>
    </property>
   </action>
  </widget>

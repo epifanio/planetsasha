@@ -13,7 +13,7 @@ from preferences import Preferences
 
 
 class Utils(object):
-    haveGRASS_ = 1
+    haveGRASS_ = 0
     def checkGrass(self):
     
         try :

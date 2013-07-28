@@ -1,0 +1,152 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'ui/ossimwindow.ui'
+#
+# Created: Wed Jul 24 20:21:27 2013
+#      by: PyQt4 UI code generator 4.10
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
+class Ui_OssimWindow(object):
+    def setupUi(self, OssimWindow):
+        OssimWindow.setObjectName(_fromUtf8("OssimWindow"))
+        OssimWindow.resize(468, 574)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(OssimWindow.sizePolicy().hasHeightForWidth())
+        OssimWindow.setSizePolicy(sizePolicy)
+        OssimWindow.setMinimumSize(QtCore.QSize(468, 574))
+        OssimWindow.setMaximumSize(QtCore.QSize(468, 574))
+        self.verticalLayoutWidget = QtGui.QWidget(OssimWindow)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 441, 531))
+        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.comboBox = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.comboBox.setObjectName(_fromUtf8("comboBox"))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.verticalLayout.addWidget(self.comboBox)
+        self.tableWidget = QtGui.QTableWidget(self.verticalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
+        self.tableWidget.setSizePolicy(sizePolicy)
+        self.tableWidget.setMinimumSize(QtCore.QSize(0, 0))
+        self.tableWidget.setMaximumSize(QtCore.QSize(16777215, 332))
+        self.tableWidget.setBaseSize(QtCore.QSize(0, 0))
+        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
+        self.tableWidget.setRowCount(3)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(2, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(0, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(1, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(2, 0, item)
+        self.tableWidget.horizontalHeader().setVisible(False)
+        self.tableWidget.verticalHeader().setVisible(True)
+        self.verticalLayout.addWidget(self.tableWidget)
+        self.label = QtGui.QLabel(self.verticalLayoutWidget)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.verticalLayout.addWidget(self.label)
+        self.txtOutput = QtGui.QTextEdit(self.verticalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.txtOutput.sizePolicy().hasHeightForWidth())
+        self.txtOutput.setSizePolicy(sizePolicy)
+        self.txtOutput.setMinimumSize(QtCore.QSize(0, 0))
+        self.txtOutput.setMaximumSize(QtCore.QSize(16777215, 133))
+        self.txtOutput.setObjectName(_fromUtf8("txtOutput"))
+        self.verticalLayout.addWidget(self.txtOutput)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.btRun = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.btRun.setObjectName(_fromUtf8("btRun"))
+        self.horizontalLayout.addWidget(self.btRun)
+        self.btClear = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.btClear.setObjectName(_fromUtf8("btClear"))
+        self.horizontalLayout.addWidget(self.btClear)
+        self.btClose = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.btClose.setObjectName(_fromUtf8("btClose"))
+        self.horizontalLayout.addWidget(self.btClose)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.lbInfo = QtGui.QLabel(self.verticalLayoutWidget)
+        self.lbInfo.setMinimumSize(QtCore.QSize(0, 29))
+        self.lbInfo.setFrameShape(QtGui.QFrame.Panel)
+        self.lbInfo.setFrameShadow(QtGui.QFrame.Sunken)
+        self.lbInfo.setLineWidth(4)
+        self.lbInfo.setAlignment(QtCore.Qt.AlignCenter)
+        self.lbInfo.setObjectName(_fromUtf8("lbInfo"))
+        self.verticalLayout.addWidget(self.lbInfo)
+
+        self.retranslateUi(OssimWindow)
+        QtCore.QMetaObject.connectSlotsByName(OssimWindow)
+
+    def retranslateUi(self, OssimWindow):
+        OssimWindow.setWindowTitle(_translate("OssimWindow", "OSSIM Interface", None))
+        self.comboBox.setItemText(0, _translate("OssimWindow", "ossim-info", None))
+        self.comboBox.setItemText(1, _translate("OssimWindow", "ossim-mosaic", None))
+        self.comboBox.setItemText(2, _translate("OssimWindow", "ossim-src2src", None))
+        self.comboBox.setItemText(3, _translate("OssimWindow", "ossim-rr", None))
+        self.comboBox.setItemText(4, _translate("OssimWindow", "ossim-create-histo", None))
+        self.comboBox.setItemText(5, _translate("OssimWindow", "ossim-img2rr", None))
+        self.comboBox.setItemText(6, _translate("OssimWindow", "ossim-preproc", None))
+        self.comboBox.setItemText(7, _translate("OssimWindow", "ossim-band-merge", None))
+        item = self.tableWidget.verticalHeaderItem(0)
+        item.setText(_translate("OssimWindow", "Input Image", None))
+        item = self.tableWidget.verticalHeaderItem(1)
+        item.setText(_translate("OssimWindow", "Tile Size", None))
+        item = self.tableWidget.verticalHeaderItem(2)
+        item.setText(_translate("OssimWindow", "Output Image", None))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("OssimWindow", "Value(s)", None))
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        self.tableWidget.setSortingEnabled(False)
+        item = self.tableWidget.item(0, 0)
+        item.setText(_translate("OssimWindow", "<input-image>", None))
+        item = self.tableWidget.item(1, 0)
+        item.setText(_translate("OssimWindow", "<tile-size>", None))
+        item = self.tableWidget.item(2, 0)
+        item.setText(_translate("OssimWindow", "<output-file>", None))
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
+        self.label.setText(_translate("OssimWindow", "Output m essage(s)", None))
+        self.btRun.setText(_translate("OssimWindow", "Run", None))
+        self.btClear.setText(_translate("OssimWindow", "Clear", None))
+        self.btClose.setText(_translate("OssimWindow", "Close", None))
+        self.lbInfo.setText(_translate("OssimWindow", "command info", None))
+
