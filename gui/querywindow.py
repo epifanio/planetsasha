@@ -5,6 +5,8 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from layerlistwindow import LayerListWindow
+
 from gen.ui_querywindow import Ui_QueryWindow
 
 class QueryWindow(QWidget, Ui_QueryWindow):

@@ -9,7 +9,7 @@ from utils import Utils
 
 
 
-from wifi_joy import startj
+#from wifi_joy import startj
 
 from log import *
 

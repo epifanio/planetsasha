@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/navigationwindow.ui'
 #
-# Created: Wed Jul 24 20:58:57 2013
+# Created: Sat Aug  3 17:44:48 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -42,7 +42,7 @@ class Ui_NavigationWindow(object):
         self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 638, 559))
         self.scrollAreaWidgetContents_5.setObjectName(_fromUtf8("scrollAreaWidgetContents_5"))
         self.verticalLayoutWidget = QtGui.QWidget(self.scrollAreaWidgetContents_5)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 611, 754))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 639, 754))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_2.setMargin(0)

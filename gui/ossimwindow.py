@@ -12,5 +12,5 @@ class OssimWindow(QWidget, Ui_OssimWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-
+        
 	    
