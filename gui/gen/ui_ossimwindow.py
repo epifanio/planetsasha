@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/ossimwindow.ui'
 #
-# Created: Wed Jul 24 20:21:27 2013
+# Created: Sun Jul 28 11:38:37 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,17 +40,17 @@ class Ui_OssimWindow(object):
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.comboBox = QtGui.QComboBox(self.verticalLayoutWidget)
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.verticalLayout.addWidget(self.comboBox)
+        self.cbApps = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.cbApps.setObjectName(_fromUtf8("cbApps"))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.cbApps.addItem(_fromUtf8(""))
+        self.verticalLayout.addWidget(self.cbApps)
         self.tableWidget = QtGui.QTableWidget(self.verticalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -119,14 +119,14 @@ class Ui_OssimWindow(object):
 
     def retranslateUi(self, OssimWindow):
         OssimWindow.setWindowTitle(_translate("OssimWindow", "OSSIM Interface", None))
-        self.comboBox.setItemText(0, _translate("OssimWindow", "ossim-info", None))
-        self.comboBox.setItemText(1, _translate("OssimWindow", "ossim-mosaic", None))
-        self.comboBox.setItemText(2, _translate("OssimWindow", "ossim-src2src", None))
-        self.comboBox.setItemText(3, _translate("OssimWindow", "ossim-rr", None))
-        self.comboBox.setItemText(4, _translate("OssimWindow", "ossim-create-histo", None))
-        self.comboBox.setItemText(5, _translate("OssimWindow", "ossim-img2rr", None))
-        self.comboBox.setItemText(6, _translate("OssimWindow", "ossim-preproc", None))
-        self.comboBox.setItemText(7, _translate("OssimWindow", "ossim-band-merge", None))
+        self.cbApps.setItemText(0, _translate("OssimWindow", "ossim-info", None))
+        self.cbApps.setItemText(1, _translate("OssimWindow", "ossim-mosaic", None))
+        self.cbApps.setItemText(2, _translate("OssimWindow", "ossim-src2src", None))
+        self.cbApps.setItemText(3, _translate("OssimWindow", "ossim-rr", None))
+        self.cbApps.setItemText(4, _translate("OssimWindow", "ossim-create-histo", None))
+        self.cbApps.setItemText(5, _translate("OssimWindow", "ossim-img2rr", None))
+        self.cbApps.setItemText(6, _translate("OssimWindow", "ossim-preproc", None))
+        self.cbApps.setItemText(7, _translate("OssimWindow", "ossim-band-merge", None))
         item = self.tableWidget.verticalHeaderItem(0)
         item.setText(_translate("OssimWindow", "Input Image", None))
         item = self.tableWidget.verticalHeaderItem(1)

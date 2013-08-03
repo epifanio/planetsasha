@@ -420,7 +420,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         head = self.head
         if head == str('Manual'):
             self.heads = self.HandlingSlider.value()
-        if self.actionLonLat.isChecked():
+        if Utils.preferences().getSettings('actionLonLat', 'check'):
             self.fxvallon = self.SetPosition()[0]
             self.fxvallat = self.SetPosition()[1]
             if self.NorthEast.isChecked():
@@ -477,7 +477,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         step = float(self.SpeedSpinBox.value())
         mult = float(self.SpeedMultipler.value())
         step = step * (10 ** -mult)
-        if self.actionLonLat.isChecked():
+        if Utils.preferences().getSettings('actionLonLat', 'check'):
             if action == 'inclat' :
                 self.fxvallat += step
             if action == 'inclon' :

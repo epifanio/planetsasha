@@ -42,7 +42,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="cbApps">
       <item>
        <property name="text">
         <string>ossim-info</string>
