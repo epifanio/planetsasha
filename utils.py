@@ -101,3 +101,55 @@ class Utils(object):
     def zoomPlanetTo(output,lon,lat,distance,host,dport,pport):
         addfile(output,host,dport)
         zoomToLonLat(lon,lat,distance,host,pport)      
+
+
+
+    @staticmethod
+	def readPlanetMessage(msg):
+	    try :
+	    	root = ET.fromstring(msg)
+	
+		lk_lat = root.xpath("//LookAt/latitude/text()")
+		lk_lon = root.xpath("//LookAt/longitude/text()")
+		lookat_alt = root.xpath("//LookAt/altitude/text()")
+		lk_rng = root.xpath("//LookAt/range/text()")
+		lk_head = root.xpath("//LookAt/heading/text()")
+		lk_amode = root.xpath("//LookAt/altitudeMode/text()")
+
+		lontitude = root.xpath("//Camera/longitude/text()")
+		latitude = root.xpath("//Camera/latitude/text()")
+		roll = root.xpath("//Camera/roll/text()")
+		pit = root.xpath("//Camera/pitch/text()")
+		head = root.xpath("//Camera/heading/text()")
+		altitude = root.xpath("//Camera/altitude/text()")
+		nav = {}
+		nav['lontitude'] , nav['latitude'] = float(lontitude[0]) , float(latitude[0])
+		nav['roll'] , nav['pitch'] , nav['gain'] , nav['msl'] = float(roll[0]), float(pit[0]), float(head[0]), float(altitude[0])
+		nav['lk_lon'] , nav['lk_lat'] = float(lk_lon[0]) , float(lk_lat[0])
+		nav['lookat_alt'] , nav['lk_rng'] , nav['lk_head'] , nav['lk_amode'] = float(lookat_alt[0]), float(lk_rng[0]), float(lk_head[0]), str(lk_amode[0])
+		return nav
+	    except :
+	    	print 'error in message from planet!'
+
+
+
+    def navigationlogs(hname,pnum):
+        haddr = hname
+        port = pnum
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind((haddr, Pnum))
+        sock.listen(1)
+        conn, addr = sock.accept()
+        print 'Connected by', addr
+        logmsg = conn.recv(1024)
+        try :
+        	res = readPlanetMessage(logmsg)
+        	#print 
+        	if not logmsg:
+                conn.close()
+        except :
+        	print 'error in msg'
+        conn.close()
+
+
