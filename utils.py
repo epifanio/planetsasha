@@ -105,7 +105,7 @@ class Utils(object):
 
 
     @staticmethod
-	def readPlanetMessage(msg):
+    def readPlanetMessage(msg):
 	    try :
 	    	root = ET.fromstring(msg)
 	
@@ -144,9 +144,9 @@ class Utils(object):
         print 'Connected by', addr
         logmsg = conn.recv(1024)
         try :
-        	res = readPlanetMessage(logmsg)
-        	#print 
-        	if not logmsg:
+            res = readPlanetMessage(logmsg)
+            #print 
+            if not logmsg:
                 conn.close()
         except :
         	print 'error in msg'
