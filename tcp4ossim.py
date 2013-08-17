@@ -3,32 +3,6 @@ import socket
 from lxml import etree
 	
 
-def parseSignal(data):
-    try :
-    	xmldoc = etree.fromstring(data)
-	lon = xmldoc.xpath("//Camera/longitude/text()")
-	lat = xmldoc.xpath("//Camera/latitude/text()")
-	rl = xmldoc.xpath("//Camera/roll/text()")
-	pit = xmldoc.xpath("//Camera/pitch/text()")
-	head = xmldoc.xpath("//Camera/heading/text()")
-	altitude = xmldoc.xpath("//Camera/altitude/text()")
-	lookat_lat = xmldoc.xpath("//LookAt/latitude/text()")
-	lookat_lon = xmldoc.xpath("//LookAt/longitude/text()")
-	lookat_alt = xmldoc.xpath("//LookAt/altitude/text()")
-	lookat_range = xmldoc.xpath("//LookAt/range/text()")
-	lookat_heading = xmldoc.xpath("//LookAt/heading/text()")
-	lookat_altmode = xmldoc.xpath("//LookAt/altitudeMode/text()")
-	nav = {}
-	nav['lon'] , nav['lat'] = float(lon[0]) , float(lat[0])
-	nav['roll'] , nav['pitch'] , nav['gain'] , nav['msl'] = float(rl[0]), float(pit[0]), float(head[0]), float(altitude[0])
-	nav['lookat_lon'] , nav['lookat_lat'] = float(lookat_lon[0]) , float(lookat_lat[0])
-	nav['lookat_alt'] , nav['lookat_range'] , nav['lookat_heading'] , nav['lookat_altmode'] = float(lookat_alt[0]), float(lookat_range[0]), float(lookat_heading[0]), str(lookat_altmode[0])
-	return nav
-    except :
-    	print 'xml parsing problems in parseSignal'
-
-
-
 def parsesignalLookAt(data):
     try :
     	xmldoc = etree.fromstring(data)

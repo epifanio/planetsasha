@@ -19,7 +19,7 @@ from gen.ui_sashamainwindow import Ui_SashaMainWindow
 
 #gui
 from gui.navigationwindow import NavigationWindow
-from gui.querywindow import QueryWindow
+
 from gui.gpswindow import GpsWindow
 from gui.mapwindow import MapWindow
 from gui.preferenceswindow import PreferencesWindow
@@ -30,7 +30,8 @@ from gui.ossimwindow import OssimWindow
 if Utils.haveGRASS_:
     from gui.datawindow import DataWindow
     from gui.grasswindow import GrassWindow
-    from gui.layerlistwindow import LayerListWindow    
+    from gui.layerlistwindow import LayerListWindow
+    from gui.querywindow import QueryWindow  
 ##from psinit import * #FIXME
 
 class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
