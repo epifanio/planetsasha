@@ -2,7 +2,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from configure import parseOutputconf
 import socket
-from tcp4ossim import parseSignal # , parsesignalLookAt
+#from tcp4ossim import parseSignal # , parsesignalLookAt
 import pygame
 import os
 import time
@@ -86,7 +86,7 @@ class logS(QThread):
                 #print type(data)
                 #time.sleep(0.5)
                 try :
-                    parsed = parseSignal(data)
+                    parsed = utils.readPlanetMessage(data)
                     self.LonUpdated.emit(str(parsed['lon']))
                     self.LatUpdated.emit(str(parsed['lat']))
                     self.RollUpdated.emit(float(parsed['roll']))
