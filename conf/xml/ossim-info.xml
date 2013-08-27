@@ -1,0 +1,96 @@
+<app name="ossim-info">
+<param type="input">
+<name>image</name>
+<descr>input image</descr>
+<value></value>
+</param>
+<param type="option">
+<name>cg</name>
+<descr>Will print out ground center</descr>
+<value></value>
+</param>
+<param type="option">
+<name>ci</name>
+<descr>Will print out image center</descr>
+<value></value>
+</param>
+<param type="option">
+<name>config</name>
+<descr>Displays configuration info</descr>
+<value></value>
+</param>
+<param type="option">
+<name>datums</name>
+<descr>Prints datum list</descr>
+<value></value>
+</param>
+<param type="option">
+<name>deg2rad</name>
+<descr>Gives radians from degrees</descr>
+<value></value>
+</param>
+<param type="option">
+<name>disable-elev</name>
+<descr>Will disable the elevation</descr>
+<value></value>
+</param>
+<param type="option">
+<name>disable-notify</name>
+<descr>Takes an argument. Arguments are ALL, WARN, NOTICE, INFO, FATAL, DEBUG. If you want multiple disables then just do
+multiple --disable-notify on the command line. All argument are case insensitive. Default is all are enabled</descr>
+<value></value>
+</param>
+<param type="option">
+<name>disable-plugin</name>
+<descr>Will disable the plugin loader</descr>
+<value></value>
+</param>
+<param type="option">
+<name>dno</name>
+<descr>A generic dump if one is available. This option ignores overviews</descr>
+<value></value>
+</param>
+<param type="option">
+<name>factories</name>
+<descr>Prints factory list. If keyword_list_flag is true, the result of a saveState will be output for each object</descr>
+<value></value>
+</param>
+<param type="option">
+<name>ft2mtrs</name>
+<descr>Gives meters from feet (0.3048006096 meters per foot)</descr>
+<value></value>
+</param>
+<param type="option">
+<name>ft2mtrs-us-survey</name>
+<descr>Gives meters from feet (0.3048 meters per foot)</descr>
+<value></value>
+</param>
+<param type="option">
+<name>height</name>
+<descr>Returns the MSL and ellipoid height given a latitude longitude position</descr>
+<value></value>
+</param>
+<param type="option">
+<name>mtrs2ft</name>
+<descr>Gives feet from meters (0.3048 meters per foot)</descr>
+<value></value>
+</param>
+<param type="option">
+<name>mtrs2ft-us-survey</name>
+<descr>Gives feet from meters (0.3048006096 meters per foot)</descr>
+<value></value>
+</param>
+<param type="option">
+<name>mtrsPerDeg</name>
+<descr>Gives meters per degree and meters per minute for a given latitude</descr>
+<value></value>
+</param>
+<param type="option">
+<name>ossim-logfile</name>
+<descr>takes a logfile as an argument.  All output messages are redirected to the specified log file. By default there is no log file and all messages are enabled</descr>
+<value></value>
+</param>
+</app>
+
+
+

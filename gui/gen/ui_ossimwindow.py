@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/ossimwindow.ui'
 #
-# Created: Sun Jul 28 11:38:37 2013
+# Created: Tue Aug 27 11:15:37 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,7 +60,7 @@ class Ui_OssimWindow(object):
         self.tableWidget.setMinimumSize(QtCore.QSize(0, 0))
         self.tableWidget.setMaximumSize(QtCore.QSize(16777215, 332))
         self.tableWidget.setBaseSize(QtCore.QSize(0, 0))
-        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setColumnCount(2)
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setRowCount(3)
         item = QtGui.QTableWidgetItem()
@@ -71,6 +71,8 @@ class Ui_OssimWindow(object):
         self.tableWidget.setVerticalHeaderItem(2, item)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setItem(0, 0, item)
         item = QtGui.QTableWidgetItem()
@@ -119,8 +121,8 @@ class Ui_OssimWindow(object):
 
     def retranslateUi(self, OssimWindow):
         OssimWindow.setWindowTitle(_translate("OssimWindow", "OSSIM Interface", None))
-        self.cbApps.setItemText(0, _translate("OssimWindow", "ossim-info", None))
-        self.cbApps.setItemText(1, _translate("OssimWindow", "ossim-mosaic", None))
+        self.cbApps.setItemText(0, _translate("OssimWindow", "ossim-mosaic", None))
+        self.cbApps.setItemText(1, _translate("OssimWindow", "ossim-info", None))
         self.cbApps.setItemText(2, _translate("OssimWindow", "ossim-src2src", None))
         self.cbApps.setItemText(3, _translate("OssimWindow", "ossim-rr", None))
         self.cbApps.setItemText(4, _translate("OssimWindow", "ossim-create-histo", None))
@@ -135,6 +137,8 @@ class Ui_OssimWindow(object):
         item.setText(_translate("OssimWindow", "Output Image", None))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("OssimWindow", "Value(s)", None))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("OssimWindow", "Description", None))
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
         item = self.tableWidget.item(0, 0)
