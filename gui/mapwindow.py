@@ -30,6 +30,18 @@ import matplotlib.pyplot as plt
 
 import resources_rc
 
+
+
+
+
+pyossim_path = os.getenv('PYOSSIM_DIR')
+print pyossim_path
+sys.path.append(pyossim_path + '/lib/')
+from pyossim import *
+
+
+import numpy as np
+
 class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self, model = None):
 
@@ -53,7 +65,9 @@ class MapWindow(QWidget, Ui_MapWindow):
         #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
         
-        
+        self.url = '/home/rashad/Downloads/sci_20100602-20100605.nc'
+        #self.testnc = netCDF4.Dataset(self.url)    
+        #print var (for var in self.testnc.variables)
         
         self.movie = QMovie(":/icons/icons/loading.gif");
         self.lbLoading.setMovie(self.movie)
@@ -87,21 +101,39 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
+
+        url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         
         self.progressBar.setValue(19)
         
-        self.nc = netCDF4.Dataset(url)
+        self.nc = netCDF4.Dataset(self.url)
         
         self.progressBar.setValue(27)
         # read node locations
         self.lat = self.nc.variables['lat'][:]
         self.lon = self.nc.variables['lon'][:]
         
+        #print self.lat
+        
         # read element centroid locations
         self.latc = self.nc.variables['latc'][:]
         self.lonc = self.nc.variables['lonc'][:]
 
         self.time_var = self.nc.variables['time']
+        #d= dir(self.time_var)
+        #print dir(self.time_var)
+        
+        ###print self.time_var[:]
+        
+        #print self.time_var.dimensions
+        #print self.time_var.ndim
+        
+        #print self.time_var.shape
+        #print d
+        
+        #print dir(self.dtFrom.date())
+        #print self.dtFrom.time().toString()
+ 
     
     def onPlotDepth(self):
         
@@ -122,6 +154,24 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         # plot depth using tricontourf
         h = self.nc.variables['h'][:]
+        
+        #print h
+        
+        registry = ossimImageHandlerRegistry.instance()
+
+        #array = h
+
+        memSource = ossimMemoryImageSource()
+        stype = PYOSSIM_UINT16
+        imdata = ossimImageData(memSource,stype,1)
+        imdata.initialize()
+
+        WriteArrayToImageData(imdata,-h,0)
+        outfile = "out_from_rw.jpg"
+        WriteImageDataToFile(imdata,outfile)
+        #raw_input()   
+    
+         
         ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
         
         self.progressBar.setValue(71)
@@ -145,13 +195,35 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.progressBar.setValue(51)
         
+        
+        print 'Plotting till date: ' + self.dtFrom.date().toString()
         # get velocity nearest to current time
-        start = dt.datetime.utcnow()+ dt.timedelta(hours=0)
-        istart = netCDF4.date2index(start,self.time_var,select='nearest')
+        dtnow = dt.datetime.utcnow() + dt.timedelta(hours=0)
+        
+        day = self.dtFrom.date().day()
+        month = self.dtFrom.date().month()
+        year = self.dtFrom.date().year()
+        hour = dtnow.time().hour
+        minute = dtnow.time().minute
+        second = dtnow.time().second
+        msecond = dtnow.time().microsecond
+        
+        #print dir(dtnow)
+        #print dtnow.time()
+        
+        
+        startdt = dt.datetime(year, month, day, hour, minute, second, msecond)
+        #print startdt
+        
+        #print start
+        istart = netCDF4.date2index(startdt,self.time_var,select='nearest')
         layer = 0 # surface layer
         u = self.nc.variables['u'][istart, layer, :]
         v = self.nc.variables['v'][istart, layer, :]
         mag = numpy.sqrt((u*u)+(v*v)) 
+        
+        #print start
+        print istart
                
         self.progressBar.setValue(63)
         
@@ -179,7 +251,7 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         self.progressBar.setValue(81)
 
-        timestamp=start.strftime('%Y-%m-%d %H:%M:%S')
+        timestamp=startdt.strftime('%Y-%m-%d %H:%M:%S')
 
 
         # set the magnitude of the polycollection to the speed
