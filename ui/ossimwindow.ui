@@ -45,12 +45,12 @@
      <widget class="QComboBox" name="cbApps">
       <item>
        <property name="text">
-        <string>ossim-info</string>
+        <string>ossim-mosaic</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>ossim-mosaic</string>
+        <string>ossim-info</string>
        </property>
       </item>
       <item>
@@ -112,7 +112,7 @@
        </size>
       </property>
       <property name="columnCount">
-       <number>1</number>
+       <number>2</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
@@ -138,6 +138,11 @@
       <column>
        <property name="text">
         <string>Value(s)</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Description</string>
        </property>
       </column>
       <item row="0" column="0">

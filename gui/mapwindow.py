@@ -31,9 +31,6 @@ import matplotlib.pyplot as plt
 import resources_rc
 
 
-
-
-
 pyossim_path = os.getenv('PYOSSIM_DIR')
 print pyossim_path
 sys.path.append(pyossim_path + '/lib/')

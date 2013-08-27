@@ -7,6 +7,8 @@ from PyQt4.QtGui import *
 
 from gen.ui_ossimwindow import Ui_OssimWindow
 
+import xml.etree.ElementTree as et
+
 
 class OssimWindow(QWidget, Ui_OssimWindow):
     def __init__(self):
@@ -18,46 +20,80 @@ class OssimWindow(QWidget, Ui_OssimWindow):
         
         aindex = self.cbApps.currentIndex()
         appname = self.cbApps.currentText()
-        XML_PATH = './xml/'
+        XML_PATH = './conf/xml/'
         xml  = XML_PATH + appname + '.xml'
         print xml
         
         tree = et.parse(xml)
         root = tree.getroot()
         
-        #print 'Fetching data from ' + url
-        for dataset in root.iter('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}dataset'):
+        #print root
+        lst = root.findall('param')
+        #print len(lst)
+        self.tableWidget.clear()
+        self.tableWidget.setRowCount(len(lst))
+        self.row = 0
+        lst = None
+        
+        #param = root.getChild(0)
+        for param in root.iter('param'):
             
-            dsname = dataset.get('name')
-            #dataset.get('ID')
-            urlPath = dataset.get('urlPath')
-            if urlPath is not None:
-                item = QStandardItem(dsname)
-                item.setFlags(Qt.ItemIsSelectable|Qt.ItemIsEnabled)  
-                if rootItem is None:
-                   self.model.appendRow(item)
-                else:
-                    rootItem.appendRow(item)
-         
-                        
-        for catalogref in root.iter('{http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0}catalogRef'):
-            href = catalogref.get('{http://www.w3.org/1999/xlink}href')
-            title = catalogref.get('{http://www.w3.org/1999/xlink}title')
+            if param.attrib['type'] == 'option':
+                self.addOption(param)
+            elif param.attrib['type'] == 'input':
+                self.addInput(param)
             
-            if href is None:
-                return  #FIXME needs testing and may need to change to continue or break
-            
-            url_key = ''
-            if rootItem:
-                prev = self.xmlMap[str(rootItem.text())]
+        
+    def addOption(self, param):
+        #print 'option'
+        #print param.find('name').text
+        #self.tableWidget.clear()
+        
+        #print self.row
+        item = QTableWidgetItem()
+        item.setText(param.find('name').text)
+        self.tableWidget.setVerticalHeaderItem(self.row, item)        
+        item = QTableWidgetItem()
+        value = param.find('value').text
+        if value is None:
+            item.setText(' ')
+        else:
+            item.setText(value)    
+        self.tableWidget.setItem(self.row, 0, item)
+        
+
+        item = QTableWidgetItem()
+        descr = param.find('descr').text
+        if descr is None:
+            item.setText(' ')
+        else:
+            item.setText(descr)    
+        self.tableWidget.setItem(self.row, 1, item)
                 
-                prev = prev.rsplit('/',1)[0]
-                if href.startswith('/thredds'):
-                    url_key = prev + '/' + href[8:]
-                else:
-                    url_key = prev + '/' + href   
-            else:
-                if not href.startswith('/thredds'):
-                    url_key = self.url_base + '/thredds/' + href
-                else:
-                    url_key = self.url_base + href        
+        self.row = self.row + 1
+        
+        
+    def addInput(self, param):
+        print 'input'  
+        
+        pnameItem = QTableWidgetItem()
+        pnameItem.setText(param.find('name').text)
+        self.tableWidget.setVerticalHeaderItem(self.row, pnameItem)        
+        pvalItem = QTableWidgetItem()
+        value = param.find('value').text
+        if value is None:
+            pvalItem.setText(' ')
+        else:
+            pvalItem.setText(value)    
+        self.tableWidget.setItem(self.row, 0, pvalItem)
+        
+
+        pdescrItem = QTableWidgetItem()
+        descr = param.find('descr').text
+        if descr is None:
+            pdescrItem.setText(' ')
+        else:
+            pdescrItem.setText(descr)    
+        self.tableWidget.setItem(self.row, 1, pdescrItem)
+                
+        self.row = self.row + 1          
