@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Fri Jul 26 22:21:06 2013
+# Created: Tue Aug 27 11:23:23 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -66,17 +66,6 @@ class Ui_MapWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
-        spacerItem1 = QtGui.QSpacerItem(53, 20, QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem1)
-        self.label = QtGui.QLabel(self.verticalLayoutWidget)
-        self.label.setObjectName(_fromUtf8("label"))
-        self.horizontalLayout_5.addWidget(self.label)
-        self.dtTo = QtGui.QDateEdit(self.verticalLayoutWidget)
-        self.dtTo.setDate(QtCore.QDate(1991, 9, 14))
-        self.dtTo.setObjectName(_fromUtf8("dtTo"))
-        self.horizontalLayout_5.addWidget(self.dtTo)
-        spacerItem2 = QtGui.QSpacerItem(39, 20, QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem2)
         self.label_2 = QtGui.QLabel(self.verticalLayoutWidget)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_5.addWidget(self.label_2)
@@ -84,13 +73,13 @@ class Ui_MapWindow(object):
         self.dtFrom.setDate(QtCore.QDate(2013, 5, 18))
         self.dtFrom.setObjectName(_fromUtf8("dtFrom"))
         self.horizontalLayout_5.addWidget(self.dtFrom)
-        spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem3)
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        spacerItem4 = QtGui.QSpacerItem(87, 20, QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem4)
+        spacerItem2 = QtGui.QSpacerItem(87, 20, QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.btDepth = QtGui.QPushButton(self.verticalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -111,8 +100,8 @@ class Ui_MapWindow(object):
         self.btClear = QtGui.QPushButton(self.verticalLayoutWidget)
         self.btClear.setObjectName(_fromUtf8("btClear"))
         self.horizontalLayout.addWidget(self.btClear)
-        spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem5)
+        spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
@@ -148,9 +137,7 @@ class Ui_MapWindow(object):
         self.comboBox.setItemText(2, _translate("MapWindow", "bilinear", None))
         self.comboBox.setItemText(3, _translate("MapWindow", "cubic", None))
         self.comboBox.setItemText(4, _translate("MapWindow", "CHECK??-CURRENT LIST IS INCORRECT", None))
-        self.label.setText(_translate("MapWindow", "From Date", None))
-        self.dtTo.setDisplayFormat(_translate("MapWindow", "dd/MM/yyyy", None))
-        self.label_2.setText(_translate("MapWindow", "To Date", None))
+        self.label_2.setText(_translate("MapWindow", "Date", None))
         self.dtFrom.setDisplayFormat(_translate("MapWindow", "dd/MM/yyyy", None))
         self.btDepth.setText(_translate("MapWindow", "Depth", None))
         self.btCurrent.setText(_translate("MapWindow", "FVCOM Current", None))
