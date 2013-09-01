@@ -28,7 +28,7 @@
     <rect>
      <x>10</x>
      <y>140</y>
-     <width>591</width>
+     <width>744</width>
      <height>162</height>
     </rect>
    </property>
@@ -51,6 +51,48 @@
         <item>
          <property name="text">
           <string>fvcom/hindcasts/30yr_gom3</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_2">
+        <item>
+         <property name="text">
+          <string>lon</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>lat</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_3">
+        <item>
+         <property name="text">
+          <string>lon</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>lat</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_4">
+        <item>
+         <property name="text">
+          <string>h</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>temp</string>
          </property>
         </item>
        </widget>
@@ -109,7 +151,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+      </item>
+      <item>
+       <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+      </item>
+      <item>
        <widget class="QDateEdit" name="dtFrom">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="date">
          <date>
           <year>2013</year>
@@ -121,6 +172,9 @@
          <string>dd/MM/yyyy</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox_2"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">
@@ -255,6 +309,55 @@
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QToolButton" name="toolButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>50</y>
+     <width>116</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kml</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_2">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>80</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OGR</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>10</y>
+     <width>141</width>
+     <height>111</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources>

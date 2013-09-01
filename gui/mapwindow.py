@@ -30,14 +30,20 @@ import matplotlib.pyplot as plt
 
 import resources_rc
 
-
+import matplotlib.image as mpimg
+import numpy as np
+import sys
+import ogr
+import string
 pyossim_path = os.getenv('PYOSSIM_DIR')
 print pyossim_path
 sys.path.append(pyossim_path + '/lib/')
 from pyossim import *
 
-
+import scipy
 import numpy as np
+import Image
+
 
 class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self, model = None):
@@ -71,6 +77,146 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.animate(False)
         
+                
+        self.figure.clf()
+        self.canvas.draw()
+        
+        self.loadModel()
+        
+
+        
+        
+        
+        
+        
+        
+
+        # read connectivity array
+        nv = self.nc.variables['nv'][:].T - 1        
+        # create a triangulation object, specifying the triangle connectivity array
+        tri = Tri.Triangulation(self.lon, self.lat, triangles=nv)
+
+        # plot depth using tricontourf
+        h = self.nc.variables['h'][:]
+        
+        #print h
+        ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
+        ww =tricontourf(tri,-h,levels=range(-300,10,10))
+        i = 0
+        ##print ww.collections[0]
+        ##print len(ww.collections)
+        k = 0
+        
+        self.ds = None
+        self.ds, self.lyr = self.init_vector()
+        for col in ww.collections:
+            p = col.get_paths()[0]
+            
+            if len(p.vertices) > 0:
+                #print len(p)
+                v = p.vertices
+                x = v[:,0]
+                y = v[:,1]
+                self.add_data(x,y)
+                #print "collection: " + str(k)
+                #print str(x) + " " + str(y)
+                k = k+1
+                #break
+        
+        ds = None
+        """
+        for allkinds in ww.allkinds:
+            for kind in allkinds:
+                if kind.size > 0:
+                    xx=1# kind
+                    outfile = "out_from_rw" + str(i) + ".jpg"
+                    print type(kind)
+                    
+                    #im = Image.fromarray(kind)
+
+
+                    i =i + 1   
+
+        #im.save(outfile)
+        for allsegs in ww.allsegs:
+            for seg in allsegs:
+                if seg.size > 0:
+                    x=1
+        
+        #plt.imshow(h)
+        
+
+
+        # refresh canvas
+        self.canvas.draw() 
+        """
+        
+        
+        
+        
+        
+        
+        
+        
+               
+        
+        ##self.loadModel()
+    
+
+    def init_vector(self):
+
+        driverName = "ESRI Shapefile"
+        drv = ogr.GetDriverByName( driverName )
+        if drv is None:
+            print "%s driver not available.\n" % driverName
+            sys.exit( 1 )
+
+        os.system("rm -f point_outss.shp")
+        ds = drv.CreateDataSource( "point_outss.shp" )
+        if ds is None:
+            print "Creation of output file failed.\n"
+            sys.exit( 1 )
+
+        lyr = ds.CreateLayer( "point_out", None, ogr.wkbLineString )
+        if lyr is None:
+            print "Layer creation failed.\n"
+            sys.exit( 1 )
+
+        field_defn = ogr.FieldDefn( "Name", ogr.OFTString )
+        field_defn.SetWidth( 32 )
+
+        if lyr.CreateField ( field_defn ) != 0:
+            print "Creating Name field failed.\n"
+            sys.exit( 1 )
+
+        return ds, lyr
+
+
+    def add_data(self,x,y):
+        feat = ogr.Feature( self.lyr.GetLayerDefn())
+        feat.SetField( "Name", "xx" )
+        print str(len(x)) + " " + str(len(y))
+        path = ogr.Geometry(ogr.wkbLineString)
+        #print dir(path)
+        for i in xrange(len(x)):
+            path.AddPoint(x[i],y[i],0.0)
+        feat.SetGeometry(path)
+        if self.lyr.CreateFeature(feat) != 0:
+            print "Failed to create feature in shapefile.\n"
+            sys.exit( 1 )        
+        
+        """
+            pt = ogr.Geometry(ogr.wkbPoint)
+            pt.SetPoint_2D(0, x, y)
+
+            feat.SetGeometry(pt)
+
+            if self.lyr.CreateFeature(feat) != 0:
+                print "Failed to create feature in shapefile.\n"
+                sys.exit( 1 )
+        """
+        feat.Destroy()
+
 
     def animate(self, start = True):
     
@@ -146,6 +292,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         nv = self.nc.variables['nv'][:].T - 1        
         # create a triangulation object, specifying the triangle connectivity array
         tri = Tri.Triangulation(self.lon, self.lat, triangles=nv)
+        
+        ##print self.lon
 
         self.progressBar.setValue(65)
         
@@ -154,10 +302,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         #print h
         
-        registry = ossimImageHandlerRegistry.instance()
+        
 
         #array = h
-
+        """
+        registry = ossimImageHandlerRegistry.instance()
         memSource = ossimMemoryImageSource()
         stype = PYOSSIM_UINT16
         imdata = ossimImageData(memSource,stype,1)
@@ -166,18 +315,26 @@ class MapWindow(QWidget, Ui_MapWindow):
         WriteArrayToImageData(imdata,-h,0)
         outfile = "out_from_rw.jpg"
         WriteImageDataToFile(imdata,outfile)
-        #raw_input()   
-    
+
+        """
          
         ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
         
         self.progressBar.setValue(71)
-        tricontourf(tri,-h,levels=range(-300,10,10))
+        ww=tricontourf(tri,-h,levels=range(-300,10,10))
         self.progressBar.setValue(84)
         colorbar()
         self.progressBar.setValue(92)
         # refresh canvas
         self.canvas.draw()
+        
+        self.figure.savefig('image.png', bbox_inches=0)
+        
+        
+        print ww.collections[0]
+        for p in ww.collections:
+            print p.get_array()
+        
         self.progressBar.setValue(100)
         
         self.animate(False)
