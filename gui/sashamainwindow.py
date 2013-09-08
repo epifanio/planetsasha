@@ -95,9 +95,16 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.gpswin.show()
 
     def showDataWindow(self):
-        self.datawin =  DataWindow()
-        self.mdiArea.addSubWindow(self.datawin)
-        self.datawin.show()
+        if Utils.haveGRASS_:
+            self.datawin =  DataWindow()
+            self.mdiArea.addSubWindow(self.datawin)
+            self.datawin.show()
+        else:
+            print "I can't do it. You don't have pygrass"
+            from gui.datawindow import DataWindow
+            self.datawin =  DataWindow()
+            self.mdiArea.addSubWindow(self.datawin)
+            self.datawin.show()
 
     def showImportWindow(self):
         self.impwin =  ImportWindow(self.mdiArea)
@@ -120,7 +127,11 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.osmwin =  OssimWindow()
         self.mdiArea.addSubWindow(self.osmwin)
         self.osmwin.show()
-                 
+        
+#    def showExportWindow(self):
+#        self.expwin =  KmlWindow()
+#        self.mdiArea.addSubWindow(self.expwin)
+#        self.expwin.show()            
                  
                  
     def initWidgets(self):           

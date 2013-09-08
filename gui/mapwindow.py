@@ -19,7 +19,7 @@ from PyQt4.QtGui import QSizePolicy
 from pylab import *
 from matplotlib.collections import PolyCollection
 import matplotlib.tri as Tri
-from mpl_toolkits.basemap import Basemap
+#from mpl_toolkits.basemap import Basemap
 import netCDF4
 import matplotlib
 
@@ -44,6 +44,7 @@ import scipy
 import numpy as np
 import Image
 
+from netCDF4 import Dataset
 
 class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self, model = None):
@@ -61,7 +62,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.figure = plt.figure()
         
         self.canvas = FigureCanvas(self.figure)
+        
+        self.allVarsModel = QStandardItemModel(self)
+        #self.cmbVars.setModel(self.allVarsModel)
 
+        self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
 
@@ -81,16 +86,12 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.figure.clf()
         self.canvas.draw()
         
-        self.loadModel()
         
-
-        
-        
+        #self.loadDataset()
+        ##self.loadModel()
         
         
-        
-        
-
+        """
         # read connectivity array
         nv = self.nc.variables['nv'][:].T - 1        
         # create a triangulation object, specifying the triangle connectivity array
@@ -125,44 +126,43 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         ds = None
         """
-        for allkinds in ww.allkinds:
-            for kind in allkinds:
-                if kind.size > 0:
-                    xx=1# kind
-                    outfile = "out_from_rw" + str(i) + ".jpg"
-                    print type(kind)
-                    
-                    #im = Image.fromarray(kind)
-
-
-                    i =i + 1   
-
-        #im.save(outfile)
-        for allsegs in ww.allsegs:
-            for seg in allsegs:
-                if seg.size > 0:
-                    x=1
-        
-        #plt.imshow(h)
-        
-
-
         # refresh canvas
-        self.canvas.draw() 
-        """
-        
-        
-        
-        
-        
-        
-        
-        
-               
+        self.canvas.draw()
         
         ##self.loadModel()
     
+    def loadDataset(self):
+    
+        
+        dsource = str(self.cmbDataset.currentText())
+        
+        self.cmbLat.clear()
+        self.cmbLon.clear()
+        #self.cmbVars.clear()
+        
+        self.cmbLat.addItem('--select-lat-var--')
+        self.cmbLon.addItem('--select-lon-var--')
 
+        self.cmbVars.addItem('--select-other-var--')        
+        
+        if self.cmbDataset.currentIndex() == 0:
+            return
+        self.url = dsource
+        
+        self.nc = netCDF4.Dataset(self.url)
+        
+        allvars = self.nc.variables.keys()
+        for var in allvars:
+            self.cmbLat.addItem(var)
+            self.cmbLon.addItem(var)
+            #item = QStandardItem()
+            #item.setText('xxxxxxxxxxx')
+            #item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled | Qt.ItemIsEditable)
+            #item.setData(Qt.Checked, Qt.CheckStateRole)
+            #self.allVarsModel.appendRow(item)
+            self.cmbVars.addItem(var)
+        #print allvars
+            
     def init_vector(self):
 
         driverName = "ESRI Shapefile"
@@ -194,7 +194,7 @@ class MapWindow(QWidget, Ui_MapWindow):
 
     def add_data(self,x,y):
         feat = ogr.Feature( self.lyr.GetLayerDefn())
-        feat.SetField( "Name", "xx" )
+        feat.SetField( "id", "1" )
         print str(len(x)) + " " + str(len(y))
         path = ogr.Geometry(ogr.wkbLineString)
         #print dir(path)
@@ -252,17 +252,25 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.nc = netCDF4.Dataset(self.url)
         
         self.progressBar.setValue(27)
+        
+        latvar = 'lat'
+        lonvar = 'lon'
+        latcvar = 'latc'
+        loncvar = 'lonc'
+        timevar = 'time'
+        self.nvvar = 'nv'
+        self.hvar = 'h'        
         # read node locations
-        self.lat = self.nc.variables['lat'][:]
-        self.lon = self.nc.variables['lon'][:]
+        self.lat = self.nc.variables[latvar][:]
+        self.lon = self.nc.variables[lonvar][:]
         
         #print self.lat
         
         # read element centroid locations
-        self.latc = self.nc.variables['latc'][:]
-        self.lonc = self.nc.variables['lonc'][:]
+        self.latc = self.nc.variables[latcvar][:]
+        self.lonc = self.nc.variables[loncvar][:]
 
-        self.time_var = self.nc.variables['time']
+        self.time_var = self.nc.variables[timevar]
         #d= dir(self.time_var)
         #print dir(self.time_var)
         
@@ -288,8 +296,9 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.loadModel()
         
         self.progressBar.setValue(51)
+        
         # read connectivity array
-        nv = self.nc.variables['nv'][:].T - 1        
+        nv = self.nc.variables[self.nvvar][:].T - 1        
         # create a triangulation object, specifying the triangle connectivity array
         tri = Tri.Triangulation(self.lon, self.lat, triangles=nv)
         
@@ -298,7 +307,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(65)
         
         # plot depth using tricontourf
-        h = self.nc.variables['h'][:]
+        h = self.nc.variables[self.hvar][:]
         
         #print h
         
