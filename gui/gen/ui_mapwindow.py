@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Sun Sep  8 12:59:02 2013
+# Created: Sun Sep  8 16:12:52 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MapWindow(object):
     def setupUi(self, MapWindow):
         MapWindow.setObjectName(_fromUtf8("MapWindow"))
-        MapWindow.resize(950, 636)
+        MapWindow.resize(1255, 636)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -36,7 +36,7 @@ class Ui_MapWindow(object):
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/loading.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MapWindow.setWindowIcon(icon)
         self.verticalLayoutWidget = QtGui.QWidget(MapWindow)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 140, 707, 162))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 140, 1195, 162))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setMargin(0)
@@ -175,6 +175,6 @@ class Ui_MapWindow(object):
         self.btDepth.setText(_translate("MapWindow", "Depth", None))
         self.btCurrent.setText(_translate("MapWindow", "FVCOM Current", None))
         self.btClear.setText(_translate("MapWindow", "Clear", None))
-        self.toolButton.setText(_translate("MapWindow", "Send", None))
+        self.toolButton.setText(_translate("MapWindow", "Animate", None))
 
 import resources_rc
