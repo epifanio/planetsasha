@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1255</width>
-    <height>636</height>
+    <height>626</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -139,7 +139,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+       <widget class="QDateTimeEdit" name="dtFrom"/>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -149,7 +149,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+       <widget class="QDateTimeEdit" name="dtTo"/>
       </item>
       <item>
        <widget class="QSpinBox" name="spinBox_2"/>
@@ -226,6 +226,19 @@
         </property>
         <property name="text">
          <string>Animate</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btKmlProps">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>KML Properties</string>
         </property>
        </widget>
       </item>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/kmlwindow.ui'
 #
-# Created: Sun Sep  8 15:56:33 2013
+# Created: Thu Sep 12 00:53:07 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_KmlWindow(object):
     def setupUi(self, KmlWindow):
         KmlWindow.setObjectName(_fromUtf8("KmlWindow"))
-        KmlWindow.resize(493, 532)
+        KmlWindow.resize(564, 640)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/element-vector.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         KmlWindow.setWindowIcon(icon)
@@ -36,7 +36,7 @@ class Ui_KmlWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 457, 642))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -57, 528, 642))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))

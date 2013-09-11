@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Sun Sep  8 16:12:52 2013
+# Created: Thu Sep 12 00:38:56 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MapWindow(object):
     def setupUi(self, MapWindow):
         MapWindow.setObjectName(_fromUtf8("MapWindow"))
-        MapWindow.resize(1255, 636)
+        MapWindow.resize(1255, 626)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -82,15 +82,15 @@ class Ui_MapWindow(object):
         self.label_2 = QtGui.QLabel(self.verticalLayoutWidget)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_5.addWidget(self.label_2)
-        self.dateTimeEdit = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
-        self.dateTimeEdit.setObjectName(_fromUtf8("dateTimeEdit"))
-        self.horizontalLayout_5.addWidget(self.dateTimeEdit)
+        self.dtFrom = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
+        self.dtFrom.setObjectName(_fromUtf8("dtFrom"))
+        self.horizontalLayout_5.addWidget(self.dtFrom)
         self.label_3 = QtGui.QLabel(self.verticalLayoutWidget)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_5.addWidget(self.label_3)
-        self.dateTimeEdit_2 = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
-        self.dateTimeEdit_2.setObjectName(_fromUtf8("dateTimeEdit_2"))
-        self.horizontalLayout_5.addWidget(self.dateTimeEdit_2)
+        self.dtTo = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
+        self.dtTo.setObjectName(_fromUtf8("dtTo"))
+        self.horizontalLayout_5.addWidget(self.dtTo)
         self.spinBox_2 = QtGui.QSpinBox(self.verticalLayoutWidget)
         self.spinBox_2.setObjectName(_fromUtf8("spinBox_2"))
         self.horizontalLayout_5.addWidget(self.spinBox_2)
@@ -132,6 +132,14 @@ class Ui_MapWindow(object):
         self.toolButton.setSizePolicy(sizePolicy)
         self.toolButton.setObjectName(_fromUtf8("toolButton"))
         self.horizontalLayout.addWidget(self.toolButton)
+        self.btKmlProps = QtGui.QPushButton(self.verticalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btKmlProps.sizePolicy().hasHeightForWidth())
+        self.btKmlProps.setSizePolicy(sizePolicy)
+        self.btKmlProps.setObjectName(_fromUtf8("btKmlProps"))
+        self.horizontalLayout.addWidget(self.btKmlProps)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
@@ -176,5 +184,6 @@ class Ui_MapWindow(object):
         self.btCurrent.setText(_translate("MapWindow", "FVCOM Current", None))
         self.btClear.setText(_translate("MapWindow", "Clear", None))
         self.toolButton.setText(_translate("MapWindow", "Animate", None))
+        self.btKmlProps.setText(_translate("MapWindow", "KML Properties", None))
 
 import resources_rc

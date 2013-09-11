@@ -6,7 +6,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 from gen.ui_mapwindow import Ui_MapWindow
-
+from gui.kmlwindow import KmlWindow
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -19,7 +19,7 @@ from PyQt4.QtGui import QSizePolicy
 from pylab import *
 from matplotlib.collections import PolyCollection
 import matplotlib.tri as Tri
-#from mpl_toolkits.basemap import Basemap
+from mpl_toolkits.basemap import Basemap
 import netCDF4
 import matplotlib
 
@@ -69,7 +69,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
-
+        self.btKmlProps.clicked.connect(self.onKmlProps)
         #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
         
@@ -130,10 +130,21 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.nvvar = ''
         self.hvar = ''
         self.interp_method = 'nearest'
+        
+        self.mdi = None #FIXME
         # refresh canvas
         self.canvas.draw()
         
         ##self.loadModel()
+        
+    def setmdi(self,mdi):
+        self.mdi = mdi
+    def onKmlProps(self):
+        #show kml dialog  
+        win = KmlWindow()
+        self.mdi.addSubWindow(win)
+        win.show()
+           
     def init_kml(self, kmlname):
         kmlstr = " <?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>%s</name><open>0</open><description>%s</description>" % (kmlname, kmldescr)
         """
@@ -412,7 +423,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(100)
         
         self.animate(False)
-        
+
     def onPlotCurrent(self):
         
         
@@ -422,19 +433,40 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.loadModel()
         
         self.progressBar.setValue(51)
+        frmDate = self.dtFrom.dateTime()
+        #print frmDate.date().toString()
+        #frmDate = frmDate.addDays(10)
+        #print frmDate.date().toString()
+        
+        while frmDate.date().toString() != self.dtTo.dateTime().date().toString():
+            frmDate = frmDate.addDays(1)
+            print frmDate.date().toString()
+            self.plotCurrent(dt)
+                 
+        
+    def plotCurrent(self, dt):
         
         
+        #self.figure.clf()
+        #self.canvas.draw()
+
+        #self.loadModel()
+        
+        self.progressBar.setValue(51)
+        frmDate = self.dtFrom.dateTime()
+
+
         print 'Plotting till date: ' + self.dtFrom.date().toString()
         # get velocity nearest to current time
-        dtnow = dt.datetime.utcnow() + dt.timedelta(hours=0)
+        ##dtnow = dt.datetime.utcnow() + dt.timedelta(hours=0)
         
-        day = self.dtFrom.date().day()
-        month = self.dtFrom.date().month()
-        year = self.dtFrom.date().year()
-        hour = dtnow.time().hour
-        minute = dtnow.time().minute
-        second = dtnow.time().second
-        msecond = dtnow.time().microsecond
+        day = frmDate.date().day()
+        month = frmDate.date().month()
+        year = frmDate.date().year()
+        hour = frmDate.time().hour()
+        minute = frmDate.time().minute()
+        second = frmDate.time().second()
+        msecond = frmDate.time().msec()
         
         #print dir(dtnow)
         #print dtnow.time()
@@ -451,7 +483,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         mag = numpy.sqrt((u*u)+(v*v)) 
         
         #print start
-        print istart
+        #print istart
                
         self.progressBar.setValue(63)
         
