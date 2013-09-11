@@ -90,8 +90,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         #self.loadDataset()
         ##self.loadModel()
         
-        
-        """
+        """"
+
         # read connectivity array
         nv = self.nc.variables['nv'][:].T - 1        
         # create a triangulation object, specifying the triangle connectivity array
@@ -110,6 +110,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.ds = None
         self.ds, self.lyr = self.init_vector()
+        self.init_kml()
         for col in ww.collections:
             p = col.get_paths()[0]
             
@@ -126,11 +127,96 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         ds = None
         """
+        self.nvvar = ''
+        self.hvar = ''
+        self.interp_method = 'nearest'
         # refresh canvas
         self.canvas.draw()
         
         ##self.loadModel()
-    
+    def init_kml(self, kmlname):
+        kmlstr = " <?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>%s</name><open>0</open><description>%s</description>" % (kmlname, kmldescr)
+        """
+    <Style id="Mystyle">
+        <LabelStyle>
+            <color>87000000</color>
+            <colorMode>normal</colorMode>
+            <scale>1</scale>
+        </LabelStyle>
+        <IconStyle>
+            <Icon>
+            <href>http://maps.google.com/mapfiles/kml/pal3/icon19.png</href>
+            </Icon>
+        </IconStyle>
+        
+        <LineStyle>
+            <color>753200ae</color>
+            <colorMode>normal</colorMode>
+            <tessellate>1</tessellate>
+            <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+            <color>87450ab1</color>
+            <colorMode>normal</colorMode>
+        </PolyStyle>
+    </Style>
+        """ 
+        """   
+      <Folder>
+        <name>ocean_model</name>
+        <visibility>0</visibility>
+        <description>empty</description>
+        <LookAt>
+          <longitude>-122.084120030116</longitude>
+          <latitude>37.42174011925477</latitude>
+          <altitude>0</altitude>
+          <heading>-34.82469740081282</heading>
+          <tilt>53.454348562403</tilt>
+          <range>276.7870053764046</range>
+        </LookAt>
+        <Placemark>
+          <name>Building 40</name>
+          <visibility>0</visibility>
+          <styleUrl>#Mystyle</styleUrl>
+        
+          <Polygon>
+            <extrude>1</extrude>
+            <altitudeMode>relativeToGround</altitudeMode>
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates> -122.0848938459612,37.42257124044786,17
+                  -122.0849580979198,37.42211922626856,17
+                  -122.0847469573047,37.42207183952619,17
+                  -122.0845725380962,37.42209006729676,17
+                  -122.0845954886723,37.42215932700895,17
+                  -122.0838521118269,37.42227278564371,17
+                  -122.083792243335,37.42203539112084,17
+                  -122.0835076656616,37.42209006957106,17
+                  -122.0834709464152,37.42200987395161,17
+                  -122.0831221085748,37.4221046494946,17
+                  -122.0829247374572,37.42226503990386,17
+                  -122.0829339169385,37.42231242843094,17
+                  -122.0833837359737,37.42225046087618,17
+                  -122.0833607854248,37.42234159228745,17
+                  -122.0834204551642,37.42237075460644,17
+                  -122.083659133885,37.42251292011001,17
+                  -122.0839758438952,37.42265873093781,17
+                  -122.0842374743331,37.42265143972521,17
+                  -122.0845036949503,37.4226514386435,17
+                  -122.0848020460801,37.42261133916315,17
+                  -122.0847882750515,37.42256395055121,17
+                  -122.0848938459612,37.42257124044786,17 </coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+          </Polygon>
+        </Placemark>
+      </Folder>
+        """
+#</Document>
+#</kml>
+
+
+        return kmlstr    
     def loadDataset(self):
     
         
@@ -310,22 +396,6 @@ class MapWindow(QWidget, Ui_MapWindow):
         h = self.nc.variables[self.hvar][:]
         
         #print h
-        
-        
-
-        #array = h
-        """
-        registry = ossimImageHandlerRegistry.instance()
-        memSource = ossimMemoryImageSource()
-        stype = PYOSSIM_UINT16
-        imdata = ossimImageData(memSource,stype,1)
-        imdata.initialize()
-
-        WriteArrayToImageData(imdata,-h,0)
-        outfile = "out_from_rw.jpg"
-        WriteImageDataToFile(imdata,outfile)
-
-        """
          
         ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
         
@@ -338,11 +408,6 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.canvas.draw()
         
         self.figure.savefig('image.png', bbox_inches=0)
-        
-        
-        print ww.collections[0]
-        for p in ww.collections:
-            print p.get_array()
         
         self.progressBar.setValue(100)
         
@@ -379,7 +444,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print startdt
         
         #print start
-        istart = netCDF4.date2index(startdt,self.time_var,select='nearest')
+        istart = netCDF4.date2index(startdt,self.time_var,select=self.interp_method)
         layer = 0 # surface layer
         u = self.nc.variables['u'][istart, layer, :]
         v = self.nc.variables['v'][istart, layer, :]
