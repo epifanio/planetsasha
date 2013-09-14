@@ -49,6 +49,13 @@ def addfile(output,host,dport):
     print ossim_data_xml
     ossimdata.close()
 
+def delfile(output,host,dport):
+    ossim_data_xml = "<RMossimPlanetKml>%s</RMossimPlanetKml>" % (output)
+    ossimdata = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ossimdata.connect((host, int(dport)))
+    ossimdata.send(ossim_data_xml)
+    print ossim_data_xml
+    ossimdata.close()
 	
 def zoomto(lon,lat,distance,host,pport):
     ossim_zoom_xml = '<Set target=":navigator" vref="wgs84"><Camera><longitude>%s</longitude><latitude>%s</latitude><altitude>%s</altitude><heading>0</heading><pitch>0</pitch><roll>0</roll><altitudeMode>absolute</altitudeMode><range>%s</range></Camera></Set>' % (lon, lat, distance, distance)

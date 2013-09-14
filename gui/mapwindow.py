@@ -27,7 +27,7 @@ import datetime as dt
 import numpy
 
 import matplotlib.pyplot as plt
-from tcp4ossim import addfile
+from tcp4ossim import addfile , delfile
 import resources_rc
 
 import matplotlib.image as mpimg
@@ -85,6 +85,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.lbLoading.setMovie(self.movie)
         
         self.animate(False)
+        
+        #delfile('/home/rashad/aa.kml','localhost',8000)
         
                 
         self.figure.clf()
@@ -422,28 +424,32 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(51)
         frmDate = self.dtFrom.dateTime()
 
-        collections = []
-        coll = self.plotCurrent(frmDate)
-        collections.append(coll)       
+        #collections = []
+        #coll = self.plotCurrent(frmDate)
+        #collections.append(coll)       
         
         #fname = '/home/rashad/cc.kml'
         #self.createkml(collections, fname)
-        """
+        
         while frmDate.date().toString() != self.dtTo.dateTime().date().toString():
             frmDate = frmDate.addDays(1)
-            print frmDate.date().toString()
-            collections = []
-            coll = self.plotCurrent(frmDate)
-            collections.append(coll)
+            #print frmDate.date().toString()
+            
+            fname = "/home/rashad/" + str(frmDate.date().day()) + str(frmDate.date().month()) + str(frmDate.date().year()) + ".kml"
+            print fname
+            ff = self.plotCurrent(frmDate, fname)
+            addfile(ff,'localhost',8000) 
+            delfile(ff,'localhost',8000)
+            
 
-            p = coll.get_paths()[0]            
+            #p = coll.get_paths()[0]            
 
-            fname = '/home/rashad/cc.kml'
-            self.createkml(collections, fname)
+            #fname = '/home/rashad/cc.kml'
+            #self.createkml(collections, fname)
             #sys.exit(1)
-            """
+            #"""
         
-    def plotCurrent(self, dtfrom):
+    def plotCurrent(self, dtfrom, fname):
         
         
         #self.figure.clf()
@@ -510,7 +516,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         #multipolodd = self.simkml.newmultigeometry(name="MultiPolyOdd") # SA (Hartebeeshoek94) Lo. Regions
 
 
-        fname = "/home/rashad/tt.kml"
+        
         ds, lyr = self.init_vector(fname)
         fid = 0
         for poly in verts:
@@ -552,7 +558,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         #multipolodd.style.polystyle.color = Color.green
         #multipolodd.style.linestyle.color = Color.red
         #self.simkml.save("Tut_MultiGeometry.kml")
-        addfile(fname,'localhost',8000)    
+        ###addfile(fname,'localhost',8000)    
         collection = PolyCollection(verts)
         collection.set_edgecolor('none')
 
@@ -598,9 +604,10 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.animate(False)
         #tricontourf(tri,-h,levels=range(-300,10,10))
-        addfile(fname,'localhost',8000) 
+        ##addfile(fname,'localhost',8000) 
         #sys.exit(1)
-        return coll
+        print "returning..."
+        return fname
         
 def e():
         sys.exit()
