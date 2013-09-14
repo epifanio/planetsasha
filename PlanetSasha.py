@@ -74,7 +74,7 @@ from gui.sashamainwindow import SashaMainWindow
 
 #from gui.epsgwindow import EpsgWindow
 #from LatLongUTMconversion import LLtoUTM
-
+from tcp4ossim import addfile
 
 from owslib.csw import CatalogueServiceWeb
 
@@ -97,7 +97,9 @@ class PlanetSasha(SashaMainWindow):
    
         #self.initWidgets()
 
-  
+        #addfile('/home/rashad/aa.kml','localhost',8000)
+        #sys.exit(1)
+        
         self.Value=0
         self.ValueJ=0
 

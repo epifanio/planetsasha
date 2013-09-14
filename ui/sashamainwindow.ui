@@ -66,6 +66,7 @@
     </property>
     <addaction name="actionM_Import"/>
     <addaction name="actionM_Map"/>
+    <addaction name="actionExport"/>
    </widget>
    <addaction name="menuSasha"/>
    <addaction name="menuTools"/>
@@ -427,6 +428,11 @@
   <action name="actionM_Map">
    <property name="text">
     <string>View</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
    </property>
   </action>
  </widget>

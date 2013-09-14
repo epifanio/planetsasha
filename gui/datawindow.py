@@ -5,14 +5,14 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from gen.ui_datawindow import Ui_DataWindow
 import os
-#from grass.script.core import * FIXME
-from g2k import GrassToKml
+#@from grass.script.core import * FIXME
+#@from g2k import GrassToKml
 import zipfile
 from xml.dom import minidom
 import time
 import osgeo.gdal as gdal
 from configure import parseOutputconf
-from psinit import RasterList, VectorList, getEnv
+#from psinit import RasterList, VectorList, getEnv
 
 iconpath = ""
 iconspath = ""
@@ -32,8 +32,8 @@ imagepath = '%s/icons/' % (apppath)
 class DataWindow(QWidget, Ui_DataWindow):
     def __init__(self):
         QWidget.__init__(self)
-        self.rasterpath = os.path.join(getEnv()['GISDBASE'],getEnv()['LOCATION_NAME'],getEnv()['MAPSET'],'cellhd/')
-        self.vectorpath = os.path.join(getEnv()['GISDBASE'],getEnv()['LOCATION_NAME'],getEnv()['MAPSET'],'vector/')
+        self.rasterpath = '' #@os.path.join(getEnv()['GISDBASE'],getEnv()['LOCATION_NAME'],getEnv()['MAPSET'],'cellhd/')
+        self.vectorpath = '' #@os.path.join(getEnv()['GISDBASE'],getEnv()['LOCATION_NAME'],getEnv()['MAPSET'],'vector/')
         self.setupUi(self)
         self.lon = 0
         self.lat = 0

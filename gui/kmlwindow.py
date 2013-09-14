@@ -31,9 +31,10 @@ configfile = '%s/conf/conf.xml' % (apppath)
 
 
 class KmlWindow(QWidget, Ui_KmlWindow):
-    def __init__(self):
+    def __init__(self, kmlstr):
         QWidget.__init__(self)
         self.setupUi(self)
+        self.kmlstr = kmlstr
         self.lon = 0
         self.lat = 0
         self.Rollchange = 0
@@ -54,7 +55,7 @@ class KmlWindow(QWidget, Ui_KmlWindow):
                      self.SetLineWidth)
         self.connect(self.Offset, SIGNAL("valueChanged(double)"), 
                      self.SetOffset)
-        self.connect(self.save, SIGNAL("clicked()"), self.savekml)
+        self.connect(self.save, SIGNAL("clicked()"), self.makekml)
         self.connect(self.SelectIcon, SIGNAL("currentIndexChanged(int)"),
                      self.GetIcon)
         self.connect(self.update, SIGNAL("clicked()"),self.aggiorna)
@@ -199,7 +200,10 @@ class KmlWindow(QWidget, Ui_KmlWindow):
     def cleantext(self):
         self.description.setHtml('')
 
-    def savekml(self):
+    def getkmlstr(self):
+        return self.kmlstr
+        
+    def makekml(self):
         # vedi di aggiungere zoom,range e view type ... magari link a immagini ???
         # aggiungi un "salva in sqlite" il db deve essere inizializzato nelle preferenze
         LabelAlpha = self.LabelAlpha.value()
@@ -248,12 +252,15 @@ class KmlWindow(QWidget, Ui_KmlWindow):
             tessellate = 1
         if self.Extrude.isChecked():
             extrude = 1
-        kml = 	"""<?xml version="1.0" encoding="UTF-8"?>
+         
+        kmldescr = self.kmllabel.text()
+        kmlname = self.kmlname.text()
+        self.kmlstr = 	"""<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
 <name>%s</name>
 <open>0</open>
-<description>some desription here</description><Style id="Mystyle">
+<description>%s</description><Style id="Mystyle">
 <LabelStyle>
 <color>%s</color>
 <colorMode>normal</colorMode>
@@ -274,26 +281,14 @@ class KmlWindow(QWidget, Ui_KmlWindow):
 <color>%s</color>
 <colorMode>normal</colorMode>
 </PolyStyle>
-</Style><Placemark>
-<name>%s</name>
-<description><![CDATA[<div name="" id="id_main" align="center" dir="ltr" width="680"><table width="680" height="375"><tr>%s<td></td>]]></description>
-<visibility>0</visibility>
-<styleUrl>#Mystyle</styleUrl><LookAt> 
-<longitude>%s</longitude> 
-<latitude>%s</latitude> 
-<altitude>%s</altitude> 
-<range>%s</range> 
-<tilt>%s</tilt> 
-<heading>%s</heading> 
-<altitudeMode>relativeToGround</altitudeMode> 
-</LookAt><Point>
-<extrude>%s</extrude>
-<altitudeMode>relativeToGround</altitudeMode>
-<coordinates>%s,%s,%s</coordinates>
-</Point></Placemark></Document></kml>""" % (self.kmlname.text(), colorlabel, self.iconpath, colorline, tessellate, self.LineWidth.value(), colorpolygon, self.kmllabel.text(), self.description.toHtml(), self.lon, self.lat, self.Zoomchange, self.Rangechange, self.Pitchchange, self.Headchange, extrude, self.lon, self.lat, self.Offset.value())
+</Style>""" % (kmlname, kmldescr, colorlabel, self.iconpath, colorline, tessellate, self.LineWidth.value(), colorpolygon)
+        
+        print self.kmlstr
+        """
         kmldir = str(kmldirectory)+'/'
         kmltosave = kmldir+self.kmlname.text()+'.kml'
         f=codecs.open(kmltosave, 'w', 'UTF8' )
         f.write(kml)
         f.close()
         kmz = self.compress_kml(str(kmltosave),str(self.iconpath))
+        """

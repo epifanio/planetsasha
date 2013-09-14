@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1126</width>
-    <height>636</height>
+    <width>1255</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
     <rect>
      <x>10</x>
      <y>140</y>
-     <width>591</width>
+     <width>1195</width>
      <height>162</height>
     </rect>
    </property>
@@ -51,6 +51,41 @@
         <item>
          <property name="text">
           <string>fvcom/hindcasts/30yr_gom3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmbLat">
+        <item>
+         <property name="text">
+          <string>--select-lat-var--</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmbLon">
+        <item>
+         <property name="text">
+          <string>--select-lon-var--</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmbVars">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>--select-other-vars--</string>
          </property>
         </item>
        </widget>
@@ -77,11 +112,6 @@
           <string>cubic</string>
          </property>
         </item>
-        <item>
-         <property name="text">
-          <string>CHECK??-CURRENT LIST IS INCORRECT</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item>
@@ -104,23 +134,47 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Date</string>
+         <string>From Date</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="dtFrom">
+       <widget class="QDateTimeEdit" name="dtFrom">
+        <property name="date">
+         <date>
+          <year>2001</year>
+          <month>1</month>
+          <day>1</day>
+         </date>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>To Date</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateTimeEdit" name="dtTo">
         <property name="date">
          <date>
           <year>2013</year>
-          <month>5</month>
-          <day>18</day>
+          <month>9</month>
+          <day>3</day>
          </date>
         </property>
-        <property name="displayFormat">
-         <string>dd/MM/yyyy</string>
+        <property name="calendarPopup">
+         <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox_2"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">
@@ -140,25 +194,9 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Maximum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>87</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QPushButton" name="btDepth">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -177,7 +215,7 @@
       <item>
        <widget class="QPushButton" name="btCurrent">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -189,23 +227,42 @@
       </item>
       <item>
        <widget class="QPushButton" name="btClear">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Clear</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QToolButton" name="toolButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+        <property name="text">
+         <string>Animate</string>
         </property>
-       </spacer>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btKmlProps">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>KML Properties</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
