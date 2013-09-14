@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Thu Sep 12 00:38:56 2013
+# Created: Fri Sep 13 21:59:37 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,12 +83,16 @@ class Ui_MapWindow(object):
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_5.addWidget(self.label_2)
         self.dtFrom = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
+        self.dtFrom.setDate(QtCore.QDate(2001, 1, 1))
+        self.dtFrom.setCalendarPopup(True)
         self.dtFrom.setObjectName(_fromUtf8("dtFrom"))
         self.horizontalLayout_5.addWidget(self.dtFrom)
         self.label_3 = QtGui.QLabel(self.verticalLayoutWidget)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_5.addWidget(self.label_3)
         self.dtTo = QtGui.QDateTimeEdit(self.verticalLayoutWidget)
+        self.dtTo.setDate(QtCore.QDate(2013, 9, 3))
+        self.dtTo.setCalendarPopup(True)
         self.dtTo.setObjectName(_fromUtf8("dtTo"))
         self.horizontalLayout_5.addWidget(self.dtTo)
         self.spinBox_2 = QtGui.QSpinBox(self.verticalLayoutWidget)

@@ -31,10 +31,10 @@ configfile = '%s/conf/conf.xml' % (apppath)
 
 
 class KmlWindow(QWidget, Ui_KmlWindow):
-    def __init__(self):
+    def __init__(self, kmlstr):
         QWidget.__init__(self)
         self.setupUi(self)
-        self.kmlstr = ""
+        self.kmlstr = kmlstr
         self.lon = 0
         self.lat = 0
         self.Rollchange = 0
