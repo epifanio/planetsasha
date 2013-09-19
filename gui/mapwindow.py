@@ -17,7 +17,7 @@ from PyQt4.QtCore import QSize
 from PyQt4.QtGui import QSizePolicy
 
 from pylab import *
-from matplotlib.collections import PolyCollection
+from matplotlib.collections import PolyCollection , PatchCollection
 import matplotlib.tri as Tri
 from mpl_toolkits.basemap import Basemap
 import netCDF4
@@ -46,7 +46,11 @@ import numpy as np
 import Image
 from simplekml import Kml, Color
 
+import sqlite3
+import random
+
 from netCDF4 import Dataset
+from matplotlib.patches import PathPatch
 
 class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self, model = None):
@@ -56,6 +60,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.setupUi(self)
         
         self.simkml = Kml(open=1)
+        
         
         self.model = model
         self.url_base = "http://www.smast.umassd.edu:8080/thredds/dodsC/"
@@ -131,9 +136,10 @@ class MapWindow(QWidget, Ui_MapWindow):
         ##self.loadModel()
         
         
-    def init_vector(self, fname):
+    def init_vector(self, fnamebase):
 
-        driverName = "KML"
+        driverName = "ESRI ShapeFile"
+        fname = fnamebase + ".shp"
         drv = ogr.GetDriverByName( driverName )
         if drv is None:
             print "%s driver not available.\n" % driverName
@@ -425,7 +431,28 @@ class MapWindow(QWidget, Ui_MapWindow):
         frmDate = self.dtFrom.dateTime()
 
         #collections = []
-        #coll = self.plotCurrent(frmDate)
+        filenamebase = "/home/rashad/fromgdal"
+        fname = filenamebase + ".kml"
+
+        dbfilename = filenamebase + ".db"
+        conn = sqlite3.connect(dbfilename)
+        cur = conn.cursor()
+        sql = "create table if not exists polystyle (id varchar(30), color varchar(35))"
+        cur.execute(sql)
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        self.conn = sqlite3.connect(dbfilename)
+        self.dbcur = self.conn.cursor()
+
+        
+        coll = self.plotCurrent(frmDate,filenamebase)
+        self.conn.commit()
+        self.dbcur.close()
+        self.conn.close()
+        
+        
         #collections.append(coll)       
         
         #fname = '/home/rashad/cc.kml'
@@ -436,10 +463,10 @@ class MapWindow(QWidget, Ui_MapWindow):
             #print frmDate.date().toString()
             
             fname = "/home/rashad/" + str(frmDate.date().day()) + str(frmDate.date().month()) + str(frmDate.date().year()) + ".kml"
-            print fname
-            ff = self.plotCurrent(frmDate, fname)
-            addfile(ff,'localhost',8000) 
-            delfile(ff,'localhost',8000)
+            #print fname
+###            ff = self.plotCurrent(frmDate, fname)
+#            addfile(ff,'localhost',8000) 
+ #           delfile(ff,'localhost',8000)
             
 
             #p = coll.get_paths()[0]            
@@ -448,8 +475,10 @@ class MapWindow(QWidget, Ui_MapWindow):
             #self.createkml(collections, fname)
             #sys.exit(1)
             #"""
+
         
-    def plotCurrent(self, dtfrom, fname):
+                
+    def plotCurrent(self, dtfrom, fnamebase):
         
         
         #self.figure.clf()
@@ -506,18 +535,15 @@ class MapWindow(QWidget, Ui_MapWindow):
         tri = Tri.Triangulation(xnode, ynode, triangles=nv)
 
         self.progressBar.setValue(77)
-        
+        sig_lay = self.nc.variables['siglay']
+        zeta = self.nc.variables['zeta']
         
         # make a PolyCollection using triangles
         verts = concatenate((tri.x[tri.triangles][..., None],
               tri.y[tri.triangles][..., None]), axis=2)
 
-        
-        #multipolodd = self.simkml.newmultigeometry(name="MultiPolyOdd") # SA (Hartebeeshoek94) Lo. Regions
 
-
-        
-        ds, lyr = self.init_vector(fname)
+        ds, lyr = self.init_vector(fnamebase)
         fid = 0
         for poly in verts:
             #print "polygon"
@@ -530,6 +556,8 @@ class MapWindow(QWidget, Ui_MapWindow):
             path = ogr.Geometry(ogr.wkbPolygon)    
             extring = ogr.Geometry(ogr.wkbLinearRing)
             #path.getExteriorRing();
+            
+            
         
             for coord in poly:
                 ##print coord
@@ -537,7 +565,14 @@ class MapWindow(QWidget, Ui_MapWindow):
                 #print cc
                 x = cc[0]
                 y = cc[1]
-                extring.AddPoint(x, y)
+                pt = fid
+                tstamp = startdt.strftime('%Y-%m-%d %H:%M:%S')
+                
+                z = sig_lay[pt:pt] * (zeta[pt:pt] - self.nc.variables[self.hvar][pt:pt])
+                #print (zeta[tstamp,pt]) # - self.nc.variables[self.hvar][pt])
+                #print zeta[:pt]
+                sys.exit(1)
+                extring.AddPoint(x, y,z)
                 #@linecoords.append((cc[0],cc[1]))
             extring.CloseRings()    
             polygon = ogr.Geometry(ogr.wkbPolygon)
@@ -550,15 +585,10 @@ class MapWindow(QWidget, Ui_MapWindow):
                 ##print 'creaating feature' + str(feat.GetFID());
 
             feat.Destroy()
-            lyr.SyncToDisk()       
-            
-            #multipolodd.newpolygon(outerboundaryis=linecoords)
+            lyr.SyncToDisk()               
 
-            #break
-        #multipolodd.style.polystyle.color = Color.green
-        #multipolodd.style.linestyle.color = Color.red
-        #self.simkml.save("Tut_MultiGeometry.kml")
-        ###addfile(fname,'localhost',8000)    
+
+
         collection = PolyCollection(verts)
         collection.set_edgecolor('none')
 
@@ -569,10 +599,34 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         # set the magnitude of the polycollection to the speed
         collection.set_array(mag)
+
+        
+        #sys.exit(1)    
         collection.norm.vmin=0
         collection.norm.vmax=0.5
 
 
+        #for path in collection.get_paths():
+
+        cmap =collection.cmap
+        featurecount = fid
+        fid = 0
+        redArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['red'], 1.0)            
+        greenArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['green'], 1.0)  
+        blueArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['blue'], 1.0)                
+                        
+            
+        for path in collection.get_paths():
+            tricolor = self.makehexcolor(redArray[fid], greenArray[fid], blueArray[fid])
+            ##print tricolor
+            name = "polygon#" + str(fid)
+            self.dbcur.execute("insert into polystyle values(?,?)",[name,str(tricolor) ])
+            fid = fid + 1
+
+        #multipolodd.style.polystyle.color = Color.green
+        #multipolodd.style.linestyle.color = Color.red
+        #self.simkml.save("Tut_MultiGeometry.kml")
+        ###addfile(fname,'localhost',8000)    
         
         #print vert2
         
@@ -607,7 +661,29 @@ class MapWindow(QWidget, Ui_MapWindow):
         ##addfile(fname,'localhost',8000) 
         #sys.exit(1)
         print "returning..."
-        return fname
-        
+        return "fname"
+
+    def makehexcolor(self, r, g, b):
+        def _chkarg(a):
+            if isinstance(a, int): # fit for range(0,255)
+                if a < 0:
+                    a = 0
+                elif a > 255:
+                    a = 255
+            elif isinstance(a, float): # check for float and convert to range (0,255)
+                if a < 0.0:
+                    a = 0
+                elif a > 1.0:
+                    a = 255
+                else:
+                    a = int(round(a*255))
+            else:
+                raise ValueError('Arguments must be integers or floats.')
+            return a
+        r = _chkarg(r)
+        g = _chkarg(g)
+        b = _chkarg(b)
+        return '{:02x}{:02x}{:02x}'.format(r,g,b)   
+ 
 def e():
         sys.exit()

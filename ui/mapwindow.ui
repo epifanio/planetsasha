@@ -79,13 +79,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="cmbVars">
-        <property name="editable">
-         <bool>true</bool>
-        </property>
+       <widget class="QComboBox" name="cmbNvVars">
         <item>
          <property name="text">
-          <string>--select-other-vars--</string>
+          <string>--select-nv--</string>
          </property>
         </item>
        </widget>
@@ -174,7 +171,49 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2"/>
+       <widget class="QSpinBox" name="countSpin"/>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="chkDepth">
+          <property name="text">
+           <string>Depth</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chkCurrent">
+          <property name="text">
+           <string>Current</string>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_2">
+        <item>
+         <property name="text">
+          <string>--select-var--</string>
+         </property>
+        </item>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">
@@ -313,9 +352,30 @@
     </item>
    </layout>
   </widget>
+  <widget class="QComboBox" name="cmbVars">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>60</y>
+     <width>172</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>true</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string>--select-other-vars--</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources>
   <include location="../gui/resources.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>
