@@ -136,16 +136,13 @@ def SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt, color):
     <tilt>%s</tilt>
     <heading>0</heading>
     </LookAt> lon, lat, alt, rangex, tilt """
+    
     Placemark = """<Placemark>
     <name>%s</name>
     <description><![CDATA[<color>%s</color><table border="1">%s</table>]]></description>
     <visibility>0</visibility>
     <styleUrl>#Mystyle</styleUrl>""" % (namelabels, color, attributi)
     return Placemark
-
-
-
-
 
 def OpenPoint(extrude, altitudemode):
     openPoint = """<Point>
@@ -196,6 +193,19 @@ def CloseKml():
     CloseKml = """</Document></kml>"""
     return CloseKml
 
+def addoverlay(self, name, outfile):
+    kml_overlay = """<ScreenOverlay>
+    <name>%s</name>
+    <visibility>0</visibility>
+    <Icon>
+    <href>%s</href>
+    </Icon>
+    <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+    <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+    <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+    <size x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+    </ScreenOverlay>""" % (name, outfile)
+    return kml_overlay
 
 
 def OpenLine(extrude, tessellate, altitudemode):
@@ -228,7 +238,7 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
                description, colorlabel, labelscale, icon, tessellate, extrude, 
                width, colorline, colormode, colorpolygon, namelabel, lon, lat, 
                alt, rangex, tilt, altitudemode, offset,heightfield,LabelAlpha, 
-               LineAlpha, PolygonAlpha, delshp=False, colorattributefield="color" ):
+               LineAlpha, PolygonAlpha, delshp=False, haveOverlay=False, colorattributefield="color" ):
     global off
     global namelabels
     global AttHeight
@@ -239,10 +249,12 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
     f=open(outfile, 'w')
     f.write(out00)
     f.write(out11)
-    num = num_lay
-    ##print num
-    for l in range(num):
-    #if num is not None:
+    num = 
+    ##create overlay
+    if haveOverlay:
+        overlay_str = kmloverlay("Overlay", outfile)
+        f.write(overlay_str)
+    for l in range(num_lay):
         in_ds = ogr.Open( str(infile), update = 1 )
         in_layer = in_ds.GetLayer( l )
         if in_layer is not None:
