@@ -121,7 +121,7 @@ class PlanetSasha(SashaMainWindow):
                    'labelscale', iconpath, tessellate, extrude, 
                    lwidth, VectorLineColorName, colormode, 
                    VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, 
-                   AltitudeMode, 0, 0,      255, 255,255)        
+                   AltitudeMode, 0, 0,      255, 255,255, True)        
 
         sys.exit(1)
         """

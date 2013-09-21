@@ -127,7 +127,7 @@ def InitStyle(colorlabel,colormode,icon, colorline,tessellate,width,colorpolygon
 
 
 
-def SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt):
+def SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt, color):
     """<LookAt>
     <longitude>%s</longitude>
     <latitude>%s</latitude>
@@ -138,9 +138,9 @@ def SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt):
     </LookAt> lon, lat, alt, rangex, tilt """
     Placemark = """<Placemark>
     <name>%s</name>
-    <description><![CDATA[<table border="1">%s</table>]]></description>
+    <description><![CDATA[<color>%s</color><table border="1">%s</table>]]></description>
     <visibility>0</visibility>
-    <styleUrl>#Mystyle</styleUrl>""" % (namelabels, attributi)
+    <styleUrl>#Mystyle</styleUrl>""" % (namelabels, color, attributi)
     return Placemark
 
 
@@ -228,7 +228,7 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
                description, colorlabel, labelscale, icon, tessellate, extrude, 
                width, colorline, colormode, colorpolygon, namelabel, lon, lat, 
                alt, rangex, tilt, altitudemode, offset,heightfield,LabelAlpha, 
-               LineAlpha, PolygonAlpha):
+               LineAlpha, PolygonAlpha, delshp=False, colorattributefield="color" ):
     global off
     global namelabels
     global AttHeight
@@ -259,11 +259,16 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
                 geom.AssignSpatialReference(in_sr)
                 geom.TransformTo(out_sr)
                 attributi = []
+                
+                pcolor = ""
                 field = dict()
                 for i in range(attr):
                     attname = in_layer.GetLayerDefn().GetFieldDefn(i).GetName()
                     attvalue = in_feat.GetField(in_layer.GetLayerDefn().GetFieldDefn(i).GetName())
                     field[attname] = attvalue
+                    pcolor = ""
+                    if attname==colorattributefield:
+                        pcolor = field[colorattributefield]
                     attributi.append(str('<TR><TD>')+str(attname)+str(':')+str('</TD><TD>')+str(attvalue)+str('</TD>')) 
                 ##print attributi
                 namelabels = field.get(str(namelabel))
@@ -359,7 +364,7 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
                     jk = jk.replace(">, <",'><')
                     jk = jk.strip()
                     coords = jk                        
-                Place = SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt)
+                Place = SetPlacemark(namelabels, attributi, lon, lat, alt, rangex, tilt, pcolor)
                 if featuretype == 'polygon':
                     Feature = OpenPolygon(extrude, altitudemode)
                 if featuretype == 'line':
@@ -383,6 +388,13 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
     f.write(out5)
     f.close()
     kmz = compress_kml(str(outfile),str(icon))
+    
+    if delshp:
+        delfilecmd = "rm -f " + infile
+        print "not deleting now "  + delfilecmd
+        ##os.system(delfilecmd)
+    
+    
     if __name__ == '__main__':
         for arg in sys.argv[1:]:
             grass2kml(infile,num_lay)
