@@ -249,7 +249,7 @@ def GrassToKml(ExtrudeType, featuretype, infile, outfile, num_lay, name, status,
     f=open(outfile, 'w')
     f.write(out00)
     f.write(out11)
-    num = 
+
     ##create overlay
     if haveOverlay:
         overlay_str = kmloverlay("Overlay", outfile)
