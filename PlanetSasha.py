@@ -77,6 +77,7 @@ from gui.sashamainwindow import SashaMainWindow
 from tcp4ossim import addfile
 
 from owslib.csw import CatalogueServiceWeb
+from g2k import GrassToKml
 
 class PlanetSasha(SashaMainWindow):
 ##    _instance = None
@@ -92,9 +93,38 @@ class PlanetSasha(SashaMainWindow):
         Utils(prefs)    
     
         SashaMainWindow.__init__(self, arg)
-        
 
-   
+        """
+        extrudetype = "Attribute"
+        inputvector = "/home/rashad/fromgdal.shp"
+        ExportVector = "/home/rashad/fromsaha.kml"
+        VectorLabelColorName  = ""
+        iconpath= ""
+        tessellate = 0
+        extrude = 0
+        lwidth = 2
+        VectorLineColorName = "linecolor"
+        colormode = "normal"
+        VectorPolygonColorName = "polycolor"
+        AttributeList = "name"
+        AltitudeMode = "clampToGround"
+        print extrudetype,'polygon', inputvector, ExportVector, 2, \
+              'name', 0, 'some desription here', VectorLabelColorName, \
+              'labelscale', iconpath, tessellate, extrude, \
+              lwidth, VectorLineColorName, colormode, \
+              VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, \
+              AltitudeMode, 0, 0, \
+              255, 255, \
+              255
+        GrassToKml(extrudetype,'polygon', inputvector, ExportVector, 1, 
+                   'name', 0, 'some desription here', VectorLabelColorName, 
+                   'labelscale', iconpath, tessellate, extrude, 
+                   lwidth, VectorLineColorName, colormode, 
+                   VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, 
+                   AltitudeMode, 0, 0,      255, 255,255, True)        
+
+        sys.exit(1)
+        """
         #self.initWidgets()
 
         #addfile('/home/rashad/aa.kml','localhost',8000)

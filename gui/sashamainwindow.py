@@ -121,7 +121,6 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     def showMapWindow(self):
         self.mapwin =  MapWindow()
         self.mdiArea.addSubWindow(self.mapwin)
-        self.mapwin.setmdi(self.mdiArea)
         self.mapwin.show()
         
     def showOssimWindow(self):
