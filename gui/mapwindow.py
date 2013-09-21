@@ -17,7 +17,7 @@ from PyQt4.QtCore import QSize
 from PyQt4.QtGui import QSizePolicy
 
 from pylab import *
-from matplotlib.collections import PolyCollection
+from matplotlib.collections import PolyCollection , PatchCollection
 import matplotlib.tri as Tri
 from mpl_toolkits.basemap import Basemap
 import netCDF4
@@ -46,8 +46,43 @@ import numpy as np
 import Image
 from simplekml import Kml, Color
 
-from netCDF4 import Dataset
+import sqlite3
+import random
+import time
 
+from gui.kmldialog import KmlSettings
+
+from g2k import GrassToKml
+
+from netCDF4 import Dataset
+from matplotlib.patches import PathPatch
+
+
+class DataTransferThread(QThread):
+    def __init__(self, flist):
+        QThread.__init__(self)
+        self.flist = flist
+        #self.index = 0
+        #print self.flist
+        self.stopTransfer = False
+       
+        
+    def run(self):
+        while index < len(self.flist):
+            time.sleep(6)
+            datafile = self.flist[self.index]
+            print datafile
+            addfile(datafile,'localhost',8000) 
+            #print self.index
+            index = index + 1
+        return
+    
+    def __del__(self):
+        self.wait()
+
+    def terminate(self):
+        self.stopTransfer = True
+    
 class MapWindow(QWidget, Ui_MapWindow):
     def __init__(self, model = None):
 
@@ -55,7 +90,8 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         self.setupUi(self)
         
-        self.simkml = Kml(open=1)
+        ##self.simkml = Kml(open=1)
+        
         
         self.model = model
         self.url_base = "http://www.smast.umassd.edu:8080/thredds/dodsC/"
@@ -74,17 +110,35 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
         self.btKmlProps.clicked.connect(self.onKmlProps)
+        self.btAnimate.clicked.connect(self.onAnimate)
         #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
-        
-        self.url = '/home/rashad/Downloads/sci_20100602-20100605.nc'
-        #self.testnc = netCDF4.Dataset(self.url)    
+
         #print var (for var in self.testnc.variables)
         
         self.movie = QMovie(":/icons/icons/loading.gif");
         self.lbLoading.setMovie(self.movie)
         
         self.animate(False)
+        self.fflist  = []
+        self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc" #set in loadmodel for now
+        self.OUT_PATH = "" 
+
+        self._tessellate = 0
+        self._extrudetype = "Attribute"
+        self._extrude = 0
+        self._lwidth = 1
+        self._altitudeMode = "clampToGround"
+        self._offset = 0        
+        
+        self.latvar = 'lat'
+        self.lonvar = 'lon'
+        self.latcvar = 'latc'
+        self.loncvar = 'lonc'
+        self.timevar = 'time'
+        self.nvvar = 'nv'
+        self.hvar = 'h'
+        self.interp_method = 'nearest'
         
         #delfile('/home/rashad/aa.kml','localhost',8000)
         
@@ -119,21 +173,59 @@ class MapWindow(QWidget, Ui_MapWindow):
 #        self.lyr.SyncToDisk()
         ds = None
         """
-        self.nvvar = 'nv'
-        self.hvar = 'h'
-        self.interp_method = 'nearest'
-        
-        self.mdi = None #FIXME
-        self.kmlstr = ''
+
+        self.curfile = ""
+        #self.mdi = None #FIXME
+        #self.kmlstr = ''
         # refresh canvas
         self.canvas.draw()
         
-        ##self.loadModel()
-        
-        
-    def init_vector(self, fname):
+                
+    def onAnimate(self):
 
-        driverName = "KML"
+      
+        #self.fflist =  [ "/home/rashad/aa.shp", "/home/rashad/bb.shp", "/home/rashad/cc.shp", "/home/rashad/dd.shp"]
+        self.kmllist = []
+        for shpfile in self.fflist:
+            inputvector = shpfile + ".shp"
+            ExportVector = shpfile + ".kml"
+            VectorLabelColorName  = ""
+            iconpath= ""
+            VectorLineColorName = "linecolor"
+            colormode = "normal"
+            VectorPolygonColorName = "polycolor"
+            AttributeList = "name"
+            self._offset = 0 ##disabled now
+            self.curfile = ExportVector
+            self.kmllist.append(ExportVector)
+
+
+            """
+            print self._extrudetype,'polygon', inputvector, ExportVector, 2, \
+                  'name', 0, 'some desription here', VectorLabelColorName, \
+                  'labelscale', iconpath, self._tessellate, self._extrude, \
+                  self._lwidth, VectorLineColorName, colormode, \
+                  VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, \
+                  self._altitudeMode, self._offset, 0, 255, 255, 255
+                  
+            """
+            """
+            GrassToKml(self._extrudetype,'polygon', inputvector, ExportVector, 1, 
+                       'name', 0, 'some desription here', VectorLabelColorName, 
+                       'labelscale', iconpath, self._tessellate, self._extrude, 
+                       self._lwidth, VectorLineColorName, colormode, 
+                       VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, 
+                       self._altitudeMode, self._offset, 0, 255, 255,255, True)
+            """
+        self.transferthread = DataTransferThread(self.kmllist)
+        self.transferthread.start()
+
+            
+
+    def init_vector(self, fnamebase):
+
+        driverName = "ESRI ShapeFile"
+        fname = fnamebase + ".shp"
         drv = ogr.GetDriverByName( driverName )
         if drv is None:
             print "%s driver not available.\n" % driverName
@@ -152,12 +244,17 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         field_defn1 = ogr.FieldDefn( "idd", ogr.OFTString )
         field_defn2 = ogr.FieldDefn( "name", ogr.OFTString )
+        field_defn3 = ogr.FieldDefn( "color", ogr.OFTString )
         field_defn1.SetWidth( 32 )
         field_defn2.SetWidth( 32 )
+        field_defn3.SetWidth( 32 )
         if lyr.CreateField ( field_defn1 ) != 0:
+            print "Creating field1 failed.\n"        
+
+        if lyr.CreateField ( field_defn2 ) != 0:
             print "Creating field1 failed.\n"
     
-        if lyr.CreateField ( field_defn2 ) != 0:
+        if lyr.CreateField ( field_defn3 ) != 0:
             print "Creating field2 failed.\n"
       
         return ds, lyr
@@ -181,19 +278,22 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         feat.Destroy()
         
-            
-    def setmdi(self,mdi):
-        self.mdi = mdi
     def onKmlProps(self):
         #show kml dialog  
-        
-        win = KmlWindow(self.kmlstr)
-        self.mdi.addSubWindow(win)
-        win.show()
+        dlg = KmlSettings()
+        if dlg.exec_():
+            self._tessellate = dlg.getSettings("tessellate")
+            self._extrudetype = dlg.getSettings("extrudetype")
+            self._extrude = dlg.getSettings("extrude")
+            self._lwidth = dlg.getSettings("lwidth")
+            self._altitudeMode = dlg.getSettings("altitudemode")
+            self._offset = dlg.getSettings("offset")   
            
     def init_kml(self, kmlname):
         kmlstr = " <?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>%s</name><open>0</open><description>%s</description>" % (kmlname, kmldescr)
-        return kmlstr    
+        return kmlstr 
+        
+           
     def loadDataset(self):
     
         
@@ -212,6 +312,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             return
         self.url = dsource
         
+        #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         self.nc = netCDF4.Dataset(self.url)
         
         allvars = self.nc.variables.keys()
@@ -248,15 +349,14 @@ class MapWindow(QWidget, Ui_MapWindow):
             print 'Model loaded already. Skipping loadModel()...'
             return
         dsource = str(self.cmbDataset.currentText())
-        if self.cmbDataset.currentIndex() == 0:
+        if self.cmbDataset.currentIndex() != 0:
             dsource = 'fvcom/hindcasts/30yr_gom3'
-
-        url = self.url_base + dsource
+            self.url = self.url_base + dsource
         
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
 
-        url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
+        #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         
         self.progressBar.setValue(19)
         
@@ -264,24 +364,20 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.progressBar.setValue(27)
         
-        latvar = 'lat'
-        lonvar = 'lon'
-        latcvar = 'latc'
-        loncvar = 'lonc'
-        timevar = 'time'
-        self.nvvar = 'nv'
-        self.hvar = 'h'        
+    
         # read node locations
-        self.lat = self.nc.variables[latvar][:]
-        self.lon = self.nc.variables[lonvar][:]
+        self.lat = self.nc.variables[self.latvar][:]
+        self.lon = self.nc.variables[self.lonvar][:]
         
         #print self.lat
         
         # read element centroid locations
-        self.latc = self.nc.variables[latcvar][:]
-        self.lonc = self.nc.variables[loncvar][:]
+        ##print self.nc.variables.keys()
+        
+        self.latc = self.nc.variables[self.latcvar][:]
+        self.lonc = self.nc.variables[self.loncvar][:]
 
-        self.time_var = self.nc.variables[timevar]
+        self.time_var = self.nc.variables[self.timevar]
         #d= dir(self.time_var)
         #print dir(self.time_var)
         
@@ -297,10 +393,46 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print self.dtFrom.time().toString()
  
     def onPlotDepth(self):
-      collections =  self.plotDepth() 
-      fname = '/home/rashad/ee.kml'
-      self.createkml(collections, fname)
-      
+        collections =  self.plotDepth() 
+        fnamebase = '/home/rashad/ee'
+        self.fflist.clear()
+
+        ds, lyr = self.init_vector(fnamebase)
+        fid = 0
+        
+        self.fflist.append(fnamebase)
+        for col in collections:
+            p = col.get_paths()[0]
+            feat = ogr.Feature( lyr.GetLayerDefn())
+            feat.SetField( "idd", "idd1" )
+            name = "polygon#" + str(fid)
+            feat.SetField( "name", name )
+            feat.SetField( "color", "ccc" )
+            fid = fid + 1  
+            extring = ogr.Geometry(ogr.wkbLinearRing)
+                        
+            if len(p.vertices) > 0:
+                for vert in p.vertices:
+                    x = vert[0]
+                    y = vert[1]
+                    z = 0 #vert[2]
+                    extring.AddPoint(x, y,z)
+                extring.CloseRings()
+                
+                polygon = ogr.Geometry(ogr.wkbPolygon)
+                polygon.AddGeometry(extring)
+                feat.SetGeometry(polygon)
+                if lyr.CreateFeature(feat) != 0:
+                    print "Failed to create feature in shapefile.\n"
+                    sys.exit( 1 )
+                ##else:
+                ##    print 'creaating feature' + str(feat.GetFID());
+
+                feat.Destroy()
+                lyr.SyncToDisk()          
+        
+        
+
     def createkml(self,collections, fname):
         self.lk_heading = -34.82469740081282
         self.lk_tilt = 53.454348562403
@@ -414,7 +546,7 @@ class MapWindow(QWidget, Ui_MapWindow):
 
     def onPlotCurrent(self):
         
-        
+        self.fflist.clear()
         self.figure.clf()
         self.canvas.draw()
 
@@ -424,32 +556,58 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(51)
         frmDate = self.dtFrom.dateTime()
 
+        """
         #collections = []
-        #coll = self.plotCurrent(frmDate)
+        filenamebase = "/home/rashad/fromgdal"
+        fname = filenamebase + ".kml"
+        
+        dbfilename = filenamebase + ".db"
+        conn = sqlite3.connect(dbfilename)
+        cur = conn.cursor()
+        sql = "create table if not exists polystyle (id varchar(30), color varchar(35))"
+        cur.execute(sql)
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        self.conn = sqlite3.connect(dbfilename)
+        self.dbcur = self.conn.cursor()
+
+        
+        coll = self.plotCurrent(frmDate,filenamebase)
+        self.conn.commit()
+        self.dbcur.close()
+        self.conn.close()
+        """
+        
         #collections.append(coll)       
         
         #fname = '/home/rashad/cc.kml'
         #self.createkml(collections, fname)
-        
+        self.fflist = []
         while frmDate.date().toString() != self.dtTo.dateTime().date().toString():
             frmDate = frmDate.addDays(1)
             #print frmDate.date().toString()
             
-            fname = "/home/rashad/" + str(frmDate.date().day()) + str(frmDate.date().month()) + str(frmDate.date().year()) + ".kml"
-            print fname
-            ff = self.plotCurrent(frmDate, fname)
-            addfile(ff,'localhost',8000) 
-            delfile(ff,'localhost',8000)
+            fname =  self.OUT_PATH + str(frmDate.date().day()) + str(frmDate.date().month()) + str(frmDate.date().year()) + ".kml"
+            fnamebase = self.OUT_PATH + str(frmDate.date().day()) + str(frmDate.date().month()) + str(frmDate.date().year())
+            #print fname
+            outfile = self.plotCurrent(frmDate, fnamebase)
+            self.fflist.append(outfile) 
+#            addfile(ff,'localhost',8000) 
+ #           delfile(ff,'localhost',8000)
             
-
+        print self.fflist
             #p = coll.get_paths()[0]            
 
             #fname = '/home/rashad/cc.kml'
             #self.createkml(collections, fname)
             #sys.exit(1)
             #"""
+
         
-    def plotCurrent(self, dtfrom, fname):
+                
+    def plotCurrent(self, dtfrom, fnamebase):
         
         
         #self.figure.clf()
@@ -461,7 +619,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         frmDate = self.dtFrom.dateTime()
 
 
-        print 'Plotting till date: ' + dtfrom.date().toString()
+        #print 'Plotting till date: ' + dtfrom.date().toString()
         # get velocity nearest to current time
         ##dtnow = dt.datetime.utcnow() + dt.timedelta(hours=0)
         
@@ -501,32 +659,70 @@ class MapWindow(QWidget, Ui_MapWindow):
         xnode, ynode = m(self.lon, self.lat) 
         xc, yc = m(self.lonc, self.latc) 
 
-        nv = self.nc.variables['nv'][:].T - 1
+        nv = self.nc.variables[self.nvvar][:].T - 1
         # create a TRI object with projected coordinates
         tri = Tri.Triangulation(xnode, ynode, triangles=nv)
 
         self.progressBar.setValue(77)
-        
+        sig_lay = self.nc.variables['siglay']
+        zeta = self.nc.variables['zeta']
         
         # make a PolyCollection using triangles
         verts = concatenate((tri.x[tri.triangles][..., None],
               tri.y[tri.triangles][..., None]), axis=2)
 
-        
-        #multipolodd = self.simkml.newmultigeometry(name="MultiPolyOdd") # SA (Hartebeeshoek94) Lo. Regions
+        colorlut = []
+        fid = 0
+        for poly in verts:
+            fid = fid + 1
+       
+
+        collection = PolyCollection(verts)
+        collection.set_edgecolor('none')
+
+        self.progressBar.setValue(81)
+
+        timestamp=startdt.strftime('%Y-%m-%d %H:%M:%S')
 
 
+        # set the magnitude of the polycollection to the speed
+        collection.set_array(mag)
+
         
-        ds, lyr = self.init_vector(fname)
+        #sys.exit(1)    
+        collection.norm.vmin=0
+        collection.norm.vmax=0.5
+
+
+        #for path in collection.get_paths():
+
+        cmap =collection.cmap
+        featurecount = fid
+        
+        redArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['red'], 1.0)            
+        greenArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['green'], 1.0)  
+        blueArray =  matplotlib.colors.makeMappingArray(featurecount,cmap._segmentdata['blue'], 1.0)                
+                        
+        fid = 0    
+        for path in collection.get_paths():
+            tricolor = self.makehexcolor(redArray[fid], greenArray[fid], blueArray[fid])
+            ##print tricolor
+            name = "polygon#" + str(fid)
+            colorlut.append(tricolor)
+            #self.dbcur.execute("insert into polystyle values(?,?)",[name,str(tricolor) ])
+            fid = fid + 1
+
+        ds, lyr = self.init_vector(fnamebase)
         fid = 0
         for poly in verts:
             #print "polygon"
             linecoords = []
             feat = ogr.Feature( lyr.GetLayerDefn())
             feat.SetField( "idd", "idd1" )
-            fid = fid + 1
             name = "polygon#" + str(fid)
             feat.SetField( "name", name )
+            feat.SetField( "color", colorlut[fid] )
+            fid = fid + 1
             path = ogr.Geometry(ogr.wkbPolygon)    
             extring = ogr.Geometry(ogr.wkbLinearRing)
             #path.getExteriorRing();
@@ -537,8 +733,15 @@ class MapWindow(QWidget, Ui_MapWindow):
                 #print cc
                 x = cc[0]
                 y = cc[1]
-                extring.AddPoint(x, y)
-                #@linecoords.append((cc[0],cc[1]))
+                pt = fid
+                tstamp = startdt.strftime('%Y-%m-%d %H:%M:%S')
+                z = 0
+                #z = sig_lay[pt:pt] * (zeta[pt:pt] - self.nc.variables[self.hvar][pt:pt])
+                #print (zeta[tstamp,pt]) # - self.nc.variables[self.hvar][pt])
+                #print zeta[:pt]
+                #sys.exit(1)
+                extring.AddPoint(x, y,z)
+                
             extring.CloseRings()    
             polygon = ogr.Geometry(ogr.wkbPolygon)
             polygon.AddGeometry(extring)
@@ -550,31 +753,7 @@ class MapWindow(QWidget, Ui_MapWindow):
                 ##print 'creaating feature' + str(feat.GetFID());
 
             feat.Destroy()
-            lyr.SyncToDisk()       
-            
-            #multipolodd.newpolygon(outerboundaryis=linecoords)
-
-            #break
-        #multipolodd.style.polystyle.color = Color.green
-        #multipolodd.style.linestyle.color = Color.red
-        #self.simkml.save("Tut_MultiGeometry.kml")
-        ###addfile(fname,'localhost',8000)    
-        collection = PolyCollection(verts)
-        collection.set_edgecolor('none')
-
-        self.progressBar.setValue(81)
-
-        timestamp=startdt.strftime('%Y-%m-%d %H:%M:%S')
-
-
-        # set the magnitude of the polycollection to the speed
-        collection.set_array(mag)
-        collection.norm.vmin=0
-        collection.norm.vmax=0.5
-
-
-        
-        #print vert2
+            lyr.SyncToDisk()          
         
         ax2=self.figure.add_subplot(111)
         coll = m.drawmapboundary(fill_color='0.3')
@@ -603,11 +782,32 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(100)
         
         self.animate(False)
-        #tricontourf(tri,-h,levels=range(-300,10,10))
-        ##addfile(fname,'localhost',8000) 
-        #sys.exit(1)
+
         print "returning..."
-        return fname
-        
+        outfile = fnamebase + ".shp"
+        return outfile
+
+    def makehexcolor(self, r, g, b):
+        def _chkarg(a):
+            if isinstance(a, int): # fit for range(0,255)
+                if a < 0:
+                    a = 0
+                elif a > 255:
+                    a = 255
+            elif isinstance(a, float): # check for float and convert to range (0,255)
+                if a < 0.0:
+                    a = 0
+                elif a > 1.0:
+                    a = 255
+                else:
+                    a = int(round(a*255))
+            else:
+                raise ValueError('Arguments must be integers or floats.')
+            return a
+        r = _chkarg(r)
+        g = _chkarg(g)
+        b = _chkarg(b)
+        return '{:02x}{:02x}{:02x}'.format(r,g,b)   
+ 
 def e():
         sys.exit()
