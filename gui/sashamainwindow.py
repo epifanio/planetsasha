@@ -49,6 +49,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 #        self.navwin.show()
 
         #self.prefsWindow_ = PreferencesWindow()
+        
+        self.actionT_LonLat.triggered.connect(self.showNavWindow)
 
         self.actionM_Navigation.triggered.connect(self.showNavWindow)
         self.actionM_Query.triggered.connect(self.showQueryWindow)

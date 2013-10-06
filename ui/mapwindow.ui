@@ -43,19 +43,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
         <item>
          <property name="text">
           <string>--select-source--</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>fvcom/hindcasts/30yr_gom3</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc</string>
          </property>
         </item>
        </widget>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Sat Sep 21 12:15:57 2013
+# Created: Sun Oct  6 20:36:09 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,9 +49,8 @@ class Ui_MapWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cmbDataset.sizePolicy().hasHeightForWidth())
         self.cmbDataset.setSizePolicy(sizePolicy)
+        self.cmbDataset.setEditable(True)
         self.cmbDataset.setObjectName(_fromUtf8("cmbDataset"))
-        self.cmbDataset.addItem(_fromUtf8(""))
-        self.cmbDataset.addItem(_fromUtf8(""))
         self.cmbDataset.addItem(_fromUtf8(""))
         self.horizontalLayout_4.addWidget(self.cmbDataset)
         self.cmbLat = QtGui.QComboBox(self.verticalLayoutWidget)
@@ -197,8 +196,6 @@ class Ui_MapWindow(object):
     def retranslateUi(self, MapWindow):
         MapWindow.setWindowTitle(_translate("MapWindow", "NC Viewer", None))
         self.cmbDataset.setItemText(0, _translate("MapWindow", "--select-source--", None))
-        self.cmbDataset.setItemText(1, _translate("MapWindow", "fvcom/hindcasts/30yr_gom3", None))
-        self.cmbDataset.setItemText(2, _translate("MapWindow", "/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc", None))
         self.cmbLat.setItemText(0, _translate("MapWindow", "--select-lat-var--", None))
         self.cmbLon.setItemText(0, _translate("MapWindow", "--select-lon-var--", None))
         self.cmbNvVars.setItemText(0, _translate("MapWindow", "--select-nv--", None))
