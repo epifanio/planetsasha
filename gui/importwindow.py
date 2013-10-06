@@ -67,13 +67,34 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.cmbService.currentIndexChanged.connect(self.onToggleBBox)
         self.treeView.doubleClicked.connect(self.onSelect)
 
+    def getDatasetBaseFromTree(self, item):
+        a = item
+        b = []
+        b.append("/")
+        while a.parent():
+            b.append(a.text())
+            b.append("/")
+            a = a.parent()
+        cc = ""
+        for c in b:
+            cc = cc + c
+
+        return cc
+        
+        #return b
 
     def onAddToList(self):
         for index in self.treeView.selectedIndexes():
             item = self.model.itemFromIndex(index)
-            if not item.hasChildren() and item.text() != '--Fetch--':
-                self.lmodel.appendRow(QStandardItem(item.text()))
+            self.urlbase = "http://www.smast.umassd.edu:8080/thredds/"
+            self.catalogbase = "catalog/"
+            self.datasetbase = self.getDatasetBaseFromTree(item)
 
+            if not item.hasChildren() and item.text() != '--Fetch--':
+                itemtext = self.urlbase + self.catalogbase + self.datasetbase + "/"  + item.text()
+                self.lmodel.appendRow(QStandardItem(itemtext))
+
+           
     def onSelect(self, index):
         item = self.model.itemFromIndex(index)
         
@@ -319,7 +340,6 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
         f.write('\t</catalog>\n')
         f.write('</root>')
-
         self.mapwin =  MapWindow(self.lmodel)
         #FIXME
         self.mdi.addSubWindow(self.mapwin)

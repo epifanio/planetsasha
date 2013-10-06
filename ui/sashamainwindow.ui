@@ -128,6 +128,9 @@
    <property name="text">
     <string>model</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionT_Joystick">
    <property name="checkable">
@@ -142,6 +145,9 @@
    </property>
    <property name="toolTip">
     <string>Joystick</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionT_LonLat">
@@ -331,6 +337,9 @@
    <property name="toolTip">
     <string>Serial</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionT_VectorOp">
    <property name="icon">
@@ -339,6 +348,9 @@
    </property>
    <property name="text">
     <string>VectorOp</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionT_Broadcast">

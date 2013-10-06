@@ -62,19 +62,17 @@ class DataTransferThread(QThread):
     def __init__(self, flist):
         QThread.__init__(self)
         self.flist = flist
-        #self.index = 0
         #print self.flist
         self.stopTransfer = False
        
         
     def run(self):
-        while index < len(self.flist):
+        for index in xrange(len(self.flist)):
             time.sleep(6)
-            datafile = self.flist[self.index]
+            datafile = self.flist[index]
             print datafile
             addfile(datafile,'localhost',8000) 
-            #print self.index
-            index = index + 1
+
         return
     
     def __del__(self):
@@ -84,7 +82,7 @@ class DataTransferThread(QThread):
         self.stopTransfer = True
     
 class MapWindow(QWidget, Ui_MapWindow):
-    def __init__(self, model = None):
+    def __init__(self, datalistmodel = None):
 
         QWidget.__init__(self)
 
@@ -93,7 +91,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         ##self.simkml = Kml(open=1)
         
         
-        self.model = model
+        #self.datalistmodel = model
         self.url_base = "http://www.smast.umassd.edu:8080/thredds/dodsC/"
         self.nc = None
         
@@ -105,6 +103,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.allVarsModel = QStandardItemModel(self)
         #self.cmbVars.setModel(self.allVarsModel)
+        for i in xrange(datalistmodel.rowCount()):
+            for j in xrange(datalistmodel.columnCount()):
+                catalogitem = datalistmodel.item(i,j)
+                ncf = str(catalogitem.text())
+                self.cmbDataset.addItem(os.path.basename(ncf))
 
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
@@ -121,7 +124,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.animate(False)
         self.fflist  = []
-        self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc" #set in loadmodel for now
+        self.url ="" #"/home/rashad/Downloads/sci_20100602-20100605.nc" #set in loadmodel for now
         self.OUT_PATH = "" 
 
         self._tessellate = 0
@@ -139,6 +142,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.nvvar = 'nv'
         self.hvar = 'h'
         self.interp_method = 'nearest'
+        self.basepath = '/home/rashad/'
+        self.ncfile = ''
         
         #delfile('/home/rashad/aa.kml','localhost',8000)
         
@@ -148,7 +153,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         
         #self.loadDataset()
-        self.loadModel()
+        #self.loadModel()
         
         """"
 
@@ -209,14 +214,14 @@ class MapWindow(QWidget, Ui_MapWindow):
                   self._altitudeMode, self._offset, 0, 255, 255, 255
                   
             """
-            """
+            #"""
             GrassToKml(self._extrudetype,'polygon', inputvector, ExportVector, 1, 
                        'name', 0, 'some desription here', VectorLabelColorName, 
                        'labelscale', iconpath, self._tessellate, self._extrude, 
                        self._lwidth, VectorLineColorName, colormode, 
                        VectorPolygonColorName, AttributeList, 0, 0, 0, 0, 0, 
                        self._altitudeMode, self._offset, 0, 255, 255,255, True)
-            """
+            #"""
         self.transferthread = DataTransferThread(self.kmllist)
         self.transferthread.start()
 
@@ -297,8 +302,6 @@ class MapWindow(QWidget, Ui_MapWindow):
     def loadDataset(self):
     
         
-        dsource = str(self.cmbDataset.currentText())
-        
         self.cmbLat.clear()
         self.cmbLon.clear()
         #self.cmbVars.clear()
@@ -309,8 +312,9 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.cmbVars.addItem('--select-other-var--')        
         
         if self.cmbDataset.currentIndex() == 0:
+            self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
             return
-        self.url = dsource
+        self.url = str(self.cmbDataset.currentText())
         
         #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         self.nc = netCDF4.Dataset(self.url)
@@ -348,15 +352,22 @@ class MapWindow(QWidget, Ui_MapWindow):
         if not self.nc is None:
             print 'Model loaded already. Skipping loadModel()...'
             return
-        dsource = str(self.cmbDataset.currentText())
-        if self.cmbDataset.currentIndex() != 0:
-            dsource = 'fvcom/hindcasts/30yr_gom3'
-            self.url = self.url_base + dsource
+
+        self.url = str(self.cmbDataset.currentText())
         
+        if self.cmbDataset.currentIndex() == 0:
+             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
+           
+
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
 
         #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
+        base = os.path.basename(self.url)
+        self.ncfile = os.path.splitext(base)[0]
+        
+        print self.url
+        print self.ncfile
         
         self.progressBar.setValue(19)
         
@@ -393,14 +404,15 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print self.dtFrom.time().toString()
  
     def onPlotDepth(self):
+        self.loadModel()
         collections =  self.plotDepth() 
-        fnamebase = '/home/rashad/ee'
-        self.fflist.clear()
+        fnamebase = self.basepath + "/" + self.ncfile
+        self.fflist = []
 
         ds, lyr = self.init_vector(fnamebase)
         fid = 0
-        
         self.fflist.append(fnamebase)
+        
         for col in collections:
             p = col.get_paths()[0]
             feat = ogr.Feature( lyr.GetLayerDefn())
