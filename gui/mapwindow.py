@@ -88,6 +88,8 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         self.setupUi(self)
         
+        self.datasetmap = dict()
+        
         ##self.simkml = Kml(open=1)
         
         
@@ -102,12 +104,16 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.canvas = FigureCanvas(self.figure)
         
         self.allVarsModel = QStandardItemModel(self)
+        dictindex = 1
         #self.cmbVars.setModel(self.allVarsModel)
         for i in xrange(datalistmodel.rowCount()):
             for j in xrange(datalistmodel.columnCount()):
                 catalogitem = datalistmodel.item(i,j)
                 ncf = str(catalogitem.text())
+                self.datasetmap[dictindex] = ncf
                 self.cmbDataset.addItem(os.path.basename(ncf))
+                dictindex = dictindex + 1
+                #self.cmbDataset.addItem(catalogitem.text())
 
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
@@ -314,8 +320,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         if self.cmbDataset.currentIndex() == 0:
             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
             return
-        self.url = str(self.cmbDataset.currentText())
-        
+        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+        print self.url
         #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         self.nc = netCDF4.Dataset(self.url)
         
@@ -353,7 +359,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             print 'Model loaded already. Skipping loadModel()...'
             return
 
-        self.url = str(self.cmbDataset.currentText())
+        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
         
         if self.cmbDataset.currentIndex() == 0:
              self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
@@ -367,7 +373,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.ncfile = os.path.splitext(base)[0]
         
         print self.url
-        print self.ncfile
+        #print self.ncfile
         
         self.progressBar.setValue(19)
         
@@ -558,7 +564,7 @@ class MapWindow(QWidget, Ui_MapWindow):
 
     def onPlotCurrent(self):
         
-        self.fflist.clear()
+        self.fflist= []
         self.figure.clf()
         self.canvas.draw()
 
