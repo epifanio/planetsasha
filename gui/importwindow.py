@@ -43,7 +43,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.url_prefix = '/thredds/'
         
         #self.datac= [][]
-   	#imgQ = ImageQt.ImageQt(img)
+   	    #imgQ = ImageQt.ImageQt(img)
         pixMap = QPixmap.fromImage(QImage("gui/images/qgis_world.png"))
         self.dslist = []
         scene = QGraphicsScene()
@@ -67,13 +67,50 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.cmbService.currentIndexChanged.connect(self.onToggleBBox)
         self.treeView.doubleClicked.connect(self.onSelect)
 
+    def getDatasetBaseFromTree(self, item):
+        a = item
+        b = []
+
+        b.append("/")
+        while a.parent():
+            b.append(str(a.text()))
+            b.append("/")
+            a = a.parent()
+            
+        cc = ""
+        ##print b
+        ##print "here"
+        
+        i  = len(b) - 1
+        ww = 0
+        while i > -1:
+            if ww == 1:
+                qq = b[i]
+                cc = cc + qq.lower()
+            else:
+                cc = cc + b[i]
+            i = i - 1
+            ww = ww + 1
+        ##print cc
+        #cc = cc[:-1]
+        #print cc
+        return cc[:-1]
+        
+        #return b
 
     def onAddToList(self):
         for index in self.treeView.selectedIndexes():
             item = self.model.itemFromIndex(index)
+            self.urlbase = "http://www.smast.umassd.edu:8080/thredds/"
+            self.catalogbase = "fileServer/models/"
+            ##self.datasetbase = 
+            #http://www.smast.umassd.edu:8080/thredds/fileServer/models/
             if not item.hasChildren() and item.text() != '--Fetch--':
-                self.lmodel.appendRow(QStandardItem(item.text()))
+                itemtext = self.urlbase + self.catalogbase + self.getDatasetBaseFromTree(item)
+                ##print itemtext
+                self.lmodel.appendRow(QStandardItem(itemtext))
 
+           
     def onSelect(self, index):
         item = self.model.itemFromIndex(index)
         
@@ -319,7 +356,6 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
         f.write('\t</catalog>\n')
         f.write('</root>')
-
         self.mapwin =  MapWindow(self.lmodel)
         #FIXME
         self.mdi.addSubWindow(self.mapwin)
