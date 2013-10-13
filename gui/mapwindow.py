@@ -105,15 +105,16 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.allVarsModel = QStandardItemModel(self)
         dictindex = 1
-        #self.cmbVars.setModel(self.allVarsModel)
-        for i in xrange(datalistmodel.rowCount()):
-            for j in xrange(datalistmodel.columnCount()):
-                catalogitem = datalistmodel.item(i,j)
-                ncf = str(catalogitem.text())
-                self.datasetmap[dictindex] = ncf
-                self.cmbDataset.addItem(os.path.basename(ncf))
-                dictindex = dictindex + 1
-                #self.cmbDataset.addItem(catalogitem.text())
+        if datalistmodel:
+            #self.cmbVars.setModel(self.allVarsModel)
+            for i in xrange(datalistmodel.rowCount()):
+                for j in xrange(datalistmodel.columnCount()):
+                    catalogitem = datalistmodel.item(i,j)
+                    ncf = str(catalogitem.text())
+                    self.datasetmap[dictindex] = ncf
+                    self.cmbDataset.addItem(os.path.basename(ncf))
+                    dictindex = dictindex + 1
+                    #self.cmbDataset.addItem(catalogitem.text())
 
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
@@ -321,7 +322,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
             return
         self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
-        print self.url
+        #print self.url
         #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
         self.nc = netCDF4.Dataset(self.url)
         
@@ -359,7 +360,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             print 'Model loaded already. Skipping loadModel()...'
             return
 
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+        
         
         if self.cmbDataset.currentIndex() == 0:
              self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
@@ -368,7 +369,10 @@ class MapWindow(QWidget, Ui_MapWindow):
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
 
-        #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
+        #self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/models/fvcom/NECOFS/Forecasts/sci_20100602-20100605.nc'
+        
+        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+        
         base = os.path.basename(self.url)
         self.ncfile = os.path.splitext(base)[0]
         
