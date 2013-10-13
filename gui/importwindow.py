@@ -102,7 +102,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         for index in self.treeView.selectedIndexes():
             item = self.model.itemFromIndex(index)
             self.urlbase = "http://www.smast.umassd.edu:8080/thredds/"
-            self.catalogbase = "fileServer/models/"
+            self.catalogbase = "dodsC/models/"
             ##self.datasetbase = 
             #http://www.smast.umassd.edu:8080/thredds/fileServer/models/
             if not item.hasChildren() and item.text() != '--Fetch--':
@@ -268,7 +268,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.listView.setModel(self.lmodel)
         
         self.type_s = ImportWindow.TH #D code
-        self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
+        #self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
+        urlinfotext = 'Catalog Home: ' + self.url_s
+        self.lblInfo.setText(urlinfotext)
         
         
         self.url_base = self.url_s.rsplit('/',1)[0]
