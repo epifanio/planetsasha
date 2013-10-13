@@ -311,12 +311,14 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.cmbLat.clear()
         self.cmbLon.clear()
-        #self.cmbVars.clear()
+        self.cmbVars.clear()
+        self.cmbNvVars.clear()
         
         self.cmbLat.addItem('--select-lat-var--')
         self.cmbLon.addItem('--select-lon-var--')
 
-        self.cmbVars.addItem('--select-other-var--')        
+        self.cmbVars.addItem('--select-other-var--') 
+        self.cmbNvVars.addItem('--select-nv-var--')     
         
         if self.cmbDataset.currentIndex() == 0:
             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
@@ -324,21 +326,17 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
         #print self.url
         #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
-        self.nc = netCDF4.Dataset(self.url)
+        tmpnc = netCDF4.Dataset(self.url)
         
-        allvars = self.nc.variables.keys()
+        allvars = tmpnc.variables.keys()
         for var in allvars:
             self.cmbLat.addItem(var)
             self.cmbLon.addItem(var)
-            #item = QStandardItem()
-            #item.setText('xxxxxxxxxxx')
-            #item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled | Qt.ItemIsEditable)
-            #item.setData(Qt.Checked, Qt.CheckStateRole)
-            #self.allVarsModel.appendRow(item)
             self.cmbVars.addItem(var)
+            self.cmbNvVars.addItem(var)
         #print allvars
             
-
+        tmpnc = None
 
 
     def animate(self, start = True):

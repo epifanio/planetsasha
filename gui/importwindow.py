@@ -268,7 +268,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.listView.setModel(self.lmodel)
         
         self.type_s = ImportWindow.TH #D code
-        self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
+        #self.url_s = 'http://www.smast.umassd.edu:8080/thredds'
+        urlinfotext = 'Catalog Home: ' + self.url_s
+        self.lblInfo.setText(urlinfotext)
         
         
         self.url_base = self.url_s.rsplit('/',1)[0]
