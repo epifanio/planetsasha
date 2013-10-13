@@ -51,6 +51,7 @@ import random
 import time
 
 from gui.kmldialog import KmlSettings
+from gui.vardialog import VarSettings
 
 from g2k import GrassToKml
 
@@ -124,10 +125,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
         
-        self.cmbLat.currentIndexChanged.connect(self.OnCmbLatChanged)
-        self.cmbLon.currentIndexChanged.connect(self.OnCmbLonChanged)
-        self.cmbNvVars.currentIndexChanged.connect(self.OnCmbNvVarChanged)
+        #self.cmbLat.currentIndexChanged.connect(self.OnCmbLatChanged)
+        #self.cmbLon.currentIndexChanged.connect(self.OnCmbLonChanged)
+        #self.cmbNvVars.currentIndexChanged.connect(self.OnCmbNvVarChanged)
         self.cmbInterpMethod.currentIndexChanged.connect(self.OnCmbInterpMethodChanged)
+        self.btSelectVars.clicked.connect(self.OnSelectVars)
         #print var (for var in self.testnc.variables)
        
            
@@ -153,6 +155,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.timevar = 'time'
         self.nvvar = 'nv'
         self.hvar = 'h'
+        self.uvar = 'u'
+        self.vvar = 'v'
         self.interp_method = 'nearest'
         self.basepath = '/home/rashad/'
         self.ncfile = ''
@@ -196,7 +200,49 @@ class MapWindow(QWidget, Ui_MapWindow):
         #self.kmlstr = ''
         # refresh canvas
         self.canvas.draw()
+
+    def OnSelectVars(self):
+
+        if self.cmbDataset.currentIndex() == 0:
+            print 'Please select a dataset before selecting var or import using import window'
+            
+            #self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc" #shouldn't reach here
+            return
+        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+
+        tmpnc = netCDF4.Dataset(self.url)
         
+        allvars = tmpnc.variables.keys()
+        vardict = {'lat':'lat' ,'lon': 'lon', 'latc': 'latc','lonc': 'lonc',
+                   'time':'time', 'nv': 'nv', 'h': 'h', 'u': 'u', 'v': 'v'
+                }
+
+        dlg = VarSettings(allvars,vardict)
+
+
+        if dlg.exec_():
+            self.latvar = dlg.getSettings("lat")
+            self.lonvar = dlg.getSettings("lon")
+            self.latcvar = dlg.getSettings("latc")
+            self.loncvar = dlg.getSettings("lonc")
+            self.timevar = dlg.getSettings("time")
+            self.nvvar = dlg.getSettings("nv")   
+            self.hvar = dlg.getSettings("h")
+            self.uvar = dlg.getSettings("u")
+            self.uvar = dlg.getSettings("v")
+            """
+            print 'printing......'
+            print self.latvar
+            print self.lonvar
+            print self.latcvar
+            print self.loncvar
+            print self.timevar
+            print self.nvvar
+            print self.hvar
+            print self.uvar
+            print self.vvar
+            """    
+    """     
     def OnCmbLatChanged(self):
         if self.cmbLat.currentIndex() > 0:
             self.latvar = str(self.cmbLat.currentText())
@@ -208,7 +254,7 @@ class MapWindow(QWidget, Ui_MapWindow):
     def OnCmbNvVarChanged(self):
         if self.cmbNvVars.currentIndex() > 0:
             self.nvvar = str(self.cmbNvVars.currentText())
-    
+    """
     def OnCmbInterpMethodChanged(self):
         if self.cmbInterpMethod.currentIndex() > 0:
             self.interp_method = str(self.cmbInterpMethod.currentText())
@@ -327,36 +373,12 @@ class MapWindow(QWidget, Ui_MapWindow):
         
            
     def loadDataset(self):
-    
-        
-        self.cmbLat.clear()
-        self.cmbLon.clear()
-        self.cmbVars.clear()
-        self.cmbNvVars.clear()
-        
-        self.cmbLat.addItem('--select-lat-var--')
-        self.cmbLon.addItem('--select-lon-var--')
-
-        self.cmbVars.addItem('--select-other-var--') 
-        self.cmbNvVars.addItem('--select-nv-var--')     
         
         if self.cmbDataset.currentIndex() == 0:
             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
             return
         self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
         #print self.url
-        #self.url = '/home/rashad/Downloads/NECOFS_FVCOM_OCEAN_FORECAST.nc'
-        tmpnc = netCDF4.Dataset(self.url)
-        
-        allvars = tmpnc.variables.keys()
-        for var in allvars:
-            self.cmbLat.addItem(var)
-            self.cmbLon.addItem(var)
-            self.cmbVars.addItem(var)
-            self.cmbNvVars.addItem(var)
-        #print allvars
-            
-        tmpnc = None
 
 
     def animate(self, start = True):
@@ -681,8 +703,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print start
         istart = netCDF4.date2index(startdt,self.time_var,select=self.interp_method)
         layer = 0 # surface layer
-        u = self.nc.variables['u'][istart, layer, :]
-        v = self.nc.variables['v'][istart, layer, :]
+        u = self.nc.variables[self.uvar][istart, layer, :]
+        v = self.nc.variables[self.vvar][istart, layer, :]
         mag = numpy.sqrt((u*u)+(v*v)) 
         
         #print start
