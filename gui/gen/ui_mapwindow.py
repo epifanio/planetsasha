@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/mapwindow.ui'
 #
-# Created: Sun Oct  6 20:36:09 2013
+# Created: Sun Oct 13 19:03:54 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -65,13 +65,14 @@ class Ui_MapWindow(object):
         self.cmbNvVars.setObjectName(_fromUtf8("cmbNvVars"))
         self.cmbNvVars.addItem(_fromUtf8(""))
         self.horizontalLayout_4.addWidget(self.cmbNvVars)
-        self.comboBox = QtGui.QComboBox(self.verticalLayoutWidget)
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.comboBox.addItem(_fromUtf8(""))
-        self.horizontalLayout_4.addWidget(self.comboBox)
+        self.cmbInterpMethod = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.cmbInterpMethod.setObjectName(_fromUtf8("cmbInterpMethod"))
+        self.cmbInterpMethod.addItem(_fromUtf8(""))
+        self.cmbInterpMethod.addItem(_fromUtf8(""))
+        self.cmbInterpMethod.addItem(_fromUtf8(""))
+        self.cmbInterpMethod.addItem(_fromUtf8(""))
+        self.cmbInterpMethod.addItem(_fromUtf8(""))
+        self.horizontalLayout_4.addWidget(self.cmbInterpMethod)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
@@ -199,10 +200,11 @@ class Ui_MapWindow(object):
         self.cmbLat.setItemText(0, _translate("MapWindow", "--select-lat-var--", None))
         self.cmbLon.setItemText(0, _translate("MapWindow", "--select-lon-var--", None))
         self.cmbNvVars.setItemText(0, _translate("MapWindow", "--select-nv--", None))
-        self.comboBox.setItemText(0, _translate("MapWindow", "--select-interpolation-method--", None))
-        self.comboBox.setItemText(1, _translate("MapWindow", "nearest", None))
-        self.comboBox.setItemText(2, _translate("MapWindow", "bilinear", None))
-        self.comboBox.setItemText(3, _translate("MapWindow", "cubic", None))
+        self.cmbInterpMethod.setItemText(0, _translate("MapWindow", "--select-interpolation-method--", None))
+        self.cmbInterpMethod.setItemText(1, _translate("MapWindow", "nearest", None))
+        self.cmbInterpMethod.setItemText(2, _translate("MapWindow", "exact", None))
+        self.cmbInterpMethod.setItemText(3, _translate("MapWindow", "before", None))
+        self.cmbInterpMethod.setItemText(4, _translate("MapWindow", "after", None))
         self.label_2.setText(_translate("MapWindow", "From Date", None))
         self.label_3.setText(_translate("MapWindow", "To Date", None))
         self.chkDepth.setText(_translate("MapWindow", "Depth", None))

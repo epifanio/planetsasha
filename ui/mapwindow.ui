@@ -81,7 +81,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="cmbInterpMethod">
         <item>
          <property name="text">
           <string>--select-interpolation-method--</string>
@@ -94,12 +94,17 @@
         </item>
         <item>
          <property name="text">
-          <string>bilinear</string>
+          <string>exact</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>cubic</string>
+          <string>before</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>after</string>
          </property>
         </item>
        </widget>

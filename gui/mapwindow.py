@@ -123,9 +123,14 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.btAnimate.clicked.connect(self.onAnimate)
         #self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout.addWidget(self.canvas)
-
-        #print var (for var in self.testnc.variables)
         
+        self.cmbLat.currentIndexChanged.connect(self.OnCmbLatChanged)
+        self.cmbLon.currentIndexChanged.connect(self.OnCmbLonChanged)
+        self.cmbNvVars.currentIndexChanged.connect(self.OnCmbNvVarChanged)
+        self.cmbInterpMethod.currentIndexChanged.connect(self.OnCmbInterpMethodChanged)
+        #print var (for var in self.testnc.variables)
+       
+           
         self.movie = QMovie(":/icons/icons/loading.gif");
         self.lbLoading.setMovie(self.movie)
         
@@ -192,7 +197,22 @@ class MapWindow(QWidget, Ui_MapWindow):
         # refresh canvas
         self.canvas.draw()
         
-                
+    def OnCmbLatChanged(self):
+        if self.cmbLat.currentIndex() > 0:
+            self.latvar = str(self.cmbLat.currentText())
+        
+    def OnCmbLonChanged(self): 
+        if self.cmbLon.currentIndex() > 0:
+            self.lonvar = str(self.cmbLon.currentText())           
+    
+    def OnCmbNvVarChanged(self):
+        if self.cmbNvVars.currentIndex() > 0:
+            self.nvvar = str(self.cmbNvVars.currentText())
+    
+    def OnCmbInterpMethodChanged(self):
+        if self.cmbInterpMethod.currentIndex() > 0:
+            self.interp_method = str(self.cmbInterpMethod.currentText())
+               
     def onAnimate(self):
 
       
