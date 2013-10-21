@@ -58,6 +58,9 @@ from g2k import GrassToKml
 from netCDF4 import Dataset
 from matplotlib.patches import PathPatch
 
+import module_locator
+
+
 
 class DataTransferThread(QThread):
     def __init__(self, flist):
@@ -138,7 +141,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.animate(False)
         self.fflist  = []
-        self.url ="" #"/home/rashad/Downloads/sci_20100602-20100605.nc" #set in loadmodel for now
+        self.url ="" 
         self.OUT_PATH = "" 
 
         self._tessellate = 0
@@ -158,10 +161,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.uvar = 'u'
         self.vvar = 'v'
         self.interp_method = 'nearest'
+	my_path = module_locator.module_path()
+	print my_path
         self.basepath = '/home/rashad/'
         self.ncfile = ''
         
-        #delfile('/home/rashad/aa.kml','localhost',8000)
         
                 
         self.figure.clf()
@@ -262,7 +266,6 @@ class MapWindow(QWidget, Ui_MapWindow):
     def onAnimate(self):
 
       
-        #self.fflist =  [ "/home/rashad/aa.shp", "/home/rashad/bb.shp", "/home/rashad/cc.shp", "/home/rashad/dd.shp"]
         self.kmllist = []
         for shpfile in self.fflist:
             inputvector = shpfile + ".shp"
@@ -375,7 +378,7 @@ class MapWindow(QWidget, Ui_MapWindow):
     def loadDataset(self):
         
         if self.cmbDataset.currentIndex() == 0:
-            self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
+            self.url = ""
             return
         self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
         #print self.url
@@ -403,7 +406,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         
         if self.cmbDataset.currentIndex() == 0:
-             self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc"
+	   print 'No data source selected'
+           return
            
 
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
@@ -618,34 +622,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(51)
         frmDate = self.dtFrom.dateTime()
 
-        """
-        #collections = []
-        filenamebase = "/home/rashad/fromgdal"
-        fname = filenamebase + ".kml"
-        
-        dbfilename = filenamebase + ".db"
-        conn = sqlite3.connect(dbfilename)
-        cur = conn.cursor()
-        sql = "create table if not exists polystyle (id varchar(30), color varchar(35))"
-        cur.execute(sql)
-        conn.commit()
-        cur.close()
-        conn.close()
-        
-        self.conn = sqlite3.connect(dbfilename)
-        self.dbcur = self.conn.cursor()
+    
 
-        
-        coll = self.plotCurrent(frmDate,filenamebase)
-        self.conn.commit()
-        self.dbcur.close()
-        self.conn.close()
-        """
-        
-        #collections.append(coll)       
-        
-        #fname = '/home/rashad/cc.kml'
-        #self.createkml(collections, fname)
         self.fflist = []
         while frmDate.date().toString() != self.dtTo.dateTime().date().toString():
             frmDate = frmDate.addDays(1)
@@ -660,12 +638,7 @@ class MapWindow(QWidget, Ui_MapWindow):
  #           delfile(ff,'localhost',8000)
             
         print self.fflist
-            #p = coll.get_paths()[0]            
 
-            #fname = '/home/rashad/cc.kml'
-            #self.createkml(collections, fname)
-            #sys.exit(1)
-            #"""
 
         
                 
