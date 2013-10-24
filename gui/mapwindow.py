@@ -58,8 +58,6 @@ from g2k import GrassToKml
 from netCDF4 import Dataset
 from matplotlib.patches import PathPatch
 
-import module_locator
-
 
 
 class DataTransferThread(QThread):
@@ -161,9 +159,9 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.uvar = 'u'
         self.vvar = 'v'
         self.interp_method = 'nearest'
-	my_path = module_locator.module_path()
-	print my_path
-        self.basepath = '/home/rashad/'
+        full_path = os.path.realpath(__file__)
+        self.basepath = os.path.dirname(full_path) + '/'
+        print self.basepath
         self.ncfile = ''
         
         
