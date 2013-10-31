@@ -86,6 +86,11 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         self.connectHeadSignals()
         self.connectSpeedSignals()
         self.connectZoomRangeSignals()
+        
+        
+        self.fxvallon = self.SetPosition()[0]
+        self.fxvallat = self.SetPosition()[1]
+        self.slstep = 1
 
         #self.slvallon = self.getCenter()[0]
         #self.slvallat = self.getCenter()[1]
@@ -101,7 +106,8 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
 #        # Grass Shell
 #        self.connect(self.actionGrassshell, SIGNAL("triggered()"), 
 #                     self.GrassShell)
-                     
+
+                                          
                                         
     def connectPanSignals(self):
         self.connect(self.center, SIGNAL("clicked()"),
@@ -378,23 +384,24 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         lat = self.Lat.text()
         if heads == str('Manual'):
             heads = self.HandlingSlider.value()
-        if Utils.preferences().getSettings('actionLonLat', 'check'): #self.actionLonLat.isChecked():
+        if Utils.preferences().getSettings('actionLonLat'): #self.actionLonLat.isChecked():
+            print 'yes'
             lat = self.fxvallat
             lon = self.fxvallon
-            if self.NorthEast.isChecked():
+            if self.northeast.isChecked():
                 (z, e, n) = LLtoUTM(ell, lat, lon)
                 self.Nord.setText(str(n))
-                self.East.setText(str(e))
+                self.east.setText(str(e))
                 self.utmcode.setText(str(z))
         if Utils.haveGRASS_ != 0:
-            if Utils.preferences().getSettings('actionGrass', 'check'): #self.actionGrass.isChecked():
+            if Utils.preferences().getSettings('actionGrass'): #self.actionGrass.isChecked():
                 lon = self.slvallon
                 lat = self.slvallat
-                if self.NorthEast.isChecked():
+                if self.northeast.isChecked():
                     xy = getlonlat(lon,lat)
                     self.Nord.setText(xy[1])
-                    self.East.setText(xy[0])
-        if Utils.preferences().getSettings('actionGPS', 'check'): #self.actionGPS.isChecked():
+                    self.east.setText(xy[0])
+        if Utils.preferences().getSettings('actionGPS'): #self.actionGPS.isChecked():
             lon = self.GPSlon.text()
             lat = self.GPSlat.text()
         pos = [lon,lat,zoom,heads,pitch,roll,range]
@@ -412,7 +419,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         self.fireAction(ossimxml)
         self.Lat.setText(unicode(pos[1]))
         self.Lon.setText(unicode(pos[0]))
-        #xprint 'sendFunction commented'
+        print 'sendFunction commented'
     
 
     def ResetPosition(self):
@@ -420,13 +427,14 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         head = self.head
         if head == str('Manual'):
             self.heads = self.HandlingSlider.value()
-        if Utils.preferences().getSettings('actionLonLat', 'check'):
+        if Utils.preferences().getSettings('actionLonLat'):
+            print 'setted alonlat'
             self.fxvallon = self.SetPosition()[0]
             self.fxvallat = self.SetPosition()[1]
-            if self.NorthEast.isChecked():
+            if self.northeast.isChecked():
                 (z, e, n) = LLtoUTM(ell, self.fxvallat, self.fxvallon)
                 self.Nord.setText(str(n))
-                self.East.setText(str(e))
+                self.east.setText(str(e))
                 self.utmcode.setText(str(z))
             ossimxml =  Utils.makeActionTemplate(self.item, unicode(self.fxvallon), unicode(self.fxvallat), 
                                              self.ZoomSlider.value(), 0, 0, 
@@ -439,17 +447,17 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
                 self.slvallon = self.getCenter()[0]
                 self.slvallat = self.getCenter()[1]
                 #xprint self.slvallon, self.slvallat
-                if self.NorthEast.isChecked():
+                if self.northeast.isChecked():
                     xy = getlonlat(self.slvallon,self.slvallat)
                     self.Nord.setText(xy[1])
-                    self.East.setText(xy[0])
+                    self.east.setText(xy[0])
             ossimxml =  Utils.makeActionTemplate(self.item, unicode(self.slvallon), unicode(self.slvallat), 
                                              self.ZoomSlider.value(), 0, 0, 
                                              0, self.RangeSlider.value())
             self.Lat.setText(unicode(self.slvallat))
             self.Lon.setText(unicode(self.slvallon))
             self.fireAction(ossimxml)
-        if self.actionGPS.isChecked():
+        if Utils.preferences().getSettings('actionGPS'):
             #self.CrossClassLon = float(self.CrossClassLon)
             #self.CrossClassLat = float(self.CrossClassLat)
             coordsfile = apppath+'/lonlatfile'
@@ -477,7 +485,8 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         step = float(self.SpeedSpinBox.value())
         mult = float(self.SpeedMultipler.value())
         step = step * (10 ** -mult)
-        if Utils.preferences().getSettings('actionLonLat', 'check'):
+
+        if Utils.preferences().getSettings('actionLonLat'):
             if action == 'inclat' :
                 self.fxvallat += step
             if action == 'inclon' :
@@ -528,9 +537,9 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
 
 
     def CeckViewTypeState(self):
-        if not Utils.preferences().getSettings('actionLonLat', 'check'): #self.actionLonLat.isChecked():
+        if not Utils.preferences().getSettings('actionLonLat'): #self.actionLonLat.isChecked():
             if Utils.haveGRASS_ !=0:
-                if not Utils.preferences().getSettings('actionGrass', 'check'): #self.actionGrass.isChecked():
+                if not Utils.preferences().getSettings('actionGrass'): #self.actionGrass.isChecked():
                     #self.worningmessage('check a view type')
                     x = 1
                     #FIXME
@@ -538,7 +547,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
     def fireAction(self, xml):
         result = Utils.fireAction(xml)
         if result < 0:
-                if not Utils.preferences().getSettings('actionBroadcast', 'check'):#self.actionBroadcast.isChecked(): FIXME
+                if not Utils.preferences().getSettings('actionBroadcast'):#self.actionBroadcast.isChecked(): FIXME
                     self.CeckViewTypeState()
              
         
@@ -649,9 +658,12 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
     
     def SetPosition(self):
         #global centro
-        lon = float(self.Lon.text())
-        lat = float(self.Lat.text())
-        centro = (lon,lat)
+        lon = 0
+        lat = 0
+        if not self.Lat.text() == "" and not self.Lon.text() == "":
+            lon = str(self.Lon.text())
+            lat = str(self.Lat.text())
+        centro = (float(lon),float(lat))
         return centro
     
     

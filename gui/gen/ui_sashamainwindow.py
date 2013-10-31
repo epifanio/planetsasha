@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/sashamainwindow.ui'
 #
-# Created: Sat Aug  3 17:45:01 2013
+# Created: Thu Oct 31 08:01:36 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,17 +63,21 @@ class Ui_SashaMainWindow(object):
         self.actionM_Query = QtGui.QAction(SashaMainWindow)
         self.actionM_Query.setObjectName(_fromUtf8("actionM_Query"))
         self.actionM_GPS = QtGui.QAction(SashaMainWindow)
+        self.actionM_GPS.setEnabled(False)
+        self.actionM_GPS.setVisible(True)
         self.actionM_GPS.setObjectName(_fromUtf8("actionM_GPS"))
         self.actionT_Model = QtGui.QAction(SashaMainWindow)
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/cubo.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_Model.setIcon(icon1)
+        self.actionT_Model.setVisible(False)
         self.actionT_Model.setObjectName(_fromUtf8("actionT_Model"))
         self.actionT_Joystick = QtGui.QAction(SashaMainWindow)
         self.actionT_Joystick.setCheckable(True)
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/joystick.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_Joystick.setIcon(icon2)
+        self.actionT_Joystick.setVisible(False)
         self.actionT_Joystick.setObjectName(_fromUtf8("actionT_Joystick"))
         self.actionT_LonLat = QtGui.QAction(SashaMainWindow)
         self.actionT_LonLat.setCheckable(True)
@@ -159,11 +163,13 @@ class Ui_SashaMainWindow(object):
         icon14 = QtGui.QIcon()
         icon14.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/keyser-tux-wifi-logo-2300.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_HW.setIcon(icon14)
+        self.actionT_HW.setVisible(False)
         self.actionT_HW.setObjectName(_fromUtf8("actionT_HW"))
         self.actionT_VectorOp = QtGui.QAction(SashaMainWindow)
         icon15 = QtGui.QIcon()
         icon15.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/SquadraCompasso.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_VectorOp.setIcon(icon15)
+        self.actionT_VectorOp.setVisible(False)
         self.actionT_VectorOp.setObjectName(_fromUtf8("actionT_VectorOp"))
         self.actionT_Broadcast = QtGui.QAction(SashaMainWindow)
         self.actionT_Broadcast.setCheckable(True)
@@ -203,6 +209,15 @@ class Ui_SashaMainWindow(object):
         self.actionM_Import.setObjectName(_fromUtf8("actionM_Import"))
         self.actionM_Map = QtGui.QAction(SashaMainWindow)
         self.actionM_Map.setObjectName(_fromUtf8("actionM_Map"))
+        self.actionExport = QtGui.QAction(SashaMainWindow)
+        self.actionExport.setObjectName(_fromUtf8("actionExport"))
+        self.actionT_GPS = QtGui.QAction(SashaMainWindow)
+        self.actionT_GPS.setCheckable(True)
+        self.actionT_GPS.setChecked(True)
+        icon19 = QtGui.QIcon()
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/satellite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionT_GPS.setIcon(icon19)
+        self.actionT_GPS.setObjectName(_fromUtf8("actionT_GPS"))
         self.menuSasha.addAction(self.actionM_Navigation)
         self.menuSasha.addAction(self.actionM_Query)
         self.menuSasha.addAction(self.actionM_GPS)
@@ -214,11 +229,13 @@ class Ui_SashaMainWindow(object):
         self.menuTools.addAction(self.actionM_Ossim)
         self.menuData.addAction(self.actionM_Import)
         self.menuData.addAction(self.actionM_Map)
+        self.menuData.addAction(self.actionExport)
         self.menubar.addAction(self.menuSasha.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuData.menuAction())
-        self.toolBar.addAction(self.actionT_Grass)
         self.toolBar.addAction(self.actionT_LonLat)
+        self.toolBar.addAction(self.actionT_Grass)
+        self.toolBar.addAction(self.actionT_GPS)
         self.toolBar.addAction(self.actionT_Broadcast)
         self.toolBar.addAction(self.actionT_Joystick)
         self.toolBar.addAction(self.actionT_HW)
@@ -286,5 +303,7 @@ class Ui_SashaMainWindow(object):
         self.actionM_Ossim.setText(_translate("SashaMainWindow", "OSSIM App", None))
         self.actionM_Import.setText(_translate("SashaMainWindow", "Import", None))
         self.actionM_Map.setText(_translate("SashaMainWindow", "View", None))
+        self.actionExport.setText(_translate("SashaMainWindow", "Export", None))
+        self.actionT_GPS.setText(_translate("SashaMainWindow", "GPS", None))
 
 import resources_rc

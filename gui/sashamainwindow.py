@@ -62,7 +62,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.actionM_Ossim.triggered.connect(self.showOssimWindow)
 
         #self.connect(self.actionLonLat, SIGNAL("triggered()"),           self.LonLatunceckbuttons)                 
-
+#        connection
 
         self.joy = logJ()
         self.log = logS()
@@ -83,8 +83,10 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 
     def showNavWindow(self):
         self.navwin =  NavigationWindow()
+        self.LonLatunceckbuttons()
         self.mdiArea.addSubWindow(self.navwin)
         self.navwin.show()
+        
 
     def showQueryWindow(self):
         self.querywin =  QueryWindow()
@@ -184,6 +186,9 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.Lon.setText("0")
         self.Lat.setText("0")
         
+
+        self.connectSignals()
+        
         #
         self.grassvectoroption.hide()
         # Hide/Show Slider
@@ -215,11 +220,11 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 
     def connectSignals(self):
         # Hide Panel
-#        self.connect(self.actionHideSlider, SIGNAL("triggered()"), self.hidetool)
+        self.connect(self.actionHideSlider, SIGNAL("triggered()"), self.hidetool)
 
-        #self.connectZoomSignals()
-        #self.connectPlaceSignals()
-        #self.connectActionSignals()
+        self.connectZoomSignals()
+        self.connectPlaceSignals()
+        self.connectActionSignals()
 
 
         # Epsg search-tool
@@ -315,7 +320,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     def connectGpsActions(self):    
         self.connect(self.actionGPS, SIGNAL("triggered()"), 
                      self.startstopgpsx)	
-        self.connect(self.actionGPS, SIGNAL("triggered()"), 
+        self.connect(self.actionT_GPS, SIGNAL("triggered()"), 
                      self.GPSunceckbuttons)
         self.connect(self.actionGPS, SIGNAL("triggered()"), 
                      self.stopstartgpsx)
@@ -324,10 +329,10 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         #self.connect(self.actionGPS, SIGNAL("triggered()"),
         #             self.GpsHandling)
         
-    def connectLonLatActions(self):        
+    #def connectLonLatActions(self):        
         # LON LAT
-        self.connect(self.actionLonLat, SIGNAL("triggered()"),
-                     self.LonLatunceckbuttons)
+        #self.connect(self.actionLonLat, SIGNAL("triggered()"),
+                     #self.LonLatunceckbuttons)
         # GRASS
         #self.connect(self.actionGrass, SIGNAL("triggered()"),
         #             self.Grassunceckbuttons)
@@ -809,6 +814,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 # Set Toolbar Action
     
     def GPSunceckbuttons(self):
+        Utils.preferences().setSettings('actionGPS',True)
         self.actionLonLat.setChecked(False)
         if Utils.haveGRASS_ != 0:
             self.actionGrass.setChecked(False)
@@ -822,17 +828,19 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     
     
     def LonLatunceckbuttons(self):
-        if self.actionGPS.isChecked():
+
+        Utils.preferences().setSettings('actionLonLat',True)
+        if self.actionT_GPS.isChecked():
             self.gpsx.stop()
-            self.actionGPS.setChecked(False)
+            self.actionT_GPS.setChecked(False)
         if Utils.haveGRASS_ != 0:
-            self.actionGrass.setChecked(False)
-        if self.actionJoystick.isChecked():
-            self.joy.stop()
-            self.actionJoystick.setChecked(False)
-        if self.actionHW.isChecked():
+            self.actionT_Grass.setChecked(False)
+        #if self.actionJoystick.isChecked():
+        #    self.joy.stop()
+        #    self.actionJoystick.setChecked(False)
+        if self.actionT_HW.isChecked():
             self.hw.stop()
-            self.actionHW.setChecked(False)
+            self.actionT_HW.setChecked(False)
     
     
     def Grassunceckbuttons(self):
@@ -857,6 +865,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     
     
     def Serialunceckbuttons(self):
+        Utils.preferences().setSettings('actionBroadcast',True)
         self.actionGPS.setChecked(False)
         self.actionLonLat.setChecked(False)
         if Utils.haveGRASS_ != 0:
