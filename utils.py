@@ -139,7 +139,7 @@ class Utils(object):
             
         except Exception, e:
             print 'error in message from planet!'
-            print e
+            print msg
 
 
 
