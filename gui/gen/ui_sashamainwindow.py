@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/sashamainwindow.ui'
 #
-# Created: Thu Oct 31 08:01:36 2013
+# Created: Thu Oct 31 11:52:20 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -173,6 +173,7 @@ class Ui_SashaMainWindow(object):
         self.actionT_VectorOp.setObjectName(_fromUtf8("actionT_VectorOp"))
         self.actionT_Broadcast = QtGui.QAction(SashaMainWindow)
         self.actionT_Broadcast.setCheckable(True)
+        self.actionT_Broadcast.setChecked(False)
         icon16 = QtGui.QIcon()
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/Ubuntu_connessione_Internet_.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_Broadcast.setIcon(icon16)
@@ -181,12 +182,12 @@ class Ui_SashaMainWindow(object):
         self.actionCompass.setObjectName(_fromUtf8("actionCompass"))
         self.actionPan_Tool = QtGui.QAction(SashaMainWindow)
         self.actionPan_Tool.setObjectName(_fromUtf8("actionPan_Tool"))
-        self.actionT_GVrt = QtGui.QAction(SashaMainWindow)
-        self.actionT_GVrt.setCheckable(True)
+        self.actionT_Prefs = QtGui.QAction(SashaMainWindow)
+        self.actionT_Prefs.setCheckable(True)
         icon17 = QtGui.QIcon()
         icon17.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/ingranaggio_icona.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionT_GVrt.setIcon(icon17)
-        self.actionT_GVrt.setObjectName(_fromUtf8("actionT_GVrt"))
+        self.actionT_Prefs.setIcon(icon17)
+        self.actionT_Prefs.setObjectName(_fromUtf8("actionT_Prefs"))
         self.actionT_Grass = QtGui.QAction(SashaMainWindow)
         self.actionT_Grass.setCheckable(True)
         icon18 = QtGui.QIcon()
@@ -213,11 +214,14 @@ class Ui_SashaMainWindow(object):
         self.actionExport.setObjectName(_fromUtf8("actionExport"))
         self.actionT_GPS = QtGui.QAction(SashaMainWindow)
         self.actionT_GPS.setCheckable(True)
-        self.actionT_GPS.setChecked(True)
+        self.actionT_GPS.setChecked(False)
         icon19 = QtGui.QIcon()
         icon19.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/satellite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionT_GPS.setIcon(icon19)
         self.actionT_GPS.setObjectName(_fromUtf8("actionT_GPS"))
+        self.actionGrassshell = QtGui.QAction(SashaMainWindow)
+        self.actionGrassshell.setIcon(icon12)
+        self.actionGrassshell.setObjectName(_fromUtf8("actionGrassshell"))
         self.menuSasha.addAction(self.actionM_Navigation)
         self.menuSasha.addAction(self.actionM_Query)
         self.menuSasha.addAction(self.actionM_GPS)
@@ -247,7 +251,7 @@ class Ui_SashaMainWindow(object):
         self.toolBar.addAction(self.actionT_Model)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionT_Gt)
-        self.toolBar.addAction(self.actionT_GVrt)
+        self.toolBar.addAction(self.actionT_Prefs)
         self.toolBar.addAction(self.actionT_Exit)
 
         self.retranslateUi(SashaMainWindow)
@@ -292,7 +296,7 @@ class Ui_SashaMainWindow(object):
         self.actionT_Broadcast.setText(_translate("SashaMainWindow", "actionBroadcast", None))
         self.actionCompass.setText(_translate("SashaMainWindow", "Compass", None))
         self.actionPan_Tool.setText(_translate("SashaMainWindow", "Pan-Tool", None))
-        self.actionT_GVrt.setText(_translate("SashaMainWindow", "vrt", None))
+        self.actionT_Prefs.setText(_translate("SashaMainWindow", "vrt", None))
         self.actionT_Grass.setText(_translate("SashaMainWindow", "Grass", None))
         self.actionT_Grass.setToolTip(_translate("SashaMainWindow", "Grass", None))
         self.actionM_Preferences.setText(_translate("SashaMainWindow", "Preferences", None))
@@ -305,5 +309,6 @@ class Ui_SashaMainWindow(object):
         self.actionM_Map.setText(_translate("SashaMainWindow", "View", None))
         self.actionExport.setText(_translate("SashaMainWindow", "Export", None))
         self.actionT_GPS.setText(_translate("SashaMainWindow", "GPS", None))
+        self.actionGrassshell.setText(_translate("SashaMainWindow", "grassshell", None))
 
 import resources_rc

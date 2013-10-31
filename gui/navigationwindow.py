@@ -10,11 +10,14 @@ from gen.ui_navigationwindow import Ui_NavigationWindow
 from drawer import *
 from utils import Utils
 
+from log import *
+
 class NavigationWindow(QWidget, Ui_NavigationWindow):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        
+
+        self.log = None
 
         #self.scrollArea.setWidget(self.widget)
         
@@ -31,6 +34,15 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         
         self.head = 'Manual'
         self.item = self.GetViewType(0)
+                
+        self.Lon.setText("0")
+        self.Lat.setText("0")
+        
+        self.RollSlider.hide()
+        self.PitchSlider.hide()
+        self.HandlingSlider.hide()
+        self.ZoomSlider.hide()
+        self.RangeSlider.hide()
         
         self.rotationAngleSpinBox = QSpinBox()
         self.rotationAngleSpinBox.setRange(0, 359)
@@ -91,6 +103,20 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         self.fxvallon = self.SetPosition()[0]
         self.fxvallat = self.SetPosition()[1]
         self.slstep = 1
+        self.connectPositonActions()
+        
+        # Coordinate Display UTM
+        self.connect(self.ellipse, SIGNAL("currentIndexChanged(int)"), self.ellipsesettings)
+        # View Type
+        self.connect(self.View, SIGNAL("currentIndexChanged(int)"), self.GetViewType)
+        
+        self.connect(self.Place, SIGNAL("currentIndexChanged(int)"),
+                     self.itemlist)
+        self.connect(self.placezone, SIGNAL("currentIndexChanged(int)"), 
+                     self.setplacezonecoords)
+        self.connect(self.refreshsqlite, SIGNAL("clicked()"), self.refreshsqlitedb)
+        
+        #FME:URGENT self.connect(self.update, SIGNAL("clicked()"),self.aggiorna)
 
         #self.slvallon = self.getCenter()[0]
         #self.slvallat = self.getCenter()[1]
@@ -107,7 +133,142 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
 #        self.connect(self.actionGrassshell, SIGNAL("triggered()"), 
 #                     self.GrassShell)
 
-                                          
+    def toogleBroadCast(self, checked):
+
+        if checked:
+            self.log = logS()
+            self.log.start()
+            self.log.LonUpdated.connect(self.Lon.setText)
+            self.log.LatUpdated.connect(self.Lat.setText)
+            self.log.RollUpdated.connect(self.RollSpinBox.setValue)
+            self.log.PitchUpdated.connect(self.PitchSpinBox.setValue)
+            self.log.GainUpdated.connect(self.HandlingSpinBox.setValue)
+            self.log.AltUpdated2.connect(self.Alt.setText)
+            self.log.AltUpdated.connect(self.ZoomSpinBox.setValue)
+            self.log.LookAtLonUpdated.connect(self.lookatLon.setText)
+            self.log.LookAtLatUpdated.connect(self.lookatLat.setText)
+            self.log.LookAtAltitudeUpdated.connect(self.lookatAlt.setText)
+            self.log.LookAtRangeUpdated.connect(self.RangeSpinBox.setValue)
+            print 'starting bcast'
+            self.log.toggle()
+        else :
+            print 'stoppoing bcast'
+            self.log.stop()
+            self.log = None
+            
+    def itemlist(self,index):
+        Zone = self.Place.itemText(index)
+        database_name = parseOutputconf()['spatialitedb']
+        db_connection = None
+        try :
+            db_connection = sqlite3.connect(database_name)
+        except :
+            self.worningmessage('spatialitedb not found')
+        if db_connection is not None:
+            db_connection = sqlite3.connect(database_name)
+            db_cursor = db_connection.cursor()
+            try :
+                listatabelle = db_cursor.execute("SELECT name,latitude,longitude FROM %s ;" % (Zone))
+                tabelle = listatabelle.fetchall()
+                tablelist = []
+                allist = []
+                for i in tabelle:
+                    tablelist.append(i[0])
+                    allist.append(i[0]+' '+str(i[1])+' '+str(i[2]))
+                allist.sort()
+                tablelist.sort()
+                self.placezone.clear()
+                self.placezone.addItems(allist)
+                db_connection.commit()
+            except :
+                print 'reload sqlite' #xprint
+    
+    def refreshsqlitedb(self):
+        #xprint 'refresh sqlite'
+        tables = self.gettablelist()
+        if tables is not None :
+            self.Place.clear()
+            self.Place.addItems(tables)
+    
+            
+    def setplacezonecoords(self,index):
+        Placename = self.placezone.itemText(index)
+        st = unicode(Placename)
+        st = st.split(' ')
+        try :
+            lat = st[-2]
+            lon = st[-1]
+            self.Lon.setText(lon)
+            self.Lat.setText(lat)
+        except :
+            pass
+    def SetLonLat(self):
+        host = self.setparamconnection()[0]
+        nav = self.setparamconnection()[1]
+        heads = head
+        if head == str('Manual'):
+            heads = self.HandlingSlider.value()
+        if self.actionLonLat.isChecked():
+            if self.NorthEast.isChecked():
+                (z, e, n) = LLtoUTM(ell, float(self.Lat.text()), float(self.Lon.text()))
+                self.Nord.setText(str(n))
+                self.East.setText(str(e))
+                self.utmcode.setText(str(z))
+        if Utils.haveGRASS_ != 0:
+            if self.actionGrass.isChecked():
+                if self.NorthEast.isChecked():
+                    xy = getlonlat(self.fxvallon,self.fxvallat)
+                    #xprint xy
+        ossimxml =  Utils.makeActionTemplate(self.item, unicode(self.Lon.text()), unicode(self.Lat.text()), 
+                                         self.ZoomSlider.value(), heads, self.PitchSlider.value(), 
+                                         self.RollSlider.value(), self.RangeSlider.value())
+        ossim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        ossim.connect((host, int(nav)))  
+        try:
+            ossim.send(ossimxml)
+            ossim.close()
+        except:
+            if not self.actionBroadcast.isChecked():
+                self.CeckViewTypeState()
+                
+    def aggiorna(self):
+        newlon = str(self.Lon.text())
+        newlat = str(self.Lat.text())
+        #'''
+        try :
+            if self.ViewType == 'LookAt':
+                newlon = str(self.lookatLon.text())
+                newlat = str(self.lookatLat.text())
+                #xprint 'query mode set to LookAt'
+        except :
+            print 'query mode set to eye' #xprint
+        #'''
+        self.longitude.setText(newlon)
+        self.latitude.setText(newlat)
+        
+    def connectPositonActions(self):
+        # Send Position
+        self.connect(self.SendPosition, SIGNAL("clicked()"),
+                     self.SetLonLat)
+        ##TBD self.connect(self.SendPosition, SIGNAL("clicked()"),
+                     ##self.SetJoyCoords)
+        self.connect(self.SendPosition, SIGNAL("clicked()"),
+                     self.ResetPosition)
+        """
+        #TBD
+        self.connect(self.RollSpinBox, SIGNAL("valueChanged(double)"), 
+                     self.kmlview.setChangeRoll)
+        self.connect(self.PitchSpinBox, SIGNAL("valueChanged(double)"), 
+                     self.kmlview.setChangePitch)
+        self.connect(self.HandlingSpinBox, SIGNAL("valueChanged(double)"), 
+                     self.kmlview.setChangeHead)
+        self.connect(self.ZoomSpinBox, SIGNAL("valueChanged(double)"), 
+                     self.kmlview.setChangeZoom)
+        self.connect(self.RangeSpinBox, SIGNAL("valueChanged(double)"), 
+                     self.kmlview.setChangeRange)
+        self.connect(self.actionSavekml, SIGNAL("triggered()"), 
+                     self.kmldialog)
+        """                                     
                                         
     def connectPanSignals(self):
         self.connect(self.center, SIGNAL("clicked()"),
@@ -385,7 +546,6 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         if heads == str('Manual'):
             heads = self.HandlingSlider.value()
         if Utils.preferences().getSettings('actionLonLat'): #self.actionLonLat.isChecked():
-            print 'yes'
             lat = self.fxvallat
             lon = self.fxvallon
             if self.northeast.isChecked():
@@ -393,6 +553,8 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
                 self.Nord.setText(str(n))
                 self.east.setText(str(e))
                 self.utmcode.setText(str(z))
+        """
+        TBMV: to grass and gps window
         if Utils.haveGRASS_ != 0:
             if Utils.preferences().getSettings('actionGrass'): #self.actionGrass.isChecked():
                 lon = self.slvallon
@@ -404,6 +566,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         if Utils.preferences().getSettings('actionGPS'): #self.actionGPS.isChecked():
             lon = self.GPSlon.text()
             lat = self.GPSlat.text()
+        """    
         pos = [lon,lat,zoom,heads,pitch,roll,range]
         return pos
             
@@ -413,13 +576,14 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         return newlon, newlat
 
     def sendFunction(self):
-        pos = self.getViewVal()
-        #xprint pos
-        ossimxml =  Utils.makeActionTemplate(self.item, pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], pos[6])
-        self.fireAction(ossimxml)
-        self.Lat.setText(unicode(pos[1]))
-        self.Lon.setText(unicode(pos[0]))
-        print 'sendFunction commented'
+        if Utils.preferences().getSettings('actionLonLat'):
+            pos = self.getViewVal()
+            #xprint pos
+            ossimxml =  Utils.makeActionTemplate(self.item, pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], pos[6])
+            self.fireAction(ossimxml)
+            self.Lat.setText(unicode(pos[1]))
+            self.Lon.setText(unicode(pos[0]))
+            #print 'sendFunction commented'
     
 
     def ResetPosition(self):
@@ -428,7 +592,6 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         if head == str('Manual'):
             self.heads = self.HandlingSlider.value()
         if Utils.preferences().getSettings('actionLonLat'):
-            print 'setted alonlat'
             self.fxvallon = self.SetPosition()[0]
             self.fxvallat = self.SetPosition()[1]
             if self.northeast.isChecked():

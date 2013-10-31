@@ -103,7 +103,7 @@
    <addaction name="actionT_Model"/>
    <addaction name="separator"/>
    <addaction name="actionT_Gt"/>
-   <addaction name="actionT_GVrt"/>
+   <addaction name="actionT_Prefs"/>
    <addaction name="actionT_Exit"/>
   </widget>
   <action name="actionM_Navigation">
@@ -364,6 +364,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/Ubuntu_connessione_Internet_.png</normaloff>:/icons/icons/Ubuntu_connessione_Internet_.png</iconset>
@@ -382,7 +385,7 @@
     <string>Pan-Tool</string>
    </property>
   </action>
-  <action name="actionT_GVrt">
+  <action name="actionT_Prefs">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -459,7 +462,7 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
@@ -467,6 +470,15 @@
    </property>
    <property name="text">
     <string>GPS</string>
+   </property>
+  </action>
+  <action name="actionGrassshell">
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/512 Terminal.png</normaloff>:/icons/icons/512 Terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>grassshell</string>
    </property>
   </action>
  </widget>

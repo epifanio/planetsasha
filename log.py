@@ -7,7 +7,7 @@ import pygame
 import os
 import time
 from datetime import datetime
-
+from utils import Utils
 import gps
 
 class HWS(QThread):
@@ -72,40 +72,49 @@ class logS(QThread):
     
     def run(self):
         HOST = str(parseOutputconf()['host']) # 'localhost'
-        PORT = 9000
+        print HOST
+        PORT = 6800 #str(parseOutputconf()['port'])
+        print PORT
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind((HOST, PORT))
         s.listen(1)
         conn, addr = s.accept()
-        print 'Connected by', addr
+        print 'Connected to Planet - ' + HOST + '@'  + str(PORT)
+
+       
+        #print self.alive
+        #print self.running
         while self.alive:
             while self.running:
                 data = conn.recv(1048)
                 #print data
+                print 'hhhmm'
                 #print type(data)
-                #time.sleep(0.5)
+                time.sleep(1)
                 try :
-                    parsed = utils.readPlanetMessage(data)
-                    self.LonUpdated.emit(str(parsed['lon']))
-                    self.LatUpdated.emit(str(parsed['lat']))
+                    #time.sleep(5)
+                    parsed = Utils.readPlanetMessage(data)
+                    self.LonUpdated.emit(str(parsed['lontitude']))
+                    self.LatUpdated.emit(str(parsed['latitude']))
                     self.RollUpdated.emit(float(parsed['roll']))
                     self.PitchUpdated.emit(float(parsed['pitch']))
                     self.GainUpdated.emit(float(parsed['gain']))
                     self.AltUpdated2.emit(str(parsed['msl']))
                     self.AltUpdated.emit(float(parsed['msl']))
-                    self.LookAtLonUpdated.emit(str(parsed['lookat_lon']))
-                    self.LookAtLatUpdated.emit(str(parsed['lookat_lat']))
-                    self.LookAtAltitudeUpdated.emit(str(parsed['lookat_alt']))
-                    self.LookAtRangeUpdated.emit(float(parsed['lookat_range']))
-                
-                #print parsed
+                    self.LookAtLonUpdated.emit(str(parsed['lk_lon']))
+                    self.LookAtLatUpdated.emit(str(parsed['lk_lat']))
+                    self.LookAtAltitudeUpdated.emit(str(parsed['lk_alt']))
+                    self.LookAtRangeUpdated.emit(float(parsed['lk_rng']))
+                    
                 #navlogger('localhost', 9000)
-                #self.msleep(500)
-                except :
+                    #self.msleep(500)
+                except:
                     print 'parsing error'
+                    #self.stop()
+                    
     
-    """
+
     def setValueLookAtLon(self, valueLookAtLon):
         self.valueLookAtLon = valueLookAtLon
 
@@ -144,7 +153,6 @@ class logS(QThread):
 
     def setValueRange(self, valueRange):
         self.valueRange = valueRange
-    """
     
     
     def toggle(self):
@@ -158,6 +166,7 @@ class logS(QThread):
         self.alive = 0
         self.running = 0
         self.wait()
+        
 
 
 """
