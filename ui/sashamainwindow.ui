@@ -89,8 +89,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionT_Grass"/>
    <addaction name="actionT_LonLat"/>
+   <addaction name="actionT_Grass"/>
+   <addaction name="actionT_GPS"/>
    <addaction name="actionT_Broadcast"/>
    <addaction name="actionT_Joystick"/>
    <addaction name="actionT_HW"/>
@@ -102,7 +103,7 @@
    <addaction name="actionT_Model"/>
    <addaction name="separator"/>
    <addaction name="actionT_Gt"/>
-   <addaction name="actionT_GVrt"/>
+   <addaction name="actionT_Prefs"/>
    <addaction name="actionT_Exit"/>
   </widget>
   <action name="actionM_Navigation">
@@ -116,8 +117,14 @@
    </property>
   </action>
   <action name="actionM_GPS">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>GPS</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionT_Model">
@@ -357,6 +364,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../gui/resources.qrc">
      <normaloff>:/icons/icons/Ubuntu_connessione_Internet_.png</normaloff>:/icons/icons/Ubuntu_connessione_Internet_.png</iconset>
@@ -375,7 +385,7 @@
     <string>Pan-Tool</string>
    </property>
   </action>
-  <action name="actionT_GVrt">
+  <action name="actionT_Prefs">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -447,9 +457,34 @@
     <string>Export</string>
    </property>
   </action>
+  <action name="actionT_GPS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/satellite.png</normaloff>:/icons/icons/satellite.png</iconset>
+   </property>
+   <property name="text">
+    <string>GPS</string>
+   </property>
+  </action>
+  <action name="actionGrassshell">
+   <property name="icon">
+    <iconset resource="../gui/resources.qrc">
+     <normaloff>:/icons/icons/512 Terminal.png</normaloff>:/icons/icons/512 Terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>grassshell</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../gui/resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

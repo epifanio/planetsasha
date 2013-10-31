@@ -37,6 +37,7 @@ if Utils.haveGRASS_:
 class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     def __init__(self, arg):
         QMainWindow.__init__(self)
+        self.arg_ = arg
         
         
         self.setupUi(self)
@@ -50,7 +51,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 
         #self.prefsWindow_ = PreferencesWindow()
         
-        self.actionT_LonLat.triggered.connect(self.showNavWindow)
+        ##self.actionT_LonLat.triggered.connect(self.showNavWindow)
 
         self.actionM_Navigation.triggered.connect(self.showNavWindow)
         self.actionM_Query.triggered.connect(self.showQueryWindow)
@@ -62,10 +63,11 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.actionM_Ossim.triggered.connect(self.showOssimWindow)
 
         #self.connect(self.actionLonLat, SIGNAL("triggered()"),           self.LonLatunceckbuttons)                 
+#        connection
 
-
+        self.navwin = None
         self.joy = logJ()
-        self.log = logS()
+
         #self.hw = HWS()
         self.gpsx = GpsT()
         #self.gt = gt(self.setcmd)
@@ -74,7 +76,9 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         #self.lineEdit2.setObjectName(_fromUtf8("lineEdit2"))
         #self.compassLayout.addWidget(self.lineEdit2)
 
-
+        self.initWidgets()
+        
+        self.connectSignals()
 
         #
 
@@ -85,6 +89,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.navwin =  NavigationWindow()
         self.mdiArea.addSubWindow(self.navwin)
         self.navwin.show()
+        
 
     def showQueryWindow(self):
         self.querywin =  QueryWindow()
@@ -139,13 +144,13 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
     def initWidgets(self):           
                      
         if Utils.haveGRASS_ == 0:
-            self.mainTabWidget.removeTab(1)
-            self.actionGrass.setEnabled(False)
-            self.actionData.setEnabled(False)
-            self.actionGrass.setVisible(False)
-            self.actionData.setVisible(False)
-            self.actionGrassshell.setEnabled(False)
-            self.actionGrassshell.setVisible(False)
+            #self.mainTabWidget.removeTab(1)
+            self.actionT_Grass.setEnabled(False)
+            self.actionT_Data.setEnabled(False)
+            self.actionT_Grass.setVisible(False)
+            self.actionT_Data.setVisible(False)
+            self.actionT_Grassshell.setEnabled(False)
+            self.actionT_Grassshell.setVisible(False)
         else:
             self.grasswin = GrassWindow()
             self.datawin  = DataWindow()
@@ -180,23 +185,19 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
            
                         
 
-        
-        self.Lon.setText("0")
-        self.Lat.setText("0")
+
+
         
         #
+        ##FME 
+        """
         self.grassvectoroption.hide()
         # Hide/Show Slider
         self.actionHideSlider.setChecked(True)
         self.actionHideSpinbox.setChecked(True)
         self.actionHideStepTool.setChecked(True)
         self.actionHide_place_position.setChecked(True)
-        self.RollSlider.hide()
-        self.PitchSlider.hide()
-        self.HandlingSlider.hide()
-        self.ZoomSlider.hide()
-        self.RangeSlider.hide()
-
+        """
 
 
 
@@ -215,11 +216,11 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 
     def connectSignals(self):
         # Hide Panel
-#        self.connect(self.actionHideSlider, SIGNAL("triggered()"), self.hidetool)
+        self.connect(self.actionHideSlider, SIGNAL("triggered()"), self.hidetool)
 
         #self.connectZoomSignals()
         #self.connectPlaceSignals()
-        #self.connectActionSignals()
+        self.connectActionSignals()
 
 
         # Epsg search-tool
@@ -227,21 +228,19 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         
         # Geonames sqlite DB
 
-        self.connect(self.Place, SIGNAL("currentIndexChanged(int)"),
-                     self.itemlist)
-        self.connect(self.placezone, SIGNAL("currentIndexChanged(int)"), 
-                     self.setplacezonecoords)
-        self.connect(self.refreshsqlite, SIGNAL("clicked()"), self.refreshsqlitedb)
+
         # Vector GeoTransform
-        self.connect(self.actionVectorOp, SIGNAL("triggered()"), self.Geom) 
+        ##self.connect(self.actionVectorOp, SIGNAL("triggered()"), self.Geom) 
         # Exit QApp
         #self.connect(self.actionExit, SIGNAL("triggered()"), qApp, SLOT("quit()"))
-        self.connect(self.actionExit, SIGNAL("triggered()"), self.quitAll)
+        ##print 'here'
+        self.connect(self.actionT_Exit, SIGNAL("triggered()"), self.quitAll)
         
         
         
         
-        self.connect(self.update, SIGNAL("clicked()"),self.aggiorna)
+        ##MV to grass window
+        """
         self.connect(self.getlisttoquery, SIGNAL("clicked()"),self.getrasterstate)
         self.connect(self.getlisttoquery, SIGNAL("clicked()"),self.getvectorstate)
         self.connect(self.gcmdexec, SIGNAL("clicked()"),self.commandlist)
@@ -253,7 +252,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 #        self.connect(self.update, SIGNAL("clicked()"),self.aggiorna)
 #        self.connect(self.getlisttoquery, SIGNAL("clicked()"),self.getrasterstate)
 #        self.connect(self.getlisttoquery, SIGNAL("clicked()"),self.getvectorstate)
-#        self.connect(self.gcmdexec, SIGNAL("clicked()"),self.commandlist)   
+#        self.connect(self.gcmdexec, SIGNAL("clicked()"),self.commandlist) 
+        """
 
     def connectPlaceSignals(self):
         # Place Model (send position to save kml model)
@@ -299,38 +299,34 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         # GPS
     def connectActionSignals(self):
         self.connectGpsActions()
-        self.connectLonLatActions()
-        self.connectJoystickActions()
-        self.connectBroadcastActions()
+        #self.connectLonLatActions()
+        #FME self.connectJoystickActions()
         self.connectHwActions()
-        self.connectPositonActions()        
+        ###self.connectPositonActions()
+
+        self.connect(self.actionT_Broadcast, SIGNAL("triggered()"),     self.onTActionBroadCast)
+        self.connect(self.actionT_LonLat, SIGNAL("triggered()"),        self.onTActionLonLat) 
+        ##actionT_Prefs actionT_GVrt
+        self.connect(self.actionT_Prefs, SIGNAL("triggered()"),         self.showPreferences)                   
         
-        # Coordinate Display UTM
-        self.connect(self.ellipse, SIGNAL("currentIndexChanged(int)"), self.ellipsesettings)
-        # View Type
-        self.connect(self.View, SIGNAL("currentIndexChanged(int)"), self.GetViewType)
+
 
                         
 
     def connectGpsActions(self):    
-        self.connect(self.actionGPS, SIGNAL("triggered()"), 
-                     self.startstopgpsx)	
-        self.connect(self.actionGPS, SIGNAL("triggered()"), 
+        #FME self.connect(self.actionT_GPS, SIGNAL("triggered()"),                      self.startstopgpsx)	
+        self.connect(self.actionT_GPS, SIGNAL("triggered()"), 
                      self.GPSunceckbuttons)
-        self.connect(self.actionGPS, SIGNAL("triggered()"), 
-                     self.stopstartgpsx)
+        #FME self.connect(self.actionT_GPS, SIGNAL("triggered()"),                      self.stopstartgpsx)
+                     
+                     
+                     
         #self.connect(self.actionNMEA, SIGNAL("triggered()"),
         #             self.GpsHandling)
         #self.connect(self.actionGPS, SIGNAL("triggered()"),
         #             self.GpsHandling)
         
-    def connectLonLatActions(self):        
-        # LON LAT
-        self.connect(self.actionLonLat, SIGNAL("triggered()"),
-                     self.LonLatunceckbuttons)
-        # GRASS
-        #self.connect(self.actionGrass, SIGNAL("triggered()"),
-        #             self.Grassunceckbuttons)
+
         
     def connectJoystickActions(self):         
         # Joistick
@@ -341,36 +337,30 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
         self.connect(self.actionJoystick, SIGNAL("triggered()"), 
                      self.stopstartjoy)
                      
-    def connectBroadcastActions(self):
-        # Broadcast
-        self.connect(self.actionBroadcast, SIGNAL("triggered()"), 
-                     self.Serialunceckbuttons)
-        #FIXME                     
-#        self.connect(self.actionBroadcast, SIGNAL("triggered()"), 
-#                     self.startstoplog)
-#        self.connect(self.actionBroadcast, SIGNAL("triggered()"), 
-#                     self.stopstartlog)
 
     def connectHwActions(self):        
         # HW
-        self.connect(self.actionHW, SIGNAL("triggered()"),
+        self.connect(self.actionT_HW, SIGNAL("triggered()"),
                      self.Serialunceckbuttons2)
-        self.connect(self.actionHW, SIGNAL("triggered()"), 
+        self.connect(self.actionT_HW, SIGNAL("triggered()"), 
                      self.stopstartHW)
-        self.connect(self.actionHW, SIGNAL("triggered()"),
+        self.connect(self.actionT_HW, SIGNAL("triggered()"),
                      self.startstopHW)
         self.connect(self.actionDB_setting, SIGNAL("triggered()"),
                      self.pgsetting)
-        self.connect(self.actionPref, SIGNAL("triggered()"), self.showPreferences)
+
 
         self.connect(self.actionDataexp, SIGNAL("triggered()"),
                      self.processdata)
+        #FME 
+        """
         self.connect(self.actionData, SIGNAL("triggered()"),
                      self.processdata)
         self.connect(self.renderoptions, SIGNAL("clicked()"), self.getRenderOptions)
         self.connect(self.renderoptions, SIGNAL("clicked()"), self.showrenderoptions)
-        
-
+        """
+    #moving to nav
+    """
     def connectPositonActions(self):
         # Send Position
         self.connect(self.SendPosition, SIGNAL("clicked()"),
@@ -391,7 +381,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
                      self.kmlview.setChangeRange)
         self.connect(self.actionSavekml, SIGNAL("triggered()"), 
                      self.kmldialog)
-
+    """
+    
     def showPreferences(self):
         self.prefsWindow_.show()
         
@@ -574,40 +565,9 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
                 
 # Refresh SQLite
         
-    def refreshsqlitedb(self):
-        #xprint 'refresh sqlite'
-        tables = self.gettablelist()
-        if tables is not None :
-            self.Place.clear()
-            self.Place.addItems(tables)
+
     
-    
-    def itemlist(self,index):
-        Zone = self.Place.itemText(index)
-        database_name = parseOutputconf()['spatialitedb']
-        db_connection = None
-        try :
-            db_connection = sqlite3.connect(database_name)
-        except :
-            self.worningmessage('spatialitedb not found')
-        if db_connection is not None:
-            db_connection = sqlite3.connect(database_name)
-            db_cursor = db_connection.cursor()
-            try :
-                listatabelle = db_cursor.execute("SELECT name,latitude,longitude FROM %s ;" % (Zone))
-                tabelle = listatabelle.fetchall()
-                tablelist = []
-                allist = []
-                for i in tabelle:
-                    tablelist.append(i[0])
-                    allist.append(i[0]+' '+str(i[1])+' '+str(i[2]))
-                allist.sort()
-                tablelist.sort()
-                self.placezone.clear()
-                self.placezone.addItems(allist)
-                db_connection.commit()
-            except :
-                print 'reload sqlite' #xprint
+
     
         
     def setplacezonecoords(self,index):
@@ -809,30 +769,56 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
 # Set Toolbar Action
     
     def GPSunceckbuttons(self):
-        self.actionLonLat.setChecked(False)
+        Utils.preferences().setSettings('actionGPS',self.actionT_GPS.isChecked())
+        self.actionT_LonLat.setChecked(False)
         if Utils.haveGRASS_ != 0:
-            self.actionGrass.setChecked(False)
+            self.actionT_Grass.setChecked(False)
+        #TBD
+        """
         if self.actionJoystick.isChecked():
             self.joy.stop()
             self.actionJoystick.setChecked(False)
-        if self.actionHW.isChecked():
+        """    
+        if self.actionT_HW.isChecked():
             self.hw.stop()
-            self.actionHW.setChecked(False)
+            self.actionT_HW.setChecked(False)
         #if self.actionSerial.isChecked():
     
-    
-    def LonLatunceckbuttons(self):
-        if self.actionGPS.isChecked():
+    #renamed from LonLatunceckbuttons
+    def onTActionLonLat(self):
+
+        checked = not self.actionT_LonLat.isChecked()
+        self.actionT_Broadcast.setChecked(checked)
+        Utils.preferences().setSettings('actionLonLat', checked )
+        
+        if self.actionT_GPS.isChecked():
             self.gpsx.stop()
-            self.actionGPS.setChecked(False)
+            self.actionT_GPS.setChecked(False)
         if Utils.haveGRASS_ != 0:
-            self.actionGrass.setChecked(False)
-        if self.actionJoystick.isChecked():
-            self.joy.stop()
-            self.actionJoystick.setChecked(False)
-        if self.actionHW.isChecked():
+            self.actionT_Grass.setChecked(False)
+        #if self.actionJoystick.isChecked():
+        #    self.joy.stop()
+        #    self.actionJoystick.setChecked(False)
+        if self.actionT_HW.isChecked():
             self.hw.stop()
-            self.actionHW.setChecked(False)
+            self.actionT_HW.setChecked(False)
+
+    #renamed from serialunceckbuttons
+    def onTActionBroadCast(self):
+        checked = self.actionT_Broadcast.isChecked()
+        print checked
+        self.actionT_Broadcast.setChecked(checked)
+        Utils.preferences().setSettings('actionBroadcast', checked )
+        self.actionT_GPS.setChecked(False)
+        self.actionT_LonLat.setChecked(False)
+        if Utils.haveGRASS_ != 0:
+            self.actionT_Grass.setChecked(False)
+        #self.actionJoystick.setChecked(False)
+        self.actionT_HW.setChecked(False) 
+        if self.navwin:
+            self.navwin.toogleBroadCast(self.actionT_Broadcast.isChecked())
+        else:
+            print 'nav win not created'       
     
     
     def Grassunceckbuttons(self):
@@ -855,14 +841,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
             self.actionGrass.setChecked(False)
         self.actionHW.setChecked(False)
     
-    
-    def Serialunceckbuttons(self):
-        self.actionGPS.setChecked(False)
-        self.actionLonLat.setChecked(False)
-        if Utils.haveGRASS_ != 0:
-            self.actionGrass.setChecked(False)
-        #self.actionJoystick.setChecked(False)
-        self.actionHW.setChecked(False)
+
 
 
     def Serialunceckbuttons2(self):
@@ -913,7 +892,8 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
             self.hw.stop()
             self.hw.toggle()
     
-
+    """
+    MV moved to navwindow
     def startstoplog(self):
         if self.actionBroadcast.isChecked():
             self.log = logS()
@@ -941,7 +921,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
             self.log.stop()
             self.log.toggle()
     
-    
+    """
     
     def startstopGt(self):
         if self.gcmdexec.isChecked():
@@ -1031,34 +1011,7 @@ class SashaMainWindow(QMainWindow, Ui_SashaMainWindow):
             self.Lat.setText(str(b))
     
     
-    def SetLonLat(self):
-        host = self.setparamconnection()[0]
-        nav = self.setparamconnection()[1]
-        heads = head
-        if head == str('Manual'):
-            heads = self.HandlingSlider.value()
-        if self.actionLonLat.isChecked():
-            if self.NorthEast.isChecked():
-                (z, e, n) = LLtoUTM(ell, float(self.Lat.text()), float(self.Lon.text()))
-                self.Nord.setText(str(n))
-                self.East.setText(str(e))
-                self.utmcode.setText(str(z))
-        if Utils.haveGRASS_ != 0:
-            if self.actionGrass.isChecked():
-                if self.NorthEast.isChecked():
-                    xy = getlonlat(self.fxvallon,self.fxvallat)
-                    #xprint xy
-        ossimxml =  Utils.makeActionTemplate(self.item, unicode(self.Lon.text()), unicode(self.Lat.text()), 
-                                         self.ZoomSlider.value(), heads, self.PitchSlider.value(), 
-                                         self.RollSlider.value(), self.RangeSlider.value())
-        ossim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        ossim.connect((host, int(nav)))  
-        try:
-            ossim.send(ossimxml)
-            ossim.close()
-        except:
-            if not self.actionBroadcast.isChecked():
-                self.CeckViewTypeState()
+
     
     
 

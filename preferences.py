@@ -13,6 +13,8 @@ from configure import parseOutputconf
 class Preferences(object):
     def __init__(self):
         self.aLonLat = False
+        self.aGPS = False
+        self.aBroadcast = False
         
         
     def pgsetting(self):
@@ -20,15 +22,35 @@ class Preferences(object):
         #self.pgconn.show()
         x=1
 
-    def setSettings(self, setting, sub):
-        if setting == 'actionLonLat':
-            if sub == 'check':
-                self.aLonLat = True
+    def setSettings(self, key, value):
+    
+        if key == 'actionLonLat':
+            self.aLonLat = value
+            self.aGPS = not value
+            self.aBcast = not value 
+                       
+        elif key == 'actionGPS':
+            self.aGPS = value
+            self.aBcast = not value
+            self.aLonLat = not value
+            
+        elif key == 'actionBroadcast':
+            self.aBcast = value
+            self.aLonLat = not value
+            self.aGPS = not value                  
+        else:
+            print 'implement the setting: ' + key
                 
-    def getSettings(self, setting, sub):
-        if setting == 'actionLonLat':
-            if sub == 'check':
-                return self.aLonLat
+                                           
+    def getSettings(self, key):
+        if key == 'actionLonLat':
+            return self.aLonLat
+        elif key == 'actionGPS':
+            return self.aGPS
+        elif key == 'actionBroadcast':
+            return self.aBcast                     
+        else:
+            print 'implement the setting: ' + key
                 
         #print 'None' 
         return None                        

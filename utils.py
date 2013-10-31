@@ -60,9 +60,10 @@ class Utils(object):
         
     @staticmethod
     def fireAction(ossimxml):
-
+        
         host = Utils.preferences().paramConnection('H').split()
         port = Utils.preferences().paramConnection('P')
+        print 'firing on ' + str(host) + ' ' + str(port)
         for i in host :
             try:
                 ossim = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -106,30 +107,39 @@ class Utils(object):
 
     @staticmethod
     def readPlanetMessage(msg):
-	    try :
-	    	root = ET.fromstring(msg)
-	
-		lk_lat = root.xpath("//LookAt/latitude/text()")
-		lk_lon = root.xpath("//LookAt/longitude/text()")
-		lookat_alt = root.xpath("//LookAt/altitude/text()")
-		lk_rng = root.xpath("//LookAt/range/text()")
-		lk_head = root.xpath("//LookAt/heading/text()")
-		lk_amode = root.xpath("//LookAt/altitudeMode/text()")
 
-		lontitude = root.xpath("//Camera/longitude/text()")
-		latitude = root.xpath("//Camera/latitude/text()")
-		roll = root.xpath("//Camera/roll/text()")
-		pit = root.xpath("//Camera/pitch/text()")
-		head = root.xpath("//Camera/heading/text()")
-		altitude = root.xpath("//Camera/altitude/text()")
-		nav = {}
-		nav['lontitude'] , nav['latitude'] = float(lontitude[0]) , float(latitude[0])
-		nav['roll'] , nav['pitch'] , nav['gain'] , nav['msl'] = float(roll[0]), float(pit[0]), float(head[0]), float(altitude[0])
-		nav['lk_lon'] , nav['lk_lat'] = float(lk_lon[0]) , float(lk_lat[0])
-		nav['lookat_alt'] , nav['lk_rng'] , nav['lk_head'] , nav['lk_amode'] = float(lookat_alt[0]), float(lk_rng[0]), float(lk_head[0]), str(lk_amode[0])
-		return nav
-	    except :
-	    	print 'error in message from planet!'
+        
+        #msg = "<Set target=\":navigator\" vref=\"wgs84\"><Camera><longitude>-146.48546283426935588</longitude><latitude>-76.303627021721879942</latitude><altitude>20345425.666504025459</altitude><heading>0</heading><pitch>0</pitch><roll>0</roll><altitudeMode>absolute</altitudeMode></Camera><LookAt><latitude>-76.3036270217219</latitude><longitude>-146.485462834269</longitude><altitude>-654.835764433286</altitude><range>20346080.5022685</range><tilt>0</tilt><heading>0</heading><altitudeMode>absolute</altitudeMode></LookAt></Set>"
+
+        try :
+            root = etree.fromstring(msg)
+            ##print root
+            lk_lat = root.xpath("//LookAt/latitude/text()")
+            lk_lon = root.xpath("//LookAt/longitude/text()")
+            lk_alt = root.xpath("//LookAt/altitude/text()")
+            lk_rng = root.xpath("//LookAt/range/text()")
+            lk_head = root.xpath("//LookAt/heading/text()")
+            lk_amode = root.xpath("//LookAt/altitudeMode/text()")
+
+            lontitude = root.xpath("//Camera/longitude/text()")
+            latitude = root.xpath("//Camera/latitude/text()")
+            roll = root.xpath("//Camera/roll/text()")
+            pit = root.xpath("//Camera/pitch/text()")
+            head = root.xpath("//Camera/heading/text()")
+            altitude = root.xpath("//Camera/altitude/text()")
+            nav = {}
+            nav['lontitude'] , nav['latitude']  = float(lontitude[0]) ,  float(latitude[0])
+            nav['roll'], nav['pitch']           = float(roll[0]),        float(pit[0])
+            nav['gain'], nav['msl']             = float(head[0]),        float(altitude[0])
+            nav['lk_lon'],  nav['lk_lat']       = float(lk_lon[0]),      float(lk_lat[0])
+            nav['lk_alt'],  nav['lk_rng']       = float(lk_alt[0]),      float(lk_rng[0])
+            nav['lk_head'], nav['lk_amode']     = float(lk_head[0]),     str(lk_amode[0])
+
+            return nav
+            
+        except Exception, e:
+            print 'error in message from planet!'
+            print e
 
 
 
