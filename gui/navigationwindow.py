@@ -538,7 +538,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         #lon,lat,zoom,heads,pitch,roll,range = 0,0,0,0,0,0,0
         pitch = self.PitchSlider.value()
         roll = self.RollSlider.value()
-        range = self.RangeSlider.value()
+        rng = self.RangeSlider.value()
         zoom = self.ZoomSlider.value()
         heads = self.head
         lon = self.Lon.text()
@@ -567,7 +567,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
             lon = self.GPSlon.text()
             lat = self.GPSlat.text()
         """    
-        pos = [lon,lat,zoom,heads,pitch,roll,range]
+        pos = [lon,lat,zoom,heads,pitch,roll,rng]
         return pos
             
     def Jcoords(self):
@@ -830,7 +830,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         return centro
     
     
-    def PrintPosition(self, lon, lat, zoom, roll, pitch, heading, range):
+    def PrintPosition(self, lon, lat, zoom, roll, pitch, heading, rng):
         testo = '''Longitude : %s
         Latitude : %s 
         Altitude : %s
@@ -838,7 +838,7 @@ class NavigationWindow(QWidget, Ui_NavigationWindow):
         Roll : %s
         Pitch : %s
         Range : %s
-        ''' % (lon, lat, zoom, roll, pitch, heading, range)
+        ''' % (lon, lat, zoom, roll, pitch, heading, rng)
 
 
 # Set Heading Mode    

@@ -73,7 +73,7 @@ class logS(QThread):
     def run(self):
         HOST = str(parseOutputconf()['host']) # 'localhost'
         print HOST
-        PORT = 6800 #str(parseOutputconf()['port'])
+        PORT = 8000 #str(parseOutputconf()['port'])
         print PORT
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -89,9 +89,9 @@ class logS(QThread):
             while self.running:
                 data = conn.recv(1048)
                 #print data
-                print 'hhhmm'
+                #print 'hhhmm'
                 #print type(data)
-                time.sleep(1)
+                #time.sleep(1)
                 try :
                     #time.sleep(5)
                     parsed = Utils.readPlanetMessage(data)
