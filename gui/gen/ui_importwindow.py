@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/importwindow.ui'
 #
-# Created: Sun Oct  6 20:36:21 2013
+# Created: Sun Nov 17 12:01:12 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,7 +37,7 @@ class Ui_ImportWindow(object):
         self.inputPage = QtGui.QWizardPage()
         self.inputPage.setObjectName(_fromUtf8("inputPage"))
         self.layoutWidget = QtGui.QWidget(self.inputPage)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 10, 672, 27))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 10, 731, 29))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setMargin(0)
@@ -137,7 +137,7 @@ class Ui_ImportWindow(object):
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
         self.bboxLayout.addWidget(self.graphicsView, 1, 1, 1, 1)
         self.layoutWidget1 = QtGui.QWidget(self.inputPage)
-        self.layoutWidget1.setGeometry(QtCore.QRect(10, 50, 521, 27))
+        self.layoutWidget1.setGeometry(QtCore.QRect(10, 50, 521, 29))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.horizontalLayout_6 = QtGui.QHBoxLayout(self.layoutWidget1)
         self.horizontalLayout_6.setMargin(0)
@@ -242,10 +242,10 @@ class Ui_ImportWindow(object):
         self.cmbService.setItemText(0, _translate("ImportWindow", "-- select service --", None))
         self.cmbService.setItemText(1, _translate("ImportWindow", "None", None))
         self.cmbService.setItemText(4, _translate("ImportWindow", "WCS", None))
-        self.txtE.setText(_translate("ImportWindow", "-180 E", None))
-        self.txtW.setText(_translate("ImportWindow", "180 W", None))
-        self.txtN.setText(_translate("ImportWindow", "-90 N", None))
-        self.txtS.setText(_translate("ImportWindow", "90 S", None))
+        self.txtE.setText(_translate("ImportWindow", "-180", None))
+        self.txtW.setText(_translate("ImportWindow", "180", None))
+        self.txtN.setText(_translate("ImportWindow", "-90", None))
+        self.txtS.setText(_translate("ImportWindow", "90", None))
         self.label_4.setText(_translate("ImportWindow", "Keywords", None))
         self.label_3.setText(_translate("ImportWindow", "Max records:", None))
         self.lblInfo.setText(_translate("ImportWindow", "URL INFO", None))

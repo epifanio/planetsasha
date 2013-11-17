@@ -84,13 +84,13 @@ class DataTransferThread(QThread):
         self.stopTransfer = True
     
 class MapWindow(QWidget, Ui_MapWindow):
-    def __init__(self, datalistmodel = None):
+    def __init__(self, datalist = None):
 
         QWidget.__init__(self)
 
         self.setupUi(self)
-        
-        self.datasetmap = dict()
+         
+        self.dataList_ = datalist
         
         ##self.simkml = Kml(open=1)
         
@@ -107,17 +107,13 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.allVarsModel = QStandardItemModel(self)
         dictindex = 1
-        if datalistmodel:
-            #self.cmbVars.setModel(self.allVarsModel)
-            for i in xrange(datalistmodel.rowCount()):
-                for j in xrange(datalistmodel.columnCount()):
-                    catalogitem = datalistmodel.item(i,j)
-                    ncf = str(catalogitem.text())
-                    self.datasetmap[dictindex] = ncf
-                    self.cmbDataset.addItem(os.path.basename(ncf))
-                    dictindex = dictindex + 1
-                    #self.cmbDataset.addItem(catalogitem.text())
-
+        #print datalist
+        if datalist:
+            for ds in datalist:
+                ##self.datasetmap[ds.url] = ds.bbox
+              
+                self.cmbDataset.addItem(os.path.basename(ds.url))
+  
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
@@ -203,6 +199,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         # refresh canvas
         self.canvas.draw()
 
+    def findDataset(self,index):
+        ds = self.dataList_[index-1]
+        print ds.bbox
+        return ds
+        
     def OnSelectVars(self):
 
         if self.cmbDataset.currentIndex() == 0:
@@ -210,8 +211,8 @@ class MapWindow(QWidget, Ui_MapWindow):
             
             #self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc" #shouldn't reach here
             return
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
-
+        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = ds.url
         tmpnc = netCDF4.Dataset(self.url)
         
         allvars = tmpnc.variables.keys()
@@ -378,7 +379,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         if self.cmbDataset.currentIndex() == 0:
             self.url = ""
             return
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = ds.url
         #print self.url
 
 
@@ -413,8 +415,8 @@ class MapWindow(QWidget, Ui_MapWindow):
 
         #self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/models/fvcom/NECOFS/Forecasts/sci_20100602-20100605.nc'
         
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
-        
+        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = ds.url
         base = os.path.basename(self.url)
         self.ncfile = os.path.splitext(base)[0]
         

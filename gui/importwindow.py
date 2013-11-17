@@ -25,6 +25,11 @@ class Catalog(object):
         self.href = h
         self.title = t
         
+class Dataset(object):
+    def __init__(self,url,bbox):
+        self.url = url
+        self.bbox = bbox
+        
 class ImportWindow(QWizard, Ui_ImportWindow):
     GN = 'GeoNetwork'
     GP = 'GeoPortal'
@@ -41,6 +46,8 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
         self.debug = 1
         self.url_prefix = '/thredds/'
+        
+        self.datalist = []
         
         #self.datac= [][]
    	    #imgQ = ImageQt.ImageQt(img)
@@ -109,6 +116,9 @@ class ImportWindow(QWizard, Ui_ImportWindow):
                 itemtext = self.urlbase + self.catalogbase + self.getDatasetBaseFromTree(item)
                 ##print itemtext
                 self.lmodel.appendRow(QStandardItem(itemtext))
+                dataset = Dataset(itemtext, self.bbox)
+                self.datalist.append(dataset)
+                #print self.datalist
 
            
     def onSelect(self, index):
@@ -255,7 +265,15 @@ class ImportWindow(QWizard, Ui_ImportWindow):
         self.url_s = str(self.cmbUrl.currentText())
         self.type_s = self.cmbType.currentText()
         self.service_s = self.cmbService.currentText()
-        self.bbox = None
+        E = self.txtE.text()
+        S = self.txtS.text()
+        N = self.txtN.text()
+        W = self.txtW.text()
+        self.bbox = []
+        self.bbox.append(str(E))
+        self.bbox.append(str(S))
+        self.bbox.append(str(N))
+        self.bbox.append(str(W))
         self.keywords = None
         self.maxrec = None
         self.row = 0
@@ -358,7 +376,7 @@ class ImportWindow(QWizard, Ui_ImportWindow):
 
         f.write('\t</catalog>\n')
         f.write('</root>')
-        self.mapwin =  MapWindow(self.lmodel)
+        self.mapwin =  MapWindow(self.datalist)
         #FIXME
         self.mdi.addSubWindow(self.mapwin)
         self.mapwin.show()       
