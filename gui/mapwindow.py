@@ -136,6 +136,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.animate(False)
         self.fflist  = []
         self.url ="" 
+        self.bbox = [-180, -90, 90, 180]
         self.OUT_PATH = "" 
 
         self._tessellate = 0
@@ -381,6 +382,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             return
         ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
         self.url = ds.url
+        self.bbox = ds.bbox
         #print self.url
 
 
@@ -594,10 +596,28 @@ class MapWindow(QWidget, Ui_MapWindow):
         h = self.nc.variables[self.hvar][:]
         
         #print h
-         
+        
+        
+        #boston harbor
+        levels=arange(-32,2,1)   # depth contours to plot
+        ax= self.bbox
+        maxvel = -0.5
+        subsample = 3
+
+        """
+        # find velocity points in bounding box
+        ind = argwhere((lonc >= ax[0]) & (lonc <= ax[1]) & (latc >= ax[2]) & (latc <= ax[3]))
+
+        np.random.shuffle(ind)
+        Nvec = int(len(ind) / subsample)
+        idv = ind[:Nvec]
+        """
+        
         ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
         
         self.progressBar.setValue(71)
+        #plt.tricontourf(tri, -h,levels=levels,shading='faceted',cmap=plt.cm.gist_earth)
+        
         ww=tricontourf(tri,-h,levels=range(-300,10,10))
         self.progressBar.setValue(84)
         colorbar()
