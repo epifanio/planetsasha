@@ -84,13 +84,13 @@ class DataTransferThread(QThread):
         self.stopTransfer = True
     
 class MapWindow(QWidget, Ui_MapWindow):
-    def __init__(self, datalistmodel = None):
+    def __init__(self, datalist = None):
 
         QWidget.__init__(self)
 
         self.setupUi(self)
-        
-        self.datasetmap = dict()
+         
+        self.dataList_ = datalist
         
         ##self.simkml = Kml(open=1)
         
@@ -107,17 +107,13 @@ class MapWindow(QWidget, Ui_MapWindow):
         
         self.allVarsModel = QStandardItemModel(self)
         dictindex = 1
-        if datalistmodel:
-            #self.cmbVars.setModel(self.allVarsModel)
-            for i in xrange(datalistmodel.rowCount()):
-                for j in xrange(datalistmodel.columnCount()):
-                    catalogitem = datalistmodel.item(i,j)
-                    ncf = str(catalogitem.text())
-                    self.datasetmap[dictindex] = ncf
-                    self.cmbDataset.addItem(os.path.basename(ncf))
-                    dictindex = dictindex + 1
-                    #self.cmbDataset.addItem(catalogitem.text())
-
+        #print datalist
+        if datalist:
+            for ds in datalist:
+                ##self.datasetmap[ds.url] = ds.bbox
+              
+                self.cmbDataset.addItem(os.path.basename(ds.url))
+  
         self.cmbDataset.currentIndexChanged.connect(self.loadDataset)
         self.btDepth.clicked.connect(self.onPlotDepth)
         self.btCurrent.clicked.connect(self.onPlotCurrent)
@@ -140,6 +136,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.animate(False)
         self.fflist  = []
         self.url ="" 
+        self.bbox = [-70.7, -70.6, 41.48, 41.55]
         self.OUT_PATH = "" 
 
         self._tessellate = 0
@@ -203,6 +200,11 @@ class MapWindow(QWidget, Ui_MapWindow):
         # refresh canvas
         self.canvas.draw()
 
+    def findDataset(self,index):
+        ds = self.dataList_[index-1]
+        print ds.bbox
+        return ds
+        
     def OnSelectVars(self):
 
         if self.cmbDataset.currentIndex() == 0:
@@ -210,8 +212,8 @@ class MapWindow(QWidget, Ui_MapWindow):
             
             #self.url = "/home/rashad/Downloads/sci_20100602-20100605.nc" #shouldn't reach here
             return
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
-
+        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = ds.url
         tmpnc = netCDF4.Dataset(self.url)
         
         allvars = tmpnc.variables.keys()
@@ -378,7 +380,9 @@ class MapWindow(QWidget, Ui_MapWindow):
         if self.cmbDataset.currentIndex() == 0:
             self.url = ""
             return
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
+        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = ds.url
+        #self.bbox = ds.bbox
         #print self.url
 
 
@@ -392,8 +396,38 @@ class MapWindow(QWidget, Ui_MapWindow):
             self.lbLoading.hide()
             self.movie.stop()
 
-    def loadModel(self):
+    def getVariable(self, varname, layerindex=-1):
+    
+        if self.nc is None:
+            print "self.nc is None!!"
+            return None
+        if self.lat is None:
+            print "self.lat is None!!"
+            return None
+        if self.lon is None:
+            print "self.lon is None!!"
+            return None
         
+        print varname  
+                      
+        if self.bbox is not None:
+            start = ( self.lon >= self.bbox[0] ) & ( self.lon <= self.bbox[2] )
+            end =   ( self.lat >= self.bbox[1] ) & ( self.lat <= self.bbox[3] )
+            #print start
+            #print end
+            if layerindex > -1:
+                var = self.nc.variables[varname][layerindex,start, end]
+            else:
+                var = self.nc.variables[varname][start, end]
+        else:
+            if layerindex > -1:
+                var = self.nc.variables[varname][layerindex,:,:]
+            else:
+                var = self.nc.variables[varname][:]
+            
+        return var
+    
+    def loadModel(self):
        
         self.progressBar.setValue(7)
         
@@ -401,20 +435,17 @@ class MapWindow(QWidget, Ui_MapWindow):
             print 'Model loaded already. Skipping loadModel()...'
             return
 
-        
-        
         if self.cmbDataset.currentIndex() == 0:
 	   print 'No data source selected'
-           return
+        #   return
            
-
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
 
         #self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/models/fvcom/NECOFS/Forecasts/sci_20100602-20100605.nc'
         
-        self.url = self.datasetmap[self.cmbDataset.currentIndex()] # str(self..currentText())
-        
+        ds = None #self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'#ds.url
         base = os.path.basename(self.url)
         self.ncfile = os.path.splitext(base)[0]
         
@@ -422,36 +453,33 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print self.ncfile
         
         self.progressBar.setValue(19)
-        
         self.nc = netCDF4.Dataset(self.url)
-        
         self.progressBar.setValue(27)
-        
-    
+
         # read node locations
+        print 'getting lat'        
         self.lat = self.nc.variables[self.latvar][:]
         self.lon = self.nc.variables[self.lonvar][:]
-        
+        print 'got lat lon'
         #print self.lat
         
         # read element centroid locations
         ##print self.nc.variables.keys()
-        
-        self.latc = self.nc.variables[self.latcvar][:]
-        self.lonc = self.nc.variables[self.loncvar][:]
+   
+        print self.bbox
+        ##uin = u[layerindex, start, end]
+        ##vin = v[layerindex, start, end]
+        lindex = 0
+        self.latc = self.getVariable(self.latcvar) #self.nc.variables[self.latcvar][:]
+        self.lonc = self.getVariable(self.loncvar) #self.nc.variables[self.loncvar][:]
 
-        self.time_var = self.nc.variables[self.timevar]
+        self.time_var = self.getVariable(self.timevar, lindex)  #self.nc.variables[self.timevar]
         #d= dir(self.time_var)
         #print dir(self.time_var)
-        
         ###print self.time_var[:]
-        
         #print self.time_var.dimensions
         #print self.time_var.ndim
-        
         #print self.time_var.shape
-        #print d
-        
         #print dir(self.dtFrom.date())
         #print self.dtFrom.time().toString()
  
@@ -580,7 +608,12 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(51)
         
         # read connectivity array
-        nv = self.nc.variables[self.nvvar][:].T - 1        
+        lindex = 0
+        nvd = self.getVariable(self.nvvar, lindex) 
+       ## nv = nvd.T - 1       
+        sys.exit(1)
+        nvww = self.nc.variables[self.nvvar][:].T - 1  
+        print nvww
         # create a triangulation object, specifying the triangle connectivity array
         tri = Tri.Triangulation(self.lon, self.lat, triangles=nv)
         
@@ -591,11 +624,26 @@ class MapWindow(QWidget, Ui_MapWindow):
         # plot depth using tricontourf
         h = self.nc.variables[self.hvar][:]
         
-        #print h
-         
+
+        levels=arange(-32,2,1)   # depth contours to plot
+        ax= self.bbox
+        maxvel = -0.5
+        subsample = 3
+
+        """
+        # find velocity points in bounding box
+        ind = argwhere((lonc >= ax[0]) & (lonc <= ax[1]) & (latc >= ax[2]) & (latc <= ax[3]))
+
+        np.random.shuffle(ind)
+        Nvec = int(len(ind) / subsample)
+        idv = ind[:Nvec]
+        """
+        
         ax1=self.figure.add_subplot(111,aspect=1.0/cos(self.latc.mean() * pi / 180.0))
         
         self.progressBar.setValue(71)
+        #plt.tricontourf(tri, -h,levels=levels,shading='faceted',cmap=plt.cm.gist_earth)
+        
         ww=tricontourf(tri,-h,levels=range(-300,10,10))
         self.progressBar.setValue(84)
         colorbar()
