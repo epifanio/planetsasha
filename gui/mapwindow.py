@@ -396,7 +396,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             self.lbLoading.hide()
             self.movie.stop()
 
-    def getVariable(self, varname, layerindex=0):
+    def getVariable(self, varname, layerindex=-1):
     
         if self.nc is None:
             print "self.nc is None!!"
@@ -415,9 +415,15 @@ class MapWindow(QWidget, Ui_MapWindow):
             end =   ( self.lat >= self.bbox[1] ) & ( self.lat <= self.bbox[3] )
             #print start
             #print end
-            var = self.nc.variables[varname][layerindex,start, end]
+            if layerindex > -1:
+                var = self.nc.variables[varname][layerindex,start, end]
+            else:
+                var = self.nc.variables[varname][start, end]
         else:
-            var = self.nc.variables[varname][layerindex,:,:]
+            if layerindex > -1:
+                var = self.nc.variables[varname][layerindex,:,:]
+            else:
+                var = self.nc.variables[varname][:]
             
         return var
     
@@ -464,8 +470,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         ##uin = u[layerindex, start, end]
         ##vin = v[layerindex, start, end]
         lindex = 0
-        self.latc = self.getVariable(self.latcvar, lindex) #self.nc.variables[self.latcvar][:]
-        self.lonc = self.getVariable(self.loncvar, lindex) #self.nc.variables[self.loncvar][:]
+        self.latc = self.getVariable(self.latcvar) #self.nc.variables[self.latcvar][:]
+        self.lonc = self.getVariable(self.loncvar) #self.nc.variables[self.loncvar][:]
 
         self.time_var = self.getVariable(self.timevar, lindex)  #self.nc.variables[self.timevar]
         #d= dir(self.time_var)
