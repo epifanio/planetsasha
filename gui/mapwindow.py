@@ -136,7 +136,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.animate(False)
         self.fflist  = []
         self.url ="" 
-        self.bbox = [-180, -90, 90, 180]
+        self.bbox = [-70.7, -70.6, 41.48, 41.55]
         self.OUT_PATH = "" 
 
         self._tessellate = 0
@@ -382,7 +382,7 @@ class MapWindow(QWidget, Ui_MapWindow):
             return
         ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
         self.url = ds.url
-        self.bbox = ds.bbox
+        #self.bbox = ds.bbox
         #print self.url
 
 
@@ -396,8 +396,32 @@ class MapWindow(QWidget, Ui_MapWindow):
             self.lbLoading.hide()
             self.movie.stop()
 
-    def loadModel(self):
+    def getVariable(self, varname, layerindex=0):
+    
+        if self.nc is None:
+            print "self.nc is None!!"
+            return None
+        if self.lat is None:
+            print "self.lat is None!!"
+            return None
+        if self.lon is None:
+            print "self.lon is None!!"
+            return None
         
+        print varname  
+                      
+        if self.bbox is not None:
+            start = ( self.lon >= self.bbox[0] ) & ( self.lon <= self.bbox[2] )
+            end =   ( self.lat >= self.bbox[1] ) & ( self.lat <= self.bbox[3] )
+            #print start
+            #print end
+            var = self.nc.variables[varname][layerindex,start, end]
+        else:
+            var = self.nc.variables[varname][layerindex,:,:]
+            
+        return var
+    
+    def loadModel(self):
        
         self.progressBar.setValue(7)
         
@@ -405,20 +429,17 @@ class MapWindow(QWidget, Ui_MapWindow):
             print 'Model loaded already. Skipping loadModel()...'
             return
 
-        
-        
         if self.cmbDataset.currentIndex() == 0:
 	   print 'No data source selected'
-           return
+        #   return
            
-
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'
         #url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_GOM2_FORECAST.nc'
 
         #self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/models/fvcom/NECOFS/Forecasts/sci_20100602-20100605.nc'
         
-        ds = self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
-        self.url = ds.url
+        ds = None #self.findDataset(self.cmbDataset.currentIndex()) # str(self..currentText())
+        self.url = 'http://www.smast.umassd.edu:8080/thredds/dodsC/FVCOM/NECOFS/Forecasts/NECOFS_FVCOM_OCEAN_MASSBAY_FORECAST.nc'#ds.url
         base = os.path.basename(self.url)
         self.ncfile = os.path.splitext(base)[0]
         
@@ -426,36 +447,33 @@ class MapWindow(QWidget, Ui_MapWindow):
         #print self.ncfile
         
         self.progressBar.setValue(19)
-        
         self.nc = netCDF4.Dataset(self.url)
-        
         self.progressBar.setValue(27)
-        
-    
+
         # read node locations
+        print 'getting lat'        
         self.lat = self.nc.variables[self.latvar][:]
         self.lon = self.nc.variables[self.lonvar][:]
-        
+        print 'got lat lon'
         #print self.lat
         
         # read element centroid locations
         ##print self.nc.variables.keys()
-        
-        self.latc = self.nc.variables[self.latcvar][:]
-        self.lonc = self.nc.variables[self.loncvar][:]
+   
+        print self.bbox
+        ##uin = u[layerindex, start, end]
+        ##vin = v[layerindex, start, end]
+        lindex = 0
+        self.latc = self.getVariable(self.latcvar, lindex) #self.nc.variables[self.latcvar][:]
+        self.lonc = self.getVariable(self.loncvar, lindex) #self.nc.variables[self.loncvar][:]
 
-        self.time_var = self.nc.variables[self.timevar]
+        self.time_var = self.getVariable(self.timevar, lindex)  #self.nc.variables[self.timevar]
         #d= dir(self.time_var)
         #print dir(self.time_var)
-        
         ###print self.time_var[:]
-        
         #print self.time_var.dimensions
         #print self.time_var.ndim
-        
         #print self.time_var.shape
-        #print d
-        
         #print dir(self.dtFrom.date())
         #print self.dtFrom.time().toString()
  
@@ -584,7 +602,12 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(51)
         
         # read connectivity array
-        nv = self.nc.variables[self.nvvar][:].T - 1        
+        lindex = 0
+        nvd = self.getVariable(self.nvvar, lindex) 
+       ## nv = nvd.T - 1       
+        sys.exit(1)
+        nvww = self.nc.variables[self.nvvar][:].T - 1  
+        print nvww
         # create a triangulation object, specifying the triangle connectivity array
         tri = Tri.Triangulation(self.lon, self.lat, triangles=nv)
         
@@ -595,10 +618,7 @@ class MapWindow(QWidget, Ui_MapWindow):
         # plot depth using tricontourf
         h = self.nc.variables[self.hvar][:]
         
-        #print h
-        
-        
-        #boston harbor
+
         levels=arange(-32,2,1)   # depth contours to plot
         ax= self.bbox
         maxvel = -0.5
