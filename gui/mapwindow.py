@@ -158,15 +158,16 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.interp_method = 'nearest'
         full_path = os.path.realpath(__file__)
         self.basepath = os.path.dirname(full_path) + '/'
-        print self.basepath
+        ##print self.basepath
         self.ncfile = ''
+        self.hasBounds = True
         
         
                 
         self.figure.clf()
         self.canvas.draw()
         
-        
+        ####self.layerindex = -1
         #self.loadDataset()
         #self.loadModel()
         
@@ -396,8 +397,12 @@ class MapWindow(QWidget, Ui_MapWindow):
             self.lbLoading.hide()
             self.movie.stop()
 
-    def getVariable(self, varname, layerindex=-1):
-    
+    def updateBounds(self):
+        self.checkForBounds()
+        self.start = ( self.lon >= self.bbox[0] ) & ( self.lon <= self.bbox[2] )
+        self.end =   ( self.lat >= self.bbox[1] ) & ( self.lat <= self.bbox[3] )
+        
+    def checkForBounds(self):    
         if self.nc is None:
             print "self.nc is None!!"
             return None
@@ -407,24 +412,25 @@ class MapWindow(QWidget, Ui_MapWindow):
         if self.lon is None:
             print "self.lon is None!!"
             return None
-        
-        print varname  
-                      
-        if self.bbox is not None:
-            start = ( self.lon >= self.bbox[0] ) & ( self.lon <= self.bbox[2] )
-            end =   ( self.lat >= self.bbox[1] ) & ( self.lat <= self.bbox[3] )
+                
+    def getVariable(self, varname, layerindex=0):
+    
+        self.checkForBounds()
+
+        if self.hasBounds is True:
             #print start
             #print end
-            if layerindex > -1:
-                var = self.nc.variables[varname][layerindex,start, end]
+            if layerindex > 0:
+                var = self.nc.variables[varname][layerindex,self.start, self.end]
             else:
-                var = self.nc.variables[varname][start, end]
+                var = self.nc.variables[varname][layerindex,self.start, self.end]
         else:
             if layerindex > -1:
                 var = self.nc.variables[varname][layerindex,:,:]
             else:
                 var = self.nc.variables[varname][:]
-            
+
+        print 'got: ' + varname              
         return var
     
     def loadModel(self):
@@ -455,6 +461,8 @@ class MapWindow(QWidget, Ui_MapWindow):
         self.progressBar.setValue(19)
         self.nc = netCDF4.Dataset(self.url)
         self.progressBar.setValue(27)
+        
+        
 
         # read node locations
         print 'getting lat'        
@@ -463,17 +471,19 @@ class MapWindow(QWidget, Ui_MapWindow):
         print 'got lat lon'
         #print self.lat
         
+        self.updateBounds()
+        
         # read element centroid locations
         ##print self.nc.variables.keys()
    
         print self.bbox
         ##uin = u[layerindex, start, end]
         ##vin = v[layerindex, start, end]
-        lindex = 0
+        lindex = -1
         self.latc = self.getVariable(self.latcvar) #self.nc.variables[self.latcvar][:]
         self.lonc = self.getVariable(self.loncvar) #self.nc.variables[self.loncvar][:]
 
-        self.time_var = self.getVariable(self.timevar, lindex)  #self.nc.variables[self.timevar]
+        self.time_var = self.getVariable(self.timevar)  #self.nc.variables[self.timevar]
         #d= dir(self.time_var)
         #print dir(self.time_var)
         ###print self.time_var[:]
